@@ -1,1 +1,8 @@
-
+.svn/
+.vs/
+*.suo
+assets/
+docs/
+log*.txt
+mysql_backup.bat
+packages/

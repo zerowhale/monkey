@@ -1,0 +1,155 @@
+﻿@using Monkey.Game;
+@using Newtonsoft.Json;
+@{
+    
+    ViewBag.Title = "Home Page";
+    var games = GameRegistry.GetRegisteredGames();
+}
+
+@section styles{
+    @Styles.Render("~/bundles/lobby/css")
+
+}
+
+@section scripts{
+    @Scripts.Render("~/bundles/lobby/js")
+
+    <script>
+        var games = {
+
+            @{        
+                var first = true;
+
+                foreach (var game in games)
+                {
+                    @Html.Raw((first ? "" : ",") + game.ViewPath + ":");
+                    @Html.Raw(JsonConvert.SerializeObject(game));
+                    first = false;
+                }
+            }
+        }
+
+        console.info(games);
+
+    </script>
+}
+
+
+
+
+
+<div id="lobby" style="display:none;" class="window">
+    <div class="templates" style="display:none;">
+        <div class="player">
+            <span class="name"></span>
+            <span class="id"></span>
+        </div>
+    </div>
+    <div class="lobby-screen screen">
+        <div class="lobby-panel panel">
+            <div class="body">
+                <div class="title">Games (<span class="count">0</span>)</div>
+                <div class="game-list">
+                    <div class="game-entry">
+                        <div class="game">Agricola</div>
+                        <div class="name"></div>
+                        <div class="players-info">
+                            <label>Players: </label><div class="num-players"></div>&nbsp;/&nbsp;<div class="max-players"></div>
+                        </div>
+                        <div class="id"></div>
+
+                    </div>
+                </div>
+                <div class="games-in-progress">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="create-game-panel panel" >
+            <div class="body">
+                <div class="full-screen-button open-button"><span>Create Game</span></div>
+                <div class="title">Create</div>
+
+                <div class="games-list">
+                    <ul>
+                        @foreach(var game in games){
+                            <li><div data-game="@game.ViewPath"><img src="~/Content/@game.ViewPath/img/logo.png" /></div></li>
+                        }
+                    </ul>
+                    
+                    
+                </div>
+
+                <div class="controls">
+                    <div class="create-game agricola">
+                        <div>
+                            <label>Game:</label> <span class="game"></span>
+                        </div>
+
+                        <div>
+                            <label>Game Name:</label> <input class="game-name" maxlength="32" />
+                        </div>
+
+                        <div>
+                            <label>Max Players:</label>
+                            <select class="max-players"></select>
+                        </div>
+
+                        <div class="game-options"></div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+                <div class="create-game-button full-screen-button disabled">Create Game</div>
+            </div>
+        </div>
+
+        <div class="clear"></div>
+    </div>
+
+    <div class="game-lobby-screen screen" >
+        <div class="game-lobby-panel panel">
+            <div class="body">
+                <div class="title"><span class="game-name"></span>&nbsp;Lobby</div>
+                <div class="player-list">
+                    <div class="player-row">
+                        <div class="ready ready-button">
+                            <span class="text">Ready!</span>
+                        </div>
+                        <div class="info">
+                            <div class="player-role"></div>
+                            <div class="player"></div>
+
+                            <div class="colors">
+                                @{
+                                    var colors = Enum.GetValues(typeof(PlayerColor));
+                                    foreach (var color in colors)
+                                    {
+                                        var strColor = color.ToString();
+                                        <div class="color @strColor.ToLower() bg" data-color="@strColor"></div>
+                                    }
+                                }
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="game-info">
+                    <div class="game"></div>
+                    <div class="name"></div>
+                    <div class="max-players"><label>Max Players: </label><span>0</span></div>
+                    <div class="family-mode"><label>Family Mode: </label><span>On</span></div>
+                    <div class="leave-button">Leave Lobby</div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="ready-button full-screen-button">I'm Ready!</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

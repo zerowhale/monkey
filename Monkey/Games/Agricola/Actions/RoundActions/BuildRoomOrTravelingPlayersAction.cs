@@ -1,0 +1,49 @@
+﻿using Monkey.Games.Agricola.Actions.Data;
+using Monkey.Games.Agricola.Actions.Services;
+using Monkey.Games.Agricola.Events.Triggers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace Monkey.Games.Agricola.Actions.RoundActions
+{
+    public class BuildRoomOrTravelingPlayersAction: BasicCacheAction
+    {
+        public BuildRoomOrTravelingPlayersAction(AgricolaGame game, Int32 actionId, GameEventTrigger[] eventTriggers = null)
+            :base(game, actionId, Resource.Food, 1, eventTriggers)
+        {
+
+        }
+
+        public override bool CanExecute(AgricolaPlayer player, GameActionData data)
+        {
+            if (!base.CanExecute(player, data))
+                return false;
+
+            var brotpaData = (BuildRoomOrTravelingPlayersActionData)data;
+
+            if (brotpaData.TakeFood == false
+                && (!brotpaData.Room.HasValue || !ActionService.CanBuildRooms(player, data.ActionId, new int[] { brotpaData.Room.Value })))
+                return false;
+
+            return true;
+        }
+
+        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        {
+            base.OnExecute(player, data);
+
+            var roomData = ((BuildRoomOrTravelingPlayersActionData)data).Room;
+            var foodData = ((BuildRoomOrTravelingPlayersActionData)data).TakeFood;
+
+            if (foodData)
+                TakeCaches(player);
+            else
+            {
+                // Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
+                ActionService.BuildRooms(player, data.ActionId, new int[] { roomData.Value }, ResultingNotices);
+            }
+        }
+    }
+}

@@ -1,0 +1,946 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7727B908-F65B-41DB-9062-206634EACF60}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Monkey</RootNamespace>
+    <AssemblyName>Monkey</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\..\log4net-1.2.14\bin\net\4.5\release\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.8.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\MySQL\MySQL Connector Net 6.8.4\Assemblies\v4.5\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.8.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\MySQL\MySQL Connector Net 6.8.4\Assemblies\v4.5\MySql.Data.Entity.EF6.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Web, Version=6.8.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\MySQL\MySQL Connector Net 6.8.4\Assemblies\v4.5\MySql.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.0.0\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.1\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.0.0\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.0.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.1.0.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.1.0.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.EntityFramework.1.0.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.2.0.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies">
+      <HintPath>..\packages\Microsoft.Owin.Security.Cookies.2.0.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth">
+      <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.0.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.2.0.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Twitter">
+      <HintPath>..\packages\Microsoft.Owin.Security.Twitter.2.0.0\lib\net45\Microsoft.Owin.Security.Twitter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.MicrosoftAccount">
+      <HintPath>..\packages\Microsoft.Owin.Security.MicrosoftAccount.2.0.0\lib\net45\Microsoft.Owin.Security.MicrosoftAccount.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Games\Agricola\Actions\AnytimeActions\AnytimeActionId.cs" />
+    <Compile Include="Games\Agricola\Actions\AnytimeActions\BuildRoomAction.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildRoomData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildStableActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\CacheExchangeData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\PlayerChoiceData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\ResourceConversionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\SelectResourcesActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\AssignAnimalsAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\BuildRoomAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\BuildStableAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\InterruptActionId.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\OccupationAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\PlayerChoiceAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\PlowAction.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\OccupationActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\StartingPlayerActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\SelectResourcesAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\FencePastureAction.cs" />
+    <Compile Include="Games\Agricola\AgricolaHub.cs" />
+    <Compile Include="Games\Agricola\Cards\Costs\FreeCardCost.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\EstateManagerVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\HouseTypeVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\ImprovementCountVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\MendicantVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\PastureCountVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\PerRoomVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\MostOccupationsVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\LordOfTheManorVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\TutorVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\IImprovement.cs" />
+    <Compile Include="Games\Agricola\Cards\Plow.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\CanBuildFencePrerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\HousePrerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\ImprovementPrerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\OccupationPrerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\OuthousePrerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\RoomPrerequisite.cs" />
+    <Compile Include="Games\Agricola\Data\CacheExchange.cs" />
+    <Compile Include="Games\Agricola\Data\PlayerChoiceOption.cs" />
+    <Compile Include="Games\Agricola\Data\ResourceConversion.cs" />
+    <Compile Include="Games\Agricola\Data\ResourcesConvertedData.cs" />
+    <Compile Include="Games\Agricola\Events\BuildRoomEvent.cs" />
+    <Compile Include="Games\Agricola\Events\BuildStableEvent.cs" />
+    <Compile Include="Games\Agricola\Events\DancerEvent.cs" />
+    <Compile Include="Games\Agricola\Events\DelayedResourcesEvent.cs" />
+    <Compile Include="Games\Agricola\Events\GainConditionalResourcesEvent.cs" />
+    <Compile Include="Games\Agricola\Events\GainResourcesPerConversionEvent.cs" />
+    <Compile Include="Games\Agricola\Events\OnTakingResources.cs" />
+    <Compile Include="Games\Agricola\Events\PlayerChoiceEvent.cs" />
+    <Compile Include="Games\Agricola\Events\FencePastureEvent.cs" />
+    <Compile Include="Games\Agricola\Events\TutorEvent.cs" />
+    <Compile Include="Games\Agricola\Events\OccupationEvent.cs" />
+    <Compile Include="Games\Agricola\Events\PerGrainBakedEvent.cs" />
+    <Compile Include="Games\Agricola\Events\BakeEvent.cs" />
+    <Compile Include="Games\Agricola\Events\PlowEvent.cs" />
+    <Compile Include="Games\Agricola\Events\SelectResourcesEvent.cs" />
+    <Compile Include="Games\Agricola\Events\TriggeredEvent.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\BuildFencesTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\PlayOccupationTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\ResourceConversionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\BakeTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\DayLaborerActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\FieldPhaseTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\FishingActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\GameEvent.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\GameEventTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\GainResourcesEvent.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\GameEventTriggerType.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeOccupationActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeAnimalActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeCachedResourceTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeStoneActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeSoleCachedResourceTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeGrainActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TakeVegetablesActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Events\Triggers\TravelingPlayersActionTrigger.cs" />
+    <Compile Include="Games\Agricola\Farm\FenceInfo.cs" />
+    <Compile Include="Games\Agricola\Farm\PlotInfo.cs" />
+    <Compile Include="Games\Agricola\ResourceExtensions.cs" />
+    <Compile Include="Games\Agricola\Utils\FenceUtils.cs" />
+    <Compile Include="Games\Agricola\Utils\XElementExtensions.cs" />
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MySqlInitializer.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Games\Agricola\Actions\AnytimeActions\AnytimeAction.cs" />
+    <Compile Include="Games\Agricola\Actions\AnytimeActions\CookAction.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\CookActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\InterruptAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\AnimalCacheAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\AnimalChoiceAction.cs" />
+    <Compile Include="Games\Agricola\Actions\InterruptActions\BakeAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BasicTakeAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildFencesAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildingResourcesActionMode.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildingResourcesAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildRoomOrTravelingPlayersAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildRoomsAndStablesAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BuildStableAndBakeAction.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\AnimalCacheActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\AnimalChoiceActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BakeActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildStableAndBakeActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\FamilyGrowthActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\ImprovementActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\RenovationActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\FamilyGrowthAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\FamilyGrowthActionMode.cs" />
+    <Compile Include="Games\Agricola\Actions\GameAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\ImprovementAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\OccupationAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\RenovationAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\RenovationActionMode.cs" />
+    <Compile Include="Games\Agricola\Actions\Services\ActionService.cs" />
+    <Compile Include="Games\Agricola\AgricolaPlayer.cs" />
+    <Compile Include="Games\Agricola\Cards\Card.cs" />
+    <Compile Include="Games\Agricola\Cards\Costs\CardCost.cs" />
+    <Compile Include="Games\Agricola\Cards\Prerequisites\Prerequisite.cs" />
+    <Compile Include="Games\Agricola\Cards\Deck.cs" />
+    <Compile Include="Games\Agricola\Cards\FullCard.cs" />
+    <Compile Include="Games\Agricola\Cards\Costs\ReturnCardCardCost.cs" />
+    <Compile Include="Games\Agricola\Cards\MinorImprovement.cs" />
+    <Compile Include="Games\Agricola\Cards\Occupation.cs" />
+    <Compile Include="Games\Agricola\Cards\Costs\ResourceCardCost.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\ResourceCountVictoryPoints.cs" />
+    <Compile Include="Games\Agricola\Cards\GameEndPoints\PointCalculator.cs" />
+    <Compile Include="Games\Agricola\Curator.cs" />
+    <Compile Include="Games\Agricola\Data\AnimalHousingData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildFencesActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildRoomOrTravelingPlayersActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\SowAndBakeActionData.cs" />
+    <Compile Include="Games\Agricola\Data\BonusPointsData.cs" />
+    <Compile Include="Games\Agricola\Data\SowData.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\DebugAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\RoundAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\BasicCacheAction.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildingResourcesActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\BuildRoomsAndStablesActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\GameActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\Data\PlowAndSowActionData.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\PlowAndSowAction.cs" />
+    <Compile Include="Games\Agricola\Data\ResourceCache.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\SowAndBakeAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\StartingPlayerAction.cs" />
+    <Compile Include="Games\Agricola\Actions\RoundActions\TakeCacheComboAction.cs" />
+    <Compile Include="Games\Agricola\Data\HarvestData.cs" />
+    <Compile Include="Games\Agricola\Data\DelayedResourceCache.cs" />
+    <Compile Include="Games\Agricola\Farm\AnimalHousing.cs" />
+    <Compile Include="Games\Agricola\Farm\AnimalManager.cs" />
+    <Compile Include="Games\Agricola\Farm\Empty.cs" />
+    <Compile Include="Games\Agricola\Farm\FarmyardEntity.cs" />
+    <Compile Include="Games\Agricola\Farm\Field.cs" />
+    <Compile Include="Games\Agricola\Farm\Pasture.cs" />
+    <Compile Include="Games\Agricola\Farm\Room.cs" />
+    <Compile Include="Games\Agricola\GameMode.cs" />
+    <Compile Include="Games\Agricola\Cards\MajorImprovement.cs" />
+    <Compile Include="Games\Catan\Board\Board.cs" />
+    <Compile Include="Games\Catan\Board\BoardDefinition.cs" />
+    <Compile Include="Games\Catan\Board\Tile.cs" />
+    <Compile Include="Games\Catan\Board\TileType.cs" />
+    <Compile Include="Games\Catan\Cards\ICard.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\CatanGame.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\CatanHub.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\CatanPlayer.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\ClientState\PartialGameUpdate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\ClientState\PartialPlayerUpdate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\GameState.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\IGameUpdate.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Games\Catan\Notification\ActionNotice.cs" />
+    <Compile Include="Games\Catan\Notification\NoticeVerb.cs" />
+    <Compile Include="Games\Pandemic\Board\CityNode.cs" />
+    <Compile Include="Games\Pandemic\Board\CityNodeLink.cs" />
+    <Compile Include="Games\Pandemic\Cards\Deck.cs" />
+    <Compile Include="Games\Pandemic\Cards\EpidemicCard.cs" />
+    <Compile Include="Games\Pandemic\Cards\EventCard.cs" />
+    <Compile Include="Games\Pandemic\Cards\EventCardType.cs" />
+    <Compile Include="Games\Pandemic\Cards\ICard.cs" />
+    <Compile Include="Games\Pandemic\Board\Map.cs" />
+    <Compile Include="Games\Pandemic\Cards\CityCard.cs" />
+    <Compile Include="Games\Pandemic\Cards\PlayerDeck.cs" />
+    <Compile Include="Games\Pandemic\City.cs" />
+    <Compile Include="Games\Pandemic\ClientState\PartialCityNodeUpdate.cs" />
+    <Compile Include="Games\Pandemic\ClientState\PartialGameUpdate.cs" />
+    <Compile Include="Games\Pandemic\ClientState\PartialMapUpdate.cs" />
+    <Compile Include="Games\Pandemic\ClientState\PartialPlayerUpdate.cs" />
+    <Compile Include="Games\Pandemic\DiseaseColor.cs" />
+    <Compile Include="Games\Pandemic\GameState.cs" />
+    <Compile Include="Games\Pandemic\IGameUpdate.cs" />
+    <Compile Include="Games\Pandemic\Notification\ActionNotice.cs" />
+    <Compile Include="Games\Pandemic\Notification\BuildResearchStationPredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\CardPredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\DiseasePredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\IdListPredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\UsedActionsPredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\DiseasesPredicate.cs" />
+    <Compile Include="Games\Pandemic\Notification\NoticeVerb.cs" />
+    <Compile Include="Games\Pandemic\PandemicGame.cs" />
+    <Compile Include="Games\Pandemic\PandemicHub.cs" />
+    <Compile Include="Games\Pandemic\PandemicPlayer.cs" />
+    <Compile Include="Games\Pandemic\Roles\PlayerRole.cs" />
+    <Compile Include="Games\Pandemic\Roles\PlayerRoleType.cs" />
+    <Compile Include="Games\Pandemic\State\EpidemicData.cs" />
+    <Compile Include="Games\Pandemic\State\EpidemicState.cs" />
+    <Compile Include="Games\Pandemic\State\FinishedData.cs" />
+    <Compile Include="Games\Pandemic\State\GameLossReason.cs" />
+    <Compile Include="Games\Pandemic\State\GameStateData.cs" />
+    <Compile Include="Games\Pandemic\State\InfectData.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\DiscardInterrupt.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\EventCardData.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\EventCardInterrupt.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\ForecastEventData.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\InterruptState.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\MoveResearchStationInterrupt.cs" />
+    <Compile Include="Games\Pandemic\State\Interrupts\TradeInterrupt.cs" />
+    <Compile Include="Game\GameBase.cs" />
+    <Compile Include="Games\Agricola\Notification\ConversionPredicate.cs" />
+    <Compile Include="Games\Agricola\Notification\Buildable.cs" />
+    <Compile Include="Games\Agricola\Notification\BuildPredicate.cs" />
+    <Compile Include="Game\Notification\GameActionNotice.cs" />
+    <Compile Include="Games\Agricola\IClientGameUpdate.cs" />
+    <Compile Include="Games\Agricola\Farm\Farmyard.cs" />
+    <Compile Include="Games\Agricola\AgricolaGame.cs" />
+    <Compile Include="Game\GameCreationProperty.cs" />
+    <Compile Include="Game\GameFactory.cs" />
+    <Compile Include="Game\GameHub.cs" />
+    <Compile Include="Game\GameManager.cs" />
+    <Compile Include="Games\Agricola\HouseType.cs" />
+    <Compile Include="Game\GameRegistry.cs" />
+    <Compile Include="Game\LobbyManager.cs" />
+    <Compile Include="Game\IGame.cs" />
+    <Compile Include="Game\LobbyHub.cs" />
+    <Compile Include="App_Start\Startup.SignalR.cs" />
+    <Compile Include="Game\Notification\IdPredicate.cs" />
+    <Compile Include="Games\Agricola\Notification\NoticeVerbs.cs" />
+    <Compile Include="Game\Notification\INoticePredicate.cs" />
+    <Compile Include="Game\Notification\IntPredicate.cs" />
+    <Compile Include="Game\Notification\StringPredicate.cs" />
+    <Compile Include="Games\Agricola\PartialGameUpdate.cs" />
+    <Compile Include="Games\Agricola\PersonalSupply.cs" />
+    <Compile Include="Game\GamePlayer.cs" />
+    <Compile Include="Game\Player.cs" />
+    <Compile Include="Game\PlayerColors.cs" />
+    <Compile Include="Games\Agricola\ScoreCard.cs" />
+    <Compile Include="Games\Agricola\Utils\FarmyardPlacementValidator.cs" />
+    <Compile Include="Games\Agricola\Utils\FencePlacementValidator.cs" />
+    <Compile Include="Game\Utils\ExpandoObjectHelper.cs" />
+    <Compile Include="Game\Utils\Point.cs" />
+    <Compile Include="Game\PreGame.cs" />
+    <Compile Include="Games\Agricola\Resource.cs" />
+    <Compile Include="Games\Agricola\Utils\DbUtils.cs" />
+    <Compile Include="Game\RegisteredGame.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Migrations\MySqlHistoryContext.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Startup.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Agricola\MajorImprovements.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\Agricola\MinorImprovements.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\Agricola\Occupations.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_Data\Catan\BoardDefinitions.xml" />
+    <Content Include="Content\Agricola\audio\my-turn.wav" />
+    <Content Include="Content\Agricola\img\arrow_down.png" />
+    <Content Include="Content\Agricola\img\arrow_up.png" />
+    <Content Include="Content\Agricola\img\bg_40.png" />
+    <Content Include="Content\Agricola\img\cards\begging-card.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\basketmakers-workshop.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\clay-oven.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\cooking-hearth4.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\cooking-hearth5.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\fireplace2.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\fireplace3.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\joinery.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\pottery.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\stone-oven.jpg" />
+    <Content Include="Content\Agricola\img\cards\majors\well.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\animal-pen.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\basket.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\boar-breeding.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\building-material.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\butter-churn.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\Canoe.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\carp-pond.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\cattle-market.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\chicken-coop.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\clay-hut-extension.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\clogs.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\cooking-hearth.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\corn-scoop.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\corn-sheaf.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\crooked-plow.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\dovecote.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\duck-pond.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\harrow.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\moldboard-plow.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\riding-plow.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\swing-plow.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\turnwrest-plow.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\constable.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\field-watchman.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\field.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\fishing-rod.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\fruit-tree.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\goose-pond.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\granary.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\gypsys-crock.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\hand-mill.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\helpful-neighbors.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\lumber.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\manger.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\market-stall.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\millstone.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\outhouse.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\potato-dibber.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\private-forest.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\quarry.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\raft.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\reed-exchange.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\reed-pond.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\sack-cart.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\schnaps-distillery.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\simple-fireplace.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\spices.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\spindle.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\stable.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\stone-cart.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\stone-exchange.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\stone-house-extension.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\stone-tongs.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\windmill.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\wood-cart.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\wood-fired-oven.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\wooden-hut-extension.jpg" />
+    <Content Include="Content\Agricola\img\cards\minors\writing-desk.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\academic.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\basketmaker.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\berry-picker.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\braggart.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\bread-seller.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\cattle-whisperer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\chief.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\clay-deliveryman.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\clay-firer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\clay-mixer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\clay-seller.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\Conjurer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\dancer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\dock-worker.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\estate-manager.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\farmer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\greengrocer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\land-agent.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\lord-of-the-manor.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\mason.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\master-brewer.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\master-builder.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\master-shepherd.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\meat-seller.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\mendicant.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\mushroom-collector.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\pig-catcher.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\potter.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\quarryman.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\reed-collector.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\reeve.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\storyteller.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\turner.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\tutor.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\undergardener.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\woodcutter.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\wooden-hut-builder.jpg" />
+    <Content Include="Content\Agricola\img\cards\occs\yeoman-farmer.jpg" />
+    <Content Include="Content\Agricola\img\cards\rounds-card.jpg" />
+    <Content Include="Content\Agricola\img\cards\score-card.jpg" />
+    <Content Include="Content\Agricola\img\conversion-arrow.png" />
+    <Content Include="Content\Agricola\img\fence.png" />
+    <Content Include="Content\Agricola\img\fence2.png" />
+    <Content Include="Content\Agricola\img\field.png" />
+    <Content Include="Content\Agricola\img\grain-button.png" />
+    <Content Include="Content\Agricola\img\icons\building.png" />
+    <Content Include="Content\Agricola\img\icons\food.png" />
+    <Content Include="Content\Agricola\img\lobby\game-entry-bg.png" />
+    <Content Include="Content\Agricola\img\lobby\rail.png" />
+    <Content Include="Content\Agricola\img\logo.png" />
+    <Content Include="Content\Agricola\img\pasture-stables.png" />
+    <Content Include="Content\Agricola\img\pasture.png" />
+    <Content Include="Content\Agricola\img\pieces\boar.png" />
+    <Content Include="Content\Agricola\img\pieces\cattle.png" />
+    <Content Include="Content\Agricola\img\pieces\clay.png" />
+    <Content Include="Content\Agricola\img\pieces\food.png" />
+    <Content Include="Content\Agricola\img\pieces\grain.png" />
+    <Content Include="Content\Agricola\img\pieces\member-blue.png" />
+    <Content Include="Content\Agricola\img\pieces\member-green.png" />
+    <Content Include="Content\Agricola\img\pieces\member-orange.png" />
+    <Content Include="Content\Agricola\img\pieces\member-purple.png" />
+    <Content Include="Content\Agricola\img\pieces\member-red.png" />
+    <Content Include="Content\Agricola\img\pieces\member-teal.png" />
+    <Content Include="Content\Agricola\img\pieces\member-white.png" />
+    <Content Include="Content\Agricola\img\pieces\member-yellow.png" />
+    <Content Include="Content\Agricola\img\pieces\reed.png" />
+    <Content Include="Content\Agricola\img\pieces\sheep.png" />
+    <Content Include="Content\Agricola\img\pieces\stone.png" />
+    <Content Include="Content\Agricola\img\pieces\vegetables.png" />
+    <Content Include="Content\Agricola\img\pieces\wood.png" />
+    <Content Include="Content\Agricola\img\plowed-field.png" />
+    <Content Include="Content\Agricola\img\room-clay.png" />
+    <Content Include="Content\Agricola\img\room-wood.png" />
+    <Content Include="Content\Agricola\img\icons\clay.png" />
+    <Content Include="Content\Agricola\img\icons\grain.png" />
+    <Content Include="Content\Agricola\img\icons\reed.png" />
+    <Content Include="Content\Agricola\img\icons\stone.png" />
+    <Content Include="Content\Agricola\img\icons\vegetable.png" />
+    <Content Include="Content\Agricola\img\icons\wood.png" />
+    <Content Include="Content\Agricola\img\ready-row-bg.png" />
+    <Content Include="Content\Agricola\img\screen-bg.png" />
+    <Content Include="Content\Agricola\img\stables.png" />
+    <Content Include="Content\Agricola\img\room-stone.png" />
+    <Content Include="Content\Agricola\img\vegetables-button.png" />
+    <Content Include="Content\Agricola\img\victory_point_bg.png" />
+    <Content Include="Content\Catan\game.css" />
+    <Content Include="Content\Catan\img\bg\fff.8.png" />
+    <Content Include="Content\Catan\img\bg\fff.9.png" />
+    <Content Include="Content\Catan\img\logo.png" />
+    <Content Include="Content\Catan\models\tiles\brick.png" />
+    <Content Include="Content\Catan\models\tiles\desert.png" />
+    <Content Include="Content\Catan\models\tiles\wool.png" />
+    <Content Include="Content\Catan\models\tiles\ore.png" />
+    <Content Include="Content\Catan\models\tiles\lumber.png" />
+    <Content Include="Content\Catan\models\tiles\grain.png" />
+    <Content Include="Content\Lobby\img\logo-highlight.png" />
+    <Content Include="Content\Lobby\lobby.css" />
+    <Content Include="Content\login.css" />
+    <Content Include="Content\external-log.css" />
+    <Content Include="Content\Pandemic\game.css" />
+    <Content Include="Content\Pandemic\img\board.jpg" />
+    <Content Include="Content\Pandemic\img\button-white-bg.jpg" />
+    <Content Include="Content\Pandemic\img\button-white-bg.png" />
+    <Content Include="Content\Pandemic\img\cards\player\airlift.png" />
+    <Content Include="Content\Pandemic\img\cards\player\algiers.png" />
+    <Content Include="Content\Pandemic\img\cards\player\atlanta.png" />
+    <Content Include="Content\Pandemic\img\cards\player\back.png" />
+    <Content Include="Content\Pandemic\img\cards\player\baghdad.png" />
+    <Content Include="Content\Pandemic\img\cards\player\bangkok.png" />
+    <Content Include="Content\Pandemic\img\cards\player\beijing.png" />
+    <Content Include="Content\Pandemic\img\cards\player\bogota.png" />
+    <Content Include="Content\Pandemic\img\cards\player\buenosaires.png" />
+    <Content Include="Content\Pandemic\img\cards\player\cairo.png" />
+    <Content Include="Content\Pandemic\img\cards\player\chennai.png" />
+    <Content Include="Content\Pandemic\img\cards\player\chicago.png" />
+    <Content Include="Content\Pandemic\img\cards\player\delhi.png" />
+    <Content Include="Content\Pandemic\img\cards\player\epidemic.png" />
+    <Content Include="Content\Pandemic\img\cards\player\essen.png" />
+    <Content Include="Content\Pandemic\img\cards\player\forecast.png" />
+    <Content Include="Content\Pandemic\img\cards\player\governmentgrant.png" />
+    <Content Include="Content\Pandemic\img\cards\player\hochiminhcity.png" />
+    <Content Include="Content\Pandemic\img\cards\player\hongkong.png" />
+    <Content Include="Content\Pandemic\img\cards\player\istanbul.png" />
+    <Content Include="Content\Pandemic\img\cards\player\jakarta.png" />
+    <Content Include="Content\Pandemic\img\cards\player\johannesburg.png" />
+    <Content Include="Content\Pandemic\img\cards\player\karachi.png" />
+    <Content Include="Content\Pandemic\img\cards\player\khartoum.png" />
+    <Content Include="Content\Pandemic\img\cards\player\kinshasa.png" />
+    <Content Include="Content\Pandemic\img\cards\player\kolkata.png" />
+    <Content Include="Content\Pandemic\img\cards\player\lagos.png" />
+    <Content Include="Content\Pandemic\img\cards\player\lima.png" />
+    <Content Include="Content\Pandemic\img\cards\player\London.png" />
+    <Content Include="Content\Pandemic\img\cards\player\losangeles.png" />
+    <Content Include="Content\Pandemic\img\cards\player\madrid.png" />
+    <Content Include="Content\Pandemic\img\cards\player\manila.png" />
+    <Content Include="Content\Pandemic\img\cards\player\mexicocity.png" />
+    <Content Include="Content\Pandemic\img\cards\player\miami.png" />
+    <Content Include="Content\Pandemic\img\cards\player\milan.png" />
+    <Content Include="Content\Pandemic\img\cards\player\montreal.png" />
+    <Content Include="Content\Pandemic\img\cards\player\moscow.png" />
+    <Content Include="Content\Pandemic\img\cards\player\mumbai.png" />
+    <Content Include="Content\Pandemic\img\cards\player\newyork.png" />
+    <Content Include="Content\Pandemic\img\cards\player\onequietnight.png" />
+    <Content Include="Content\Pandemic\img\cards\player\osaka.png" />
+    <Content Include="Content\Pandemic\img\cards\player\paris.png" />
+    <Content Include="Content\Pandemic\img\cards\player\resilientpopulation.png" />
+    <Content Include="Content\Pandemic\img\cards\player\riyadh.png" />
+    <Content Include="Content\Pandemic\img\cards\player\sanfrancisco.png" />
+    <Content Include="Content\Pandemic\img\cards\player\santiago.png" />
+    <Content Include="Content\Pandemic\img\cards\player\saopaulo.png" />
+    <Content Include="Content\Pandemic\img\cards\player\Seoul.png" />
+    <Content Include="Content\Pandemic\img\cards\player\shanghai.png" />
+    <Content Include="Content\Pandemic\img\cards\player\stpetersburg.png" />
+    <Content Include="Content\Pandemic\img\cards\player\sydney.png" />
+    <Content Include="Content\Pandemic\img\cards\player\taipei.png" />
+    <Content Include="Content\Pandemic\img\cards\player\tehran.png" />
+    <Content Include="Content\Pandemic\img\cards\player\tokyo.png" />
+    <Content Include="Content\Pandemic\img\cards\player\washington.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\algiers.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\atlanta.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\back.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\baghdad.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\bangkok.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\beijing.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\bogota.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\buenosaires.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\cairo.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\chennai.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\chicago.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\delhi.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\essen.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\hochiminhcity.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\hongkong.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\istanbul.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\jakarta.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\johannesburg.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\karachi.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\khartoum.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\kinshasa.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\kolkata.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\lagos.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\lima.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\london.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\losangeles.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\madrid.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\manila.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\mexicocity.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\miami.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\milan.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\montreal.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\moscow.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\mumbai.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\newyork.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\osaka.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\paris.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\riyadh.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\sanfrancisco.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\santiago.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\saopaulo.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\seoul.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\shanghai.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\stpetersburg.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\sydney.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\taipei.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\tehran.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\tokyo.png" />
+    <Content Include="Content\Pandemic\img\cards\infection\washington.png" />
+    <Content Include="Content\Pandemic\img\cards\role\back.png" />
+    <Content Include="Content\Pandemic\img\cards\role\contingencyplanner.png" />
+    <Content Include="Content\Pandemic\img\cards\role\dispatcher.png" />
+    <Content Include="Content\Pandemic\img\cards\role\medic.png" />
+    <Content Include="Content\Pandemic\img\cards\role\operationsexpert.png" />
+    <Content Include="Content\Pandemic\img\cards\role\quarantinespecialist.png" />
+    <Content Include="Content\Pandemic\img\cards\role\researcher.png" />
+    <Content Include="Content\Pandemic\img\cards\role\scientist.png" />
+    <Content Include="Content\Pandemic\img\cure-black.png" />
+    <Content Include="Content\Pandemic\img\cure-blue.png" />
+    <Content Include="Content\Pandemic\img\cure-red.png" />
+    <Content Include="Content\Pandemic\img\cure-yellow.png" />
+    <Content Include="Content\Pandemic\img\cure.png" />
+    <Content Include="Content\Pandemic\img\eradicated-black.png" />
+    <Content Include="Content\Pandemic\img\eradicated-blue.png" />
+    <Content Include="Content\Pandemic\img\eradicated-red.png" />
+    <Content Include="Content\Pandemic\img\eradicated-yellow.png" />
+    <Content Include="Content\Pandemic\img\logo.png" />
+    <Content Include="Content\Pandemic\img\outbreak-bg.png" />
+    <Content Include="Content\Pandemic\img\overlay-cancel-mouse-over.png" />
+    <Content Include="Content\Pandemic\img\overlay-cancel.png" />
+    <Content Include="Content\Pandemic\img\overlay-collapse-mouse-over.png" />
+    <Content Include="Content\Pandemic\img\overlay-collapse.png" />
+    <Content Include="Content\Pandemic\img\pieces\disease\blue.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\brown-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\brown.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\green-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\green.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\lime-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\lime.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\orange-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\orange.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\pink-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\pink.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\teal-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\teal.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\white-select.png" />
+    <Content Include="Content\Pandemic\img\pieces\player\white.png" />
+    <Content Include="Content\Pandemic\img\radial_menu_bg.png" />
+    <Content Include="Content\Pandemic\img\yield-turn.png" />
+    <Content Include="Content\Pandemic\img\zoom.png" />
+    <Content Include="Content\site.css" />
+    <Content Include="favicon.ico" />
+    <Content Include="Games\Catan\Game.manifest" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Agricola\game.css" />
+    <Content Include="Games\Agricola\Game.manifest" />
+    <Content Include="Games\Pandemic\Game.manifest" />
+    <Content Include="Content\Catan\models\tiles\lumber.json" />
+    <Content Include="Content\Catan\models\tiles\grain.json" />
+    <Content Include="Content\Catan\models\tiles\ore.json" />
+    <Content Include="Content\Catan\models\tiles\brick.json" />
+    <Content Include="Content\Catan\models\tiles\wool.json" />
+    <Content Include="Content\Catan\models\tiles\desert.json" />
+    <None Include="Properties\PublishProfiles\Staging.pubxml" />
+    <None Include="Scripts\Lib\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Lib\jquery-ui.min.js" />
+    <Content Include="Scripts\Lib\store.min.js" />
+    <Content Include="Scripts\Lib\three.min.js" />
+    <Content Include="Scripts\Monkey\Agricola\AnimalManager.js" />
+    <Content Include="Scripts\Monkey\Agricola\FenceUtils.js" />
+    <Content Include="Scripts\Lib\astar.js" />
+    <Content Include="Scripts\Lib\jquery-1.10.2.js" />
+    <Content Include="Scripts\Lib\jquery-1.10.2.min.js" />
+    <None Include="Scripts\Lib\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\Lib\jquery.cookie.js" />
+    <Content Include="Scripts\Lib\jquery.easing-1.3.js" />
+    <Content Include="Scripts\Lib\jquery.signalR-2.0.0.js" />
+    <Content Include="Scripts\Lib\jquery.signalR-2.0.0.min.js" />
+    <Content Include="Scripts\Lib\jquery.validate.js" />
+    <Content Include="Scripts\Lib\jquery.validate.min.js" />
+    <Content Include="Scripts\Lib\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\Lib\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Monkey\Agricola\FenceValidator.js" />
+    <Content Include="Scripts\Monkey\Agricola\PlayerBoard.js" />
+    <Content Include="Scripts\Monkey\Agricola\Game.js" />
+    <Content Include="Scripts\Monkey\Catan\Board.js" />
+    <Content Include="Scripts\Monkey\Catan\Game.js" />
+    <Content Include="Scripts\Monkey\Catan\Rendering\DisplayObject.js" />
+    <Content Include="Scripts\Monkey\Catan\Rendering\Renderer.js" />
+    <Content Include="Scripts\Monkey\Catan\Tile.js" />
+    <Content Include="Scripts\Monkey\ExternalLog.js" />
+    <Content Include="Scripts\Monkey\GameInterface.js" />
+    <Content Include="Scripts\Monkey\Lobby\Lobby.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Harvest.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\ResourceConversionRow.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Popups\AnimalChoicePopup.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Popups\FarmyardPopup.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Popups\FarmyardWithAnimalsPopup.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Popups\Popup.js" />
+    <Content Include="Scripts\Lib\respond.min.js" />
+    <Content Include="Scripts\Monkey\Lobby\GameLobbyScreen.js" />
+    <Content Include="Scripts\Monkey\Agricola\UI\Incrementor.js" />
+    <Content Include="Scripts\Monkey\Lobby\LobbyPanel.js" />
+    <Content Include="Scripts\Lib\_references.js" />
+    <Content Include="Scripts\Monkey\Agricola\Curator.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Card.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Deck.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Game.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Hand.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Map.js" />
+    <Content Include="Scripts\Monkey\Pandemic\MessageParser.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\CardSelectionOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\EpidemicOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\ForecastOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\InfectOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\FinishedOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\Overlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\OverlayManager.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\MessageOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\TradeConfirmation.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\TradeOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\Overlays\TreatOverlay.js" />
+    <Content Include="Scripts\Monkey\Pandemic\RadialMenu.js" />
+    <Content Include="Scripts\Monkey\Utils.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Home\Lobby.cshtml" />
+    <Content Include="Scripts\Lib\jquery-1.10.2.min.map" />
+    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
+    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Account\_ChangePasswordPartial.cshtml" />
+    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
+    <Content Include="Views\Account\_RemoveAccountPartial.cshtml" />
+    <Content Include="Views\Account\_SetPasswordPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Account\Web.config" />
+    <Content Include="Views\Account\_ViewStart.cshtml" />
+    <Content Include="Views\Games\Agricola.cshtml" />
+    <Content Include="Views\Games\Pandemic.cshtml" />
+    <Content Include="Views\Shared\ExternalLog.cshtml" />
+    <Content Include="Views\Games\Catan.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Pandemic\" />
+    <Folder Include="Content\Pandemic\audio\" />
+    <Folder Include="Scripts\Monkey\Catan\UI\Overlays\" />
+    <Folder Include="Serialization\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>11596</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:11596/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,67 @@
+﻿*{ padding:0; margin:0;   box-sizing:border-box;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none; }
+
+html, body { height:100%; overflow:hidden; background-color:#efefa3; }
+body { font-size:12px; color:#3e3e3e; font-family: 'Roboto Condensed', sans-serif; overflow:hidden;}
+
+
+.clear {clear:both; float:none; }
+*:focus { outline:none; }
+
+ul li { list-style: none;}
+a { text-decoration:none; color:inherit;}
+.user-tab{ float:right; padding:8px; display:none;}
+.user-tab ul { list-style-image: none; }
+.user-tab li { display:inline-block; }
+
+/** Generated css */
+.field-validation-error { color: #b94a48; }
+.field-validation-valid { display: none; }
+input.input-validation-error { border: 1px solid #b94a48; }
+input[type="checkbox"].input-validation-error { border: 0 none; }
+.validation-summary-errors { color: #b94a48; }
+.validation-summary-valid { display: none; }
+/** End of generated css */
+
+.templates{ display:none; }
+
+.player .id { display:none; }
+.player > .name { color:#0a0a0a; font-weight:bold; }
+
+input.disabled {opacity:.4; pointer-events:none; }
+.window { overflow:hidden; position:relative; position:absolute;  }
+.container { height:100%;}
+
+.red.bg { background-color:#bf2424; }
+.red.bb { border-color:#bf2424; }
+.blue.bg{ background-color:#4a43db; }
+.blue.bb{ border-color:#4a43db; }
+.green.bg { background-color:#19ac2a; }
+.green.bb{ border-color:#19ac2a; }
+.purple.bg { background-color:#a35cbd; }
+.purple.bb{ border-color:#a35cbd; }
+.white.bg { background-color:#bfbfbf; }
+.white.bb{ border-color:#bfbfbf; }
+.orange.bg { background-color:#ef7300; }
+.orange.bb{ border-color:#ef7300; }
+.teal.bg { background-color:#00cfef; }
+.teal.bb{ border-color:#00cfef; }
+.yellow.bg { background-color:#efed00; }
+.yellow.bb{ border-color:#efed00; }
+.pink.bg { background-color:#ef0097; }
+.pink.bb{ border-color:#ef0097; }
+.lime.bg { background-color:#97ef00; }
+.lime.bb{ border-color:#97ef00; }
+.brown.bg { background-color:#945a25; }
+.brown.bb{ border-color:#945a25; }
+
+
+#splash { top:0; right:0; left:0; bottom:0; z-index:500;}
+#splash .loading {font-family: 'Roboto Condensed', sans-serif; font-size:8vh; position:absolute; top:40vh; right:0; left:0; text-align:center; }
+
+
+

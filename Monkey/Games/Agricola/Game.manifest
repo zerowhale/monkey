@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Manifest Type="Monkey.Games.Agricola.AgricolaGame" Name="Agricola" ViewPath="Agricola" MaxPlayers="5">
+    <CreationOptions>
+        <Option Id="FamilyMode" Name="Family Mode" Type="Boolean" />
+    </CreationOptions>
+</Manifest>

@@ -1,0 +1,759 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Occupations>
+  <Occupation Id="2000" Deck="Basic" MinPlayers="3"
+              Image="/Content/Agricola/img/cards/occs/potter.jpg" >
+    <Name>Potter</Name>
+
+        <ResourceConversions>
+            <ResourceConversion InType="Clay" InAmount="1" InLimit="1" OutType="Food" OutAmount="2"/>
+        </ResourceConversions>
+
+      <Text>
+      <![CDATA[
+        <div>In each Harvest, the Potter can convert up to 1 Clay to 2 Food.</div>
+    ]]>
+    </Text>
+  </Occupation>
+
+  <Occupation Id="2001" Deck="Basic" MinPlayers="3"
+              Image="/Content/Agricola/img/cards/occs/braggart.jpg" >
+    <Name>Braggart</Name>
+
+    <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.ImprovementCountVictoryPoints">
+      <ImprovementCount Required="5" Points="1"/>
+      <ImprovementCount Required="6" Points="3"/>
+      <ImprovementCount Required="7" Points="5"/>
+      <ImprovementCount Required="8" Points="7"/>
+      <ImprovementCount Required="9" Points="9"/>
+    </VictoryPointCalculator>
+
+    <Text>
+      <![CDATA[
+      <div>At the end of the game, you receive 1/3/5/7/9 Bonus points for having 5/6/7/8/9+ Improvements in front of you.</div>
+  ]]>
+    </Text>
+  </Occupation>
+
+  <Occupation Id="2002" Deck="Basic" MinPlayers="3"
+              Image="/Content/Agricola/img/cards/occs/berry-picker.jpg" >
+    <Name>Berry Picker</Name>
+
+
+      <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+          <ResourceData Type="Food" Count="1"/>
+          <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeCachedResourceTrigger" ResourceType="Wood"/>
+      </Event>
+
+
+    <Text>
+      <![CDATA[
+      <div>Whenever you use a Family member's action to take Wood, you receive an additional 1 Food.</div>
+  ]]>
+    </Text>
+  </Occupation>
+  
+  <Occupation Id="2003" Deck="Basic" MinPlayers="1"
+              Image="/Content/Agricola/img/cards/occs/clay-mixer.jpg" >
+    <Name>Clay Mixer</Name>
+
+
+      <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+          <ResourceData Type="Clay" Count="2"/>
+          <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeSoleCachedResourceTrigger" ResourceType="Clay"/>
+      </Event>
+
+
+    <Text>
+      <![CDATA[
+      <div>Whenever one of your people's actions gives you only Clay, you receive 2 additional Clay.</div>
+  ]]>
+    </Text>
+  </Occupation>
+
+  <Occupation Id="2004" Deck="Basic" MinPlayers="1"
+              Image="/Content/Agricola/img/cards/occs/woodcutter.jpg" >
+    <Name>Woodcutter</Name>
+
+
+      <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+          <ResourceData Type="Wood" Count="1"/>
+          <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeCachedResourceTrigger" ResourceType="Wood"/>
+      </Event>
+
+
+    <Text>
+      <![CDATA[
+      <div>You receive 1 additional Wood whenever you use a family member's action to take Wood.</div>
+  ]]>
+    </Text>
+  </Occupation>
+
+    <Occupation Id="2005" Deck="Basic" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/clay-deliveryman.jpg" >
+        <Name>Clay Deliveryman</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache OnRound="6" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="7" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="8" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="9" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="10" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="11" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="12" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="13" ResourceType="Clay" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="14" ResourceType="Clay" ResourceCount="1"/>
+        </OnPlay>
+
+
+        <Text>
+            <![CDATA[
+              <div>Place 1 Clay on each of the spaces for rounds 6 to 14. At the start of these rounds, you receive the clay.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+    <Occupation Id="2006" Deck="Basic" MinPlayers="3"
+            Image="/Content/Agricola/img/cards/occs/reed-collector.jpg" >
+        <Name>Reed Collector</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache RoundsDelayed="1" ResourceType="Reed" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="2" ResourceType="Reed" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="3" ResourceType="Reed" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="4" ResourceType="Reed" ResourceCount="1"/>
+        </OnPlay>
+
+        <Text>
+            <![CDATA[
+              <div>Place 1 Reed on each of the next 4 Round spaces. At the start of these rounds, you receive the Reed.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2007" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/bread-seller.jpg" >
+        <Name>Bread Seller</Name>
+
+        <Event Class="Monkey.Games.Agricola.Events.PerGrainBakedEvent">
+            <ResourceCache Type="Food" Count="1"/>
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.BakeTrigger" TriggerType="Any"/>
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>You receive 1 Food from the supply for each Grain that is baked whenever any player (including you) Bakes bread.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2008" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/conjurer.jpg" >
+        <Name>Conjurer</Name>
+
+        <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Grain" Count="1"/>
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TravelingPlayersActionTrigger"/>
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Traveling Players" action on an Action space, you receive 1 Grain in addition to the Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2009" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/land-agent.jpg" >
+        <Name>Land Agent</Name>
+
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Vegetables" Count="1"/>
+        </OnPlay>
+        
+        <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Grain" Count="1"/>
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeVegetablesActionTrigger"/>
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Take 1 Vegetable" Action space, you also receive 1 Grain. When you play this card. you receive 1 Vegetable from the supply.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    
+    <Occupation Id="2010" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/undergardener.jpg" >
+        <Name>Undergardener</Name>
+
+
+
+        <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Vegetables" Count="1"/>
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.DayLaborerActionTrigger"/>
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Day Laborer" Action space, you also receive 1 Vegetable.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    
+    
+    <Occupation Id="2011" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/lord-of-the-manor.jpg" >
+        <Name>Lord of the Manor</Name>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.LordOfTheManorVictoryPoints" />
+
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you receive 1 bonus point for each scoring category where you have scored the maximum 4 points. (The bonus point is also awarded for 4 fenced stables.)</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+        
+    
+    <Occupation Id="2012" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/greengrocer.jpg" >
+        <Name>Greengrocer</Name>
+
+        <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Vegetables" Count="1"/>
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeGrainActionTrigger"/>
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Take 1 Grain" Action space, you also receive 1 Vegetable.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+    
+    <Occupation Id="2013" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/wooden-hut-builder.jpg" >
+        <Name>Wooden Hut Builder</Name>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.PerRoomVictoryPoints" HouseType="Wood"/>
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you receive 1 bonus point for each room in your Wooden hut.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+    
+    
+    <Occupation Id="2014" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/dancer.jpg" >
+        <Name>Dancer</Name>
+
+        <Event Class="Monkey.Games.Agricola.Events.DancerEvent">
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TravelingPlayersActionTrigger"/>
+        </Event>
+        
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Traveling Players" action on an Action space, you receive at least 4 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <!--Occupation Id="2015" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/meat-seller.jpg" >
+        <Name>Meat-seller</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+        <ResourceConversions>
+            <ResourceConversion InType="Sheep" InAmount="1" OutType="Food" OutAmount="2"/>
+            <ResourceConversion InType="Boar" InAmount="1" OutType="Food" OutAmount="3"/>
+            <ResourceConversion InType="Cattle" InAmount="1" OutType="Food" OutAmount="4"/>
+        </ResourceConversions>
+       
+        < oven requirement built explicitly into code >
+            
+        <Text>
+            <![CDATA[
+              <div>If you have an Oven, you can change your animals into Food at any time. Take 2 Food for each Sheep, 3 for each Wild boar, and 4 for each Cattle.</div>
+          ]]>
+        </Text>
+    </Occupation-->
+
+    <Occupation Id="2016" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/master-brewer.jpg" >
+        <Name>Master Brewer</Name>
+
+        <ResourceConversions>
+            <ResourceConversion InType="Grain" InAmount="1" InLimit="1" OutType="Food" OutAmount="3"/>
+        </ResourceConversions>
+
+
+        <Text>
+            <![CDATA[
+              <div>In the Feeding phase of each Harvest, the Master Brewer can aconvert up to 1 Grain to 3 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2017" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/chief.jpg" >
+        <Name>Chief</Name>
+
+        <Costs>
+            <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+                <Cost Resource="Food" Amount="2" />
+            </Option>
+        </Costs>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.PerRoomVictoryPoints" HouseType="Stone"/>
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you receive 1 Bonus point for each room in your Stone house. <span class="note">(In total, you receive 3 points per room instead of 2.)</span> Playing this card costs an additional 2 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2018" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/basketmaker.jpg" >
+        <Name>Basketmaker</Name>
+
+        <ResourceConversions>
+            <ResourceConversion InType="Reed" InAmount="1" InLimit="1" OutType="Food" OutAmount="3"/>
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>In each Harvest, the Basketmaker can convert up to 1 Reed to 3 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2019" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/turner.jpg" >
+        <Name>Turner</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+        <ResourceConversions>
+            <ResourceConversion InType="Wood" InAmount="1" OutType="Food" OutAmount="1"/>
+        </ResourceConversions>
+        
+        <Text>
+            <![CDATA[
+              <div>At any time, you can use the Turner to convert any number of Wood to 1 Food each.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2020" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/quarryman.jpg" >
+        <Name>Quarryman</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+        <ResourceConversions>
+            <ResourceConversion InType="Stone" InAmount="1" OutType="Food" OutAmount="2"/>
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>You can use the Quarryman at any time to convert Stone to Food. For each Stone you convert, take 2 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+    <Occupation Id="2021" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/mason.jpg" >
+        <Name>Mason</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.BuildRoomAction" MaxUses="1">
+            <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.HousePrerequisite" HouseType="Stone" />
+            <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.RoomPrerequisite" RoomCount="4" />
+        </AnytimeAction>
+
+        <Text>
+            <![CDATA[
+              <div>Once during the game, at any time after your Stone house reaches at least 4 rooms, you may extend it by 1 room at no cost.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+
+    <Occupation Id="2022" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/mendicant.jpg" >
+        <Name>Mendicant</Name>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.MendicantVictoryPoints"/>
+
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you can discard up to 2 Begging cards without losing points for them.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2023" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/master-builder.jpg" >
+        <Name>Master Builder</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.BuildRoomAction" MaxUses="1">
+            <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.RoomPrerequisite" RoomCount="5" />
+        </AnytimeAction>
+
+        <Text>
+            <![CDATA[
+              <div>Once during the game, at any time after your home reaches at least 5 rooms, you may extend it by 1 room at no cost.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+
+    <Occupation Id="2024" Deck="Basic" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/estate-manager.jpg" >
+        <Name><![CDATA[Estate</br>Manager]]></Name>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.EstateManagerVictoryPoints"/>
+
+        <Text>
+            <![CDATA[
+              <div>At the end of a 3/4/5 player game, if no player has more animals of any type than you, you receive 2/3/4 Bonus points.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+   
+    <Occupation Id="2025" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/clay-firer.jpg" >
+        <Name>Clay Firer</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+        
+        <ResourceConversions>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Stone" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="3" OutType="Stone" OutAmount="2"/>
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>You can use the Clay Firer at any time to convert 2/3 Clay to 1/2 Stone.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+
+    <Occupation Id="2026" Deck="Basic" MinPlayers="4"
+        Image="/Content/Agricola/img/cards/occs/clay-seller.jpg" >
+        <Name>Clay Seller</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+        <ResourceConversions>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Sheep" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Reed" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="3" OutType="Boar" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="3" OutType="Stone" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="4" OutType="Cattle" OutAmount="1"/>
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>You can use the Clay Seller at any time to convert:
+              <br/>2 Clay to 1 Sheep or 1 Reed,
+              <br/>3 Clay to 1 Wild boar or 1 Stone,
+              <br/>and/or
+              <br/>4 Clay to 1 Cattle.</div>
+          ]]>
+        </Text>
+    </Occupation>
+    
+    <Occupation Id="2027" Deck="Basic" MinPlayers="4"
+            Image="/Content/Agricola/img/cards/occs/master-shepherd.jpg" >
+        <Name>Master Shepherd</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache RoundsDelayed="1" ResourceType="Sheep" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="2" ResourceType="Sheep" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="3" ResourceType="Sheep" ResourceCount="1"/>
+        </OnPlay>
+
+        <Text>
+            <![CDATA[
+              <div>Place 1 Sheep on each of the next 3 Round spaces. At the start of these rounds, you receive the Sheep.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2028" Deck="Basic" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/Dock-Worker.jpg" >
+        <Name>Dock Worker</Name>
+
+        <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+        <ResourceConversions>
+            <ResourceConversion InType="Wood" InAmount="3" OutType="Reed" OutAmount="1"/>
+            <ResourceConversion InType="Wood" InAmount="3" OutType="Stone" OutAmount="1"/>
+            <ResourceConversion InType="Wood" InAmount="3" OutType="Clay" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Reed" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Stone" OutAmount="1"/>
+            <ResourceConversion InType="Clay" InAmount="2" OutType="Wood" OutAmount="1"/>
+            <ResourceConversion InType="Stone" InAmount="2" OutType="Reed" OutAmount="1"/>
+            <ResourceConversion InType="Stone" InAmount="2" OutType="Clay" OutAmount="1"/>
+            <ResourceConversion InType="Stone" InAmount="2" OutType="Wood" OutAmount="1"/>
+            <ResourceConversion InType="Reed" InAmount="2" OutType="Clay" OutAmount="1"/>
+            <ResourceConversion InType="Reed" InAmount="2" OutType="Stone" OutAmount="1"/>
+            <ResourceConversion InType="Reed" InAmount="2" OutType="Wood" OutAmount="1"/>
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>At any time, you can use the Dock Worker to convert 3 Wood to either 1 Clay, 1 Reed, or 1 Stone, or to convert 2 Clay, 2 Reed, or 2 Stone to 1 other building resource.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2029" Deck="Basic" MinPlayers="4"
+            Image="/Content/Agricola/img/cards/occs/cattle-whisperer.jpg" >
+        <Name>Cattle Whisperer</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache RoundsDelayed="5" ResourceType="Cattle" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="9" ResourceType="Cattle" ResourceCount="1"/>
+        </OnPlay>
+
+        <Text>
+            <![CDATA[
+              <div>Add 5 and 9 to the current round. Place 1 Cattle on the corresponding Round spaces. At the start of these rounds, you receive the Cattle.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2030" Deck="Basic" MinPlayers="3"
+            Image="/Content/Agricola/img/cards/occs/academic.jpg" >
+        <Name>Academic</Name>
+
+        <!-- Functionality implemented in 
+            Curator.cs - GetOwnedOccupationCount()
+            Curator.js - getOwnedOccupationsCount()
+        -->
+        
+        <Text>
+            <![CDATA[
+              <div>This card counts as 2 Occupations for Minor Improvements and when scoring the "Reeve" Occupation card.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2031" Deck="Basic" MinPlayers="4"
+            Image="/Content/Agricola/img/cards/occs/farmer.jpg" >
+        <Name>Farmer</Name>
+
+        <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+            <ResourceData Type="Boar" Count="1"  UntilExecution="2" />
+            <ResourceData Type="Cattle" Count="1" FromExecution="2" />
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.BuildFencesTrigger" />
+        </Event>
+
+        <Text>
+            <![CDATA[
+              <div>The next time you build fences, take 1 Wild boar. Each time you build at least 1 fence after that, take 1 Cattle.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2032" Deck="Basic" MinPlayers="3"
+            Image="/Content/Agricola/img/cards/occs/yeoman-farmer.jpg" >
+        <Name>Yeoman Farmer</Name>
+
+        <!-- Functionality implemented in 
+            Curator.cs - CalculateXXXScore() functions
+        -->
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you only lose points for Unused spaces and Begging cards.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2033" Deck="Basic" MinPlayers="3"
+            Image="/Content/Agricola/img/cards/occs/reeve.jpg" >
+        <Name>Reeve</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.GainConditionalResourcesEvent">
+            <RoundsRemainingDependantResource RoundsRemaining="1" Type="Wood" Count="1"/>
+            <RoundsRemainingDependantResource RoundsRemaining="3" Type="Wood" Count="1"/>
+            <RoundsRemainingDependantResource RoundsRemaining="6" Type="Wood" Count="1"/>
+            <RoundsRemainingDependantResource RoundsRemaining="9" Type="Wood" Count="1"/>
+        </OnPlay>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.MostOccupationsVictoryPoints" Points="3" AllPlayers="True" />
+
+        <Text>
+            <![CDATA[
+              <div>Take 1/2/3/4 Wood if there are still 1/3/6/9 rounds to play.  At the end of the game, all players with the most played Occupation cards receive 3 Bonus points each.</div>
+          ]]>
+        </Text>
+    </Occupation>    
+    
+    <Occupation Id="2034" Deck="Basic" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/tutor.jpg" >
+        <Name>Tutor</Name>
+        
+        <Event Class="Monkey.Games.Agricola.Events.TutorEvent" Field="playedOccupations">
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.PlayOccupationTrigger" />
+        </Event>
+
+        <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.TutorVictoryPoints" Field="playedOccupations" Title="tutored occupations" />
+
+        <Text>
+            <![CDATA[
+              <div>At the end of the game, you receive 1 bonus point for each occupation you play after this one.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2035" Deck="Basic" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/mushroom-collector.jpg" >
+        <Name>Mushroom Collector</Name>
+
+        <TakeCacheExchange>
+            <CacheExchange OnAction="Wood" InType="Wood" InAmount="1" InLimit="1" OutType="Food" OutAmount="2"/>
+        </TakeCacheExchange>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use a Family member's action to take Wood from an Action space, you can leave 1 of the Wood on the space and take 2 Food in exchange.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+
+    <Occupation Id="2036" Deck="Basic" MinPlayers="4"
+            Image="/Content/Agricola/img/cards/occs/storyteller.jpg" >
+        <Name>Storyteller</Name>
+
+        <TakeCacheExchange>
+            <CacheExchange OnAction="TravelingPlayers" InType="Food" InAmount="1" InLimit="1" OutType="Vegetables" OutAmount="1"/>
+        </TakeCacheExchange>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Traveling Players" action on an Action space, you can leave 1 Food on the psace and take 1 Vegetable instead.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2037" Deck="Intermediate" MinPlayers="4"
+            Image="/Content/Agricola/img/cards/occs/pig-catcher.jpg" >
+        <Name>Pig Catcher</Name>
+
+        <TakeCacheExchange>
+            <CacheExchange OnAction="Wood" InType="Wood" InAmount="2" InLimit="1" OutType="Boar" OutAmount="1"/>
+        </TakeCacheExchange>
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use a person to take Wood that is on an Action space, you can leave 2 of the Wood on the space and take a Wild boar intead.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2038" Deck="Intermediate" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/field-watchman.jpg" >
+        <Name>Field Watchman</Name>
+
+
+        <Event Class="Monkey.Games.Agricola.Events.PlowEvent" Count="1" Optional="true">
+            <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeGrainActionTrigger"/>
+        </Event>
+            
+
+        <Text>
+            <![CDATA[
+              <div>Whenever you use the "Take 1 Grain" Action space, you can also Plow up to 1 field.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2039" Deck="Intermediate" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/wood-collector.jpg" >
+        <Name>Wood Collector</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache RoundsDelayed="1" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="2" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="3" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="4" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache RoundsDelayed="5" ResourceType="Wood" ResourceCount="1"/>
+        </OnPlay>
+
+        <Text>
+            <![CDATA[
+              <div>Place 1 Wood on each of the next 5 Round spaces. At the start of these rounds, you receive the Wood.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2040" Deck="Expert" MinPlayers="1"
+            Image="/Content/Agricola/img/cards/occs/wood-deliveryman.jpg" >
+        <Name>Wood Deliveryman</Name>
+
+        <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+            <DelayedResourceCache OnRound="8" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="9" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="10" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="11" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="12" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="13" ResourceType="Wood" ResourceCount="1"/>
+            <DelayedResourceCache OnRound="14" ResourceType="Wood" ResourceCount="1"/>
+        </OnPlay>
+
+        <Text>
+            <![CDATA[
+              <div>Place 1 Wood on each remaining space for rounds 8 to 14. At the start of these rounds, you receive the Wood.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+
+    <Occupation Id="2041" Deck="Intermediate" MinPlayers="3"
+        Image="/Content/Agricola/img/cards/occs/Cabinetmaker.jpg" >
+        <Name>Cabinetmaker</Name>
+
+        <ResourceConversions>
+            <ResourceConversion InType="Wood" InAmount="1" InLimit="1" OutType="Food" OutAmount="2" />
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>In each Harvest, the Cabinetmaker can convert up to 1 Wood to 2 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+
+    <Occupation Id="2042" Deck="Expert" MinPlayers="1"
+        Image="/Content/Agricola/img/cards/occs/schnaps-distiller.jpg" >
+        <Name>Schnaps Distiller</Name>
+
+        <ResourceConversions>
+            <ResourceConversion InType="Vegetables" InAmount="1" InLimit="1" OutType="Food" OutAmount="5" />
+        </ResourceConversions>
+
+        <Text>
+            <![CDATA[
+              <div>In the Feeding phase of each Harvest, you can convert up to 1 Vegetable to 5 Food.</div>
+          ]]>
+        </Text>
+    </Occupation>
+</Occupations>

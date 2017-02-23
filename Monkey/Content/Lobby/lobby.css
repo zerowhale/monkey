@@ -1,0 +1,88 @@
+﻿
+#lobby {width:100vw; height:100vh; z-index:490; }
+
+#lobby .screen { overflow:hidden; position:relative; height:0; width:100vw; }
+#lobby .screen.lobby-screen { height:100vh; }
+#lobby .screen.game-lobby-screen { height: 0; }
+#lobby .panel {  font-family: 'Roboto Condensed', sans-serif; font-size:1.2vw; background-color:#efefa3; overflow:hidden; display:block; position:absolute;}
+#lobby .panel .title { color: #157c12; position:absolute; top:44vh; opacity:.2;
+				transform:rotate(-90deg); transform-origin:top left; 
+                font-family: 'Homenaje', sans-serif; font-size:6vh; margin-bottom:1vw; padding:.5vw; } 
+
+#lobby .full-screen-button { position:absolute; bottom:0; left:0; right:0; background-color:#74b528; height:6vh; color:#e6ffc9; cursor:pointer;
+							 font-size:3.6vh; line-height:6vh; text-align:center; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;    }
+
+#lobby .full-screen-button:hover { background-color:gold; }
+#lobby .full-screen-button.disabled { pointer-events:none; opacity:.4;}
+#lobby .full-screen-button span { display:inline-block; position:relative; vertical-align:middle;}
+
+#lobby .lobby-panel { width:100vw; height:96vh; top:0;}
+#lobby .lobby-panel .body { width:100vw; height:100vh; }
+#lobby .lobby-panel .game-list {margin-left:5vw; width:95vw; }
+#lobby .lobby-panel .game-list .game-entry.empty .players-info { display:none; }
+#lobby .lobby-panel .game-entry { cursor:pointer; height: 100vh; float:left; width:10vw; text-align:right; }
+#lobby .lobby-panel .game-entry:hover { background:url(/Content/Agricola/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
+#lobby .lobby-panel .game-entry.empty:hover { background-color:inherit; cursor:inherit; }
+#lobby .lobby-panel .game-entry .players-info > div {  display: inline-block; margin-top:.2vh;}
+#lobby .lobby-panel .game-entry .players-info label { opacity: .4; }
+#lobby .lobby-panel .game-entry .game { color:#74b528; }
+#lobby .lobby-panel .game-entry .name { font-weight:bold; }
+#lobby .lobby-panel .game-list > div { padding:1vw 1vw 0 1vw;  }
+#lobby .lobby-panel .game-list .empty { font-style:italic; }
+#lobby .lobby-panel .game-list .id { display:none; }
+
+#lobby .create-game-panel { width: 100vw; height:6vh; bottom:0; }
+#lobby .create-game-panel .full-screen-button.open-button { text-align:center; color:#e6ffc9; cursor:pointer;
+								  text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000; bottom:auto; }
+#lobby .create-game-panel .full-screen-button.open-button:hover { background-color:gold}
+#lobby .create-game-panel .body { width: 100vw; height:50vh; position:relative;}
+#lobby .create-game-panel .game { color:#74b528; }
+#lobby .create-game-panel .games-list { position:absolute; right:50%; top:6vh;  padding:1vh; bottom:6vh; }
+#lobby .create-game-panel .games-list li { padding-bottom:10px; }
+#lobby .create-game-panel .games-list div{ border:2px solid #000; font-size:0; cursor:pointer; border-radius:1px; position:relative;
+                                            -webkit-box-shadow:  0px 0px 7px 1px rgba(0,0,0,1);
+                                            -moz-box-shadow:     0px 0px 7px 1px rgba(0,0,0,1);
+                                            box-shadow:          0px 0px 7px 1px rgba(0,0,0,1); }
+#lobby .create-game-panel .games-list div img { width:310px; height:67px; }
+#lobby .create-game-panel .games-list div.selected { border:2px solid white; pointer-events:none; }
+#lobby .create-game-panel .games-list div:hover { border:2px solid gold; }
+#lobby .create-game-panel .games-list div:active { margin-top:2px; margin-bottom:-2px;
+                                            -webkit-box-shadow:  0px 0px 2px 1px rgba(0,0,0,1);
+                                            -moz-box-shadow:     0px 0px 2px 1px rgba(0,0,0,1);
+                                            box-shadow:          0px 0px 2px 1px rgba(0,0,0,1);}
+#lobby .create-game-panel .games-list div.selected:after { background:url(/Content/Lobby/img/logo-highlight.png) no-repeat; z-index:1; position:absolute; content:" "; top:0; left:0; right:0; bottom:0; background-size: 310px 67px; }
+#lobby .create-game-panel .controls { position:absolute; left:50%; top:6vh; font-size:2.6vh; bottom:6vh; padding:1vh; }
+#lobby .create-game-panel .controls .create-game > div { margin-top:.8vh; }
+#lobby .create-game-panel .controls label { width: 16vw; text-align:right; display:inline-block; }
+#lobby .create-game-panel .controls input,
+#lobby .create-game-panel .controls select {  font-family: 'Roboto Condensed', sans-serif; border:none; font-size:2.6vh; 
+									  box-shadow: 0 0  .1vw 0 #3e3e3e; }
+#lobby .create-game-panel .controls input[type=checkbox] {box-shadow:none; width:3vh; height:3vh; vertical-align:bottom;}
+
+#lobby .game-lobby-screen { width:100vw; height:0; bottom:0; }
+#lobby .game-lobby-panel { width:100vw; height:100vh; }
+#lobby .game-lobby-panel .title { bottom:0; top:inherit; font-size:3vh}
+#lobby .game-lobby-panel .title span { font-size:5vh; }
+#lobby .game-lobby-panel .game-name { font-weight:bold ; }
+#lobby .game-lobby-panel .player-list{ margin-left:15vw; }
+#lobby .game-lobby-panel .player-row { float:left; width:14vw; text-align:right; font-size:2vw; height:100vh; }
+#lobby .game-lobby-panel .player-row .ready { height:3vw; display:block; font-size:1.2vw; line-height:3vw; text-align:center; }
+#lobby .game-lobby-panel .player-row .ready span { display:none; padding-top:1.5vh; }
+#lobby .game-lobby-panel .player-row.ready .ready { background-color:gold; }
+#lobby .game-lobby-panel .player-row.ready .ready .text { display:inline; }
+#lobby .game-lobby-panel .player-row .info {padding:0 1vw; }
+#lobby .game-lobby-panel .player-row .player-role{ font-size:.8vw; opacity:.5;}
+#lobby .game-lobby-panel .player-row .player {  margin-top:-.4vw; }
+#lobby .game-lobby-panel .player-row.me {background:url(/Content/Agricola/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
+#lobby .game-lobby-panel .player-row > div { }
+#lobby .game-lobby-panel .player-row .colors { }
+#lobby .game-lobby-panel .player-row .color { width:2vw; height:2vw; border-radius:.3vw; float:right; margin:.5vw; border:.3vw solid #3e3e3e; }
+#lobby .game-lobby-panel .player-row.me .color { cursor:pointer; }
+#lobby .game-lobby-panel .player-row .color.disabled { pointer-events:none; opacity:.4; }
+#lobby .game-lobby-panel .player-row .color.selected { box-shadow: 0px 0px 8px 1px gold; border-color:#fff;}
+#lobby .game-lobby-panel .game-info { position:absolute; top:1vw; left:1vw; text-align:right; width:12vw; padding-right:2vw; background:url(/Content/Agricola/img/lobby/rail.png) no-repeat top right; background-size:1px 60vh; height:60vh;}
+#lobby .game-lobby-panel .game-info .game { color:#74b528; }
+#lobby .game-lobby-panel .game-info .name { font-weight:bold; }
+#lobby .game-lobby-panel .game-info label { opacity:.4;}
+#lobby .game-lobby-panel .leave-button { margin-top: 6vw;  cursor:pointer; font-size:.9em; color:#3e3e3e; opacity:.4; }
+#lobby .game-lobby-panel .leave-button:hover { opacity:1; text-decoration:underline; }

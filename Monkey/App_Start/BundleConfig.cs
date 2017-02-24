@@ -90,6 +90,11 @@ namespace Monkey
             bundles.Add(new StyleBundle("~/Login/css").Include(
                         "~/Content/login.css"));
 
+            bundles.Add(new StyleBundle("~/bundles/pushpull/css").Include(
+                        "~/Content/PushPull/game.css"));
+
+            bundles.Add(new ScriptBundle("~/bundles/pushpull/js").Include(
+                        "~/Scripts/Monkey/PushPull/Game.js"));
 
 
         }

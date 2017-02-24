@@ -415,6 +415,20 @@
     <Compile Include="Games\Pandemic\State\Interrupts\InterruptState.cs" />
     <Compile Include="Games\Pandemic\State\Interrupts\MoveResearchStationInterrupt.cs" />
     <Compile Include="Games\Pandemic\State\Interrupts\TradeInterrupt.cs" />
+    <Compile Include="Games\PushPull\Board\Board.cs" />
+    <Compile Include="Games\PushPull\Board\BoardDefinition.cs" />
+    <Compile Include="Games\PushPull\Board\Tile.cs" />
+    <Compile Include="Games\PushPull\Board\TileType.cs" />
+    <Compile Include="Games\PushPull\Cards\ICard.cs" />
+    <Compile Include="Games\PushPull\ClientState\PartialGameUpdate.cs" />
+    <Compile Include="Games\PushPull\ClientState\PartialPlayerUpdate.cs" />
+    <Compile Include="Games\PushPull\Notification\ActionNotice.cs" />
+    <Compile Include="Games\PushPull\Notification\NoticeVerb.cs" />
+    <Compile Include="Games\PushPull\PushPullPlayer.cs" />
+    <Compile Include="Games\PushPull\GameState.cs" />
+    <Compile Include="Games\PushPull\IGameUpdate.cs" />
+    <Compile Include="Games\PushPull\PushPullHub.cs" />
+    <Compile Include="Games\PushPull\PushPullGame.cs" />
     <Compile Include="Game\GameBase.cs" />
     <Compile Include="Games\Agricola\Notification\ConversionPredicate.cs" />
     <Compile Include="Games\Agricola\Notification\Buildable.cs" />
@@ -794,6 +808,7 @@
     <Content Include="Content\Pandemic\img\radial_menu_bg.png" />
     <Content Include="Content\Pandemic\img\yield-turn.png" />
     <Content Include="Content\Pandemic\img\zoom.png" />
+    <Content Include="Content\PushPull\game.css" />
     <Content Include="Content\site.css" />
     <Content Include="favicon.ico" />
     <Content Include="Games\Catan\Game.manifest" />
@@ -807,6 +822,7 @@
     <Content Include="Content\Catan\models\tiles\brick.json" />
     <Content Include="Content\Catan\models\tiles\wool.json" />
     <Content Include="Content\Catan\models\tiles\desert.json" />
+    <Content Include="Games\PushPull\Game.manifest" />
     <None Include="Properties\PublishProfiles\Staging.pubxml" />
     <None Include="Scripts\Lib\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\Lib\jquery-ui.min.js" />
@@ -867,6 +883,7 @@
     <Content Include="Scripts\Monkey\Pandemic\Overlays\TradeOverlay.js" />
     <Content Include="Scripts\Monkey\Pandemic\Overlays\TreatOverlay.js" />
     <Content Include="Scripts\Monkey\Pandemic\RadialMenu.js" />
+    <Content Include="Scripts\Monkey\PushPull\Game.js" />
     <Content Include="Scripts\Monkey\Utils.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -900,6 +917,7 @@
     <Content Include="Views\Games\Pandemic.cshtml" />
     <Content Include="Views\Shared\ExternalLog.cshtml" />
     <Content Include="Views\Games\Catan.cshtml" />
+    <Content Include="Views\Games\PushPull.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

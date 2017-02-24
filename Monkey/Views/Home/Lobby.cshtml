@@ -75,7 +75,7 @@
                 <div class="games-list">
                     <ul>
                         @foreach(var game in games){
-                            <li><div data-game="@game.ViewPath"><img src="~/Content/@game.ViewPath/img/logo.png" /></div></li>
+                            <li><div data-game="@game.ViewPath"><img src="~/Content/@game.ViewPath/img/logo.png" alt="@game.Name" title="@game.Name"/></div></li>
                         }
                     </ul>
                     

@@ -1,0 +1,339 @@
+﻿@using Monkey.Games.Pandemic
+@using Monkey.Games.Pandemic.Roles
+@using Monkey.Games.Pandemic.Cards
+@using Monkey.Games.Pandemic.Notification
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Home Page";
+    var game = "pandemic";
+}
+
+@section styles{
+    @Styles.Render("~/bundles/" + game + "/css")
+}
+
+@section scripts{
+    <script type="text/javascript">
+        var loadedGame = "@game";
+
+        var GameState = {
+            @{
+                var gameStates = Enum.GetValues(typeof(GameState)).Cast<GameState>();
+                foreach (var value in gameStates)
+                {
+                    @Html.Raw(value + ":\"" + value +"\",")
+                }
+            }
+        };
+
+        var DiseaseColor = {
+            @{
+                var diseasecolors = Enum.GetValues(typeof(DiseaseColor)).Cast<DiseaseColor>();
+                foreach (var value in diseasecolors)
+                {
+                    @Html.Raw(value + ":" + (int)value + ",")
+                }
+            }
+
+            getName: function(id){
+                switch(id){
+                    case @Html.Raw((int)DiseaseColor.Black):
+                        return "Black";
+                    case @Html.Raw((int)DiseaseColor.Red):
+                        return "Red";
+                    case @Html.Raw((int)DiseaseColor.Yellow):
+                        return "Yellow";
+                    case @Html.Raw((int)DiseaseColor.Blue):
+                        return "Blue";
+                }
+            }
+        };
+
+        var PlayerRole = {
+            @PlayerRoleType.Medic: "@PlayerRole.Medic.Name",
+            @PlayerRoleType.ContingencyPlanner: "@PlayerRole.ContingencyPlanner.Name",
+            @PlayerRoleType.Dispatcher: "@PlayerRole.Dispatcher.Name",
+            @PlayerRoleType.OperationsExpert: "@PlayerRole.OperationsExpert.Name",
+            @PlayerRoleType.Researcher: "@PlayerRole.Researcher.Name",
+            @PlayerRoleType.Scientist: "@PlayerRole.Scientist.Name",
+            @PlayerRoleType.QuarantineSpecialist: "@PlayerRole.QuarantineSpecialist.Name"
+        };
+
+        var EventCard = {
+            @{
+                var eventCards = Enum.GetValues(typeof(EventCardType)).Cast<EventCardType>();
+                foreach (var value in eventCards)
+                {
+                    @Html.Raw(value + ":" + (int)value +",")
+                }
+            }
+        };
+
+        var NoticeVerb = {
+            @{
+                var noticeVerbs = Enum.GetValues(typeof(NoticeVerb)).Cast<NoticeVerb>();
+                foreach (var value in noticeVerbs)
+                {
+                    @Html.Raw(value + ":\"" + value +"\",")
+                }
+            }
+        };
+</script>
+    @Scripts.Render("~/bundles/game")
+    @Scripts.Render("~/bundles/" + game + "/js")
+}
+
+
+<div id="game" style="display:none;" class="window">
+    <div class="templates" style="display:none;">
+        <div class="card">
+            <div class="flipper">
+                <img class="front" src="" />
+                <img class="back" src="" />
+            </div>
+        </div>
+    </div>
+
+    <div class="map">
+        <div class="cities">
+            <div class="city">
+                <div class="diseases"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+
+        <div class="ui">
+            <div class="play-event-card-button">
+                <div class="button">Play Card</div>
+            </div>
+
+            <div class="infection-rate">
+                <div class="rate" data-id="0"><div class="inner"><span>2</span></div></div>
+                <div class="rate" data-id="1"><div class="inner"><span>2</span></div></div>
+                <div class="rate" data-id="2"><div class="inner"><span>2</span></div></div>
+                <div class="rate" data-id="3"><div class="inner"><span>3</span></div></div>
+                <div class="rate" data-id="4"><div class="inner"><span>3</span></div></div>
+                <div class="rate" data-id="5"><div class="inner"><span>4</span></div></div>
+                <div class="rate" data-id="6"><div class="inner"><span>4</span></div></div>
+
+                <div class="rate-marker"></div>
+                <div class="title">Infection Rate</div>
+            </div>
+
+            <div class="outbreak-rate">
+                <div class="title">Outbreaks</div>
+                <div class="rate even" data-id="0"><div class="inner"><span>0</span></div></div>
+                <div class="rate" data-id="1"><div class="inner"><span>1</span></div></div>
+                <div class="rate even" data-id="2"><div class="inner"><span>2</span></div></div>
+                <div class="rate" data-id="3"><div class="inner"><span>3</span></div></div>
+                <div class="rate even" data-id="4"><div class="inner"><span>4</span></div></div>
+                <div class="rate" data-id="5"><div class="inner"><span>5</span></div></div>
+                <div class="rate even" data-id="6"><div class="inner"><span>6</span></div></div>
+                <div class="rate" data-id="7"><div class="inner"><span>7</span></div></div>
+                <div class="rate even" data-id="8"><div class="inner"><span>8</span></div></div>
+                <div class="rate-marker"></div>
+            </div>
+
+            <div class="cures">
+                <div class="cure" data-color="Black">
+                    <div class="count">24</div>
+                </div>
+                <div class="cure" data-color="Blue">
+                    <div class="count">24</div>
+                </div>
+                <div class="cure" data-color="Yellow">
+                    <div class="count">24</div>
+                </div>
+                <div class="cure" data-color="Red">
+                    <div class="count">24</div>
+                </div>
+            </div>
+
+            <div class="control-hud">
+                <div class="yield-turn">
+                    <div class="text">Pass Turn</div>
+                    <div class="button"></div>
+                    <div class="progress"></div>
+                </div>
+
+                <div class="actions-display">
+                    <div class="text">Actions:</div>
+                    <div class="actions">4</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cards">
+        </div>
+
+        <div class="menu" style="display:none;">
+            <div class="up" data-direction="Up"><div class="text"></div></div>
+            <div class="right" data-direction="Right"><div class="text"></div></div>
+            <div class="down" data-direction="Down"><div class="text"></div></div>
+            <div class="left" data-direction="Left"><div class="text"></div></div>
+        </div>
+
+        <div class="ticker">
+        </div>
+    </div>
+
+    <div class="overlays">
+        <div class="epidemic">
+            <div class="display-card"></div>
+            <div class="steps">
+                <div class="step step0 active">
+                    <div class="title">Increase</div>
+                    <div class="text">Move the infection rate marker forward 1 space.</div>
+                </div>
+
+                <div class="step step1">
+                    <div class="title">Infect</div>
+                    <div class="text">
+                        Draw the bottom card from the infection deck and put 3 cubes on that city. Discard that card.<br />
+                    </div>
+                    <div class="active-text">(Click the INFECT button to draw the bottom card from the infect deck and infect the drawn city.)</div>
+                </div>
+
+                <div class="step step2">
+                    <div class="title">Intensify</div>
+                    <div class="text">Shuffle the cards in the infection discard pile and put them on top of the infection deck.</div>
+                    <div class="active-text">(Click the INTENSIFY button to shuffle the infection discard pile and place it on top of the infection deck.)</div>
+                </div>
+            </div>
+            <div class="collapse"></div>
+        </div>
+
+        <div class="infect">
+            <div class="steps">
+                <div class="step">
+                    <div class="wrapper">
+                        <div class="title">Infect</div>
+                        <div class="text">Draw a card from the infection deck and put 1 cube on that city. Discard that card.</div>
+                        <div class="active-text">(Click the INFECT button to draw the top card from the infect deck and infect the drawn city.)</div>
+                    </div>
+                </div>
+            </div>
+            <div class="collapse"></div>
+        </div>
+
+
+        <div class="treat-diseases">
+            <div class="steps">
+                <div class="step treat active">
+                    <div class="city">
+                        <div class="actions">
+                            Cure up to
+                            <div>4</div>
+                            diseases.
+                        </div>
+                    </div>
+
+                    <div class="diseases">
+                        <div class="disease" data-color="Red"></div>
+                        <div class="disease" data-color="Red"></div>
+                        <div class="disease" data-color="Red"></div>
+
+                        <div class="disease" data-color="Yellow"></div>
+                        <div class="disease" data-color="Yellow"></div>
+                        <div class="disease" data-color="Yellow"></div>
+
+                        <div class="disease" data-color="Black"></div>
+                        <div class="disease" data-color="Black"></div>
+                        <div class="disease" data-color="Black"></div>
+
+                        <div class="disease" data-color="Blue"></div>
+                        <div class="disease" data-color="Blue"></div>
+                        <div class="disease" data-color="Blue"></div>
+                    </div>
+                    <div class="button" style="display:none;">Submit</div>
+                </div>
+
+            </div>
+            <div class="cancel"></div>
+        </div>
+
+        <div class="card-selection">
+            <div class="title"></div>
+            <div class="cards-display">
+
+            </div>
+
+            <div class="button" style="display:none;">Submit</div>
+            <div class="cancel">Cancel</div>
+        </div>
+
+        <div class="trade">
+            <div class="title"></div>
+
+            <div class="steps">
+                <div class="step step-player active" data-title="Trade with:">
+                    <div class="players">
+                        <div class="player" data-color="">
+                            <div class="highlight"></div>
+                            <div class="name"></div>
+                            <div class="role"></div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="cards-display">
+
+                </div>
+            </div>
+            <div class="button">Submit</div>
+            <div class="cancel"></div>
+        </div>
+
+        <div class="confirm-trade">
+            <div class="title"></div>
+            <div class="cards-display"></div>
+            <div class="button reject">Reject Trade</div>
+            <div class="button accept">Accept Trade</div>
+            <div class="rejected">Trade Rejected</div>
+        </div>
+
+        <div class="message collapsed">
+            <div class="title"></div>
+            <div class="cancel"></div>
+        </div>
+
+        <div class="finished">
+            <div class="outcome"></div>
+            <div class="message"></div>
+            <div class="details"></div>
+        </div>
+
+        <div class="forecast">
+            <div class="title">Rearrange these 6 cards and place them back on top of the Infection Deck.</div>
+            <div class="first info"><strong>Top Card</strong><br /><em>(First Drawn)</em></div>
+            <div class="last info"><strong>Bottom Card</strong><br /><em>(Last Drawn)</em></div>
+            <div class="cards"><ul></ul></div>
+            <div class="submit button">submit</div>
+            <div class="collapse"></div>
+            <div class="cancel"></div>
+       </div>
+
+    </div>
+
+
+</div>
+
+
+<div class="preloader" style="position:absolute; left:-10000px; top:-10000px; width:1px; height:1px; overflow:hidden;">
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/brown-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/green-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/lime-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/orange-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/pink-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/teal-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/pieces/player/white-select.png" width="1" height="1" />
+    <img src="~/Areas/Pandemic/Content/img/overlay-collapse-mouse-over.png" width="1" height="1" />
+
+    @{
+        var files = Directory.EnumerateFiles(Server.MapPath("~/Areas/Pandemic/Content/img/cards/player")).Select(fn => "/Areas/Pandemic/Content/img/cards/player/" + Path.GetFileName(fn));
+        foreach (var file in files)
+        {
+            <img src="@file" width="1" height="1" />
+        }
+    }
+</div>

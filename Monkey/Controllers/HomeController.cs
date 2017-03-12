@@ -27,7 +27,7 @@ namespace Monkey.Controllers
         [Authorize]
         public ActionResult Game(string id)
         {
-            return View("~/Views/Games/" + id + ".cshtml");
+            return View("~/Areas/" + id + "/Views/View.cshtml");
         }
 
         [ActionName("external-log")]

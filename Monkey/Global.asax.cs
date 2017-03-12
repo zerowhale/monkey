@@ -1,4 +1,5 @@
-﻿using Monkey.Games.Agricola;
+﻿using Monkey.Game;
+using Monkey.Games.Agricola;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,25 +19,25 @@ namespace Monkey
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
-
+            LoadGamePlatformSetup();
             log4net.Config.XmlConfigurator.Configure(new FileInfo(Server.MapPath("~/Web.config")));
 
-            Agricola_Start();
 
         }
 
-        /// <summary>
-        /// Kick off application loading for agricola
-        /// </summary>
-        private void Agricola_Start()
+        private void LoadGamePlatformSetup()
         {
-            // This is the wrong place for this stuff.
-            Application["JsonMajorImprovements"] = Curator.LoadMajorImprovements(System.Web.Hosting.HostingEnvironment.MapPath("/App_Data/Agricola/MajorImprovements.xml"));
-            Application["JsonOccupations"] = Curator.LoadOccupations(System.Web.Hosting.HostingEnvironment.MapPath("/App_Data/Agricola/Occupations.xml"));
-            Application["JsonMinorImprovements"] = Curator.LoadMinorImprovements(System.Web.Hosting.HostingEnvironment.MapPath("/App_Data/Agricola/MinorImprovements.xml"));
-        }
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            // This only checks the current assembly. 
+            var types = System.Reflection.Assembly.GetExecutingAssembly().GetTypes().Where(mytype => mytype.GetInterfaces().Contains(typeof(IGamePlatformSetup)));
+            foreach (Type type in types)
+            {
+                var instance = Activator.CreateInstance(type) as IGamePlatformSetup;
+                instance.RegisterBundles(BundleTable.Bundles);
+                instance.LoadGameData();
+            }
+        }
 
     }
 }

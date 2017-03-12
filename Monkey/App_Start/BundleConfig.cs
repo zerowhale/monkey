@@ -43,46 +43,6 @@ namespace Monkey
 
 
 
-
-
-            bundles.Add(new StyleBundle("~/bundles/pandemic/css").Include(
-                        "~/Content/Pandemic/game.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/pandemic/js").Include(
-                        "~/Scripts/Monkey/Pandemic/*.js",
-                        "~/Scripts/Monkey/Pandemic/Overlays/*.js"
-                        ));
-
-
-            bundles.Add(new StyleBundle("~/bundles/agricola/css").Include(
-                        "~/Content/Agricola/game.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/agricola/js").Include(
-                        "~/Scripts/Lib/astar.js",
-                        "~/Scripts/Monkey/Agricola/Popup.js",
-                        "~/Scripts/Monkey/Agricola/PlayerBoard.js",
-                        "~/Scripts/Monkey/Agricola/Game.js",
-                        "~/Scripts/Monkey/Agricola/FenceValidator.js",
-                        "~/Scripts/Monkey/Agricola/FenceUtils.js",
-                        "~/Scripts/Monkey/Agricola/AnimalManager.js",
-                        "~/Scripts/Monkey/Agricola/Curator.js",
-                        "~/Scripts/Monkey/Agricola/UI/*.js",
-                        "~/Scripts/Monkey/Agricola/UI/Popups/Popup.js",
-                        "~/Scripts/Monkey/Agricola/UI/Popups/FarmyardPopup.js",
-                        "~/Scripts/Monkey/Agricola/UI/Popups/FarmyardWithAnimalsPopup.js",
-                        "~/Scripts/Monkey/Agricola/UI/Popups/AnimalChoicePopup.js"));
-
-
-            bundles.Add(new StyleBundle("~/bundles/catan/css").Include(
-                        "~/Content/Catan/game.css"));
-
-            bundles.Add(new ScriptBundle("~/bundles/catan/js").Include(
-                        "~/Scripts/Lib/three.min.js",
-                        "~/Scripts/Monkey/Catan/Rendering/*.js",
-                        "~/Scripts/Monkey/Catan/*.js"));
-
-
-
             bundles.Add(new ScriptBundle("~/bundles/debug").Include(
                         "~/Scripts/Monkey/Debug/Debug.js"));
 

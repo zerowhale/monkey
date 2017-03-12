@@ -21,7 +21,7 @@
 #lobby .lobby-panel .game-list {margin-left:5vw; width:95vw; }
 #lobby .lobby-panel .game-list .game-entry.empty .players-info { display:none; }
 #lobby .lobby-panel .game-entry { cursor:pointer; height: 100vh; float:left; width:10vw; text-align:right; }
-#lobby .lobby-panel .game-entry:hover { background:url(/Content/Agricola/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
+#lobby .lobby-panel .game-entry:hover { background:url(/Areas/Agricola/Content/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
 #lobby .lobby-panel .game-entry.empty:hover { background-color:inherit; cursor:inherit; }
 #lobby .lobby-panel .game-entry .players-info > div {  display: inline-block; margin-top:.2vh;}
 #lobby .lobby-panel .game-entry .players-info label { opacity: .4; }
@@ -73,14 +73,14 @@
 #lobby .game-lobby-panel .player-row .info {padding:0 1vw; }
 #lobby .game-lobby-panel .player-row .player-role{ font-size:.8vw; opacity:.5;}
 #lobby .game-lobby-panel .player-row .player {  margin-top:-.4vw; }
-#lobby .game-lobby-panel .player-row.me {background:url(/Content/Agricola/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
+#lobby .game-lobby-panel .player-row.me {background:url(/Areas/Agricola/Content/img/lobby/game-entry-bg.png) repeat-x; background-size:2px 100vh;}
 #lobby .game-lobby-panel .player-row > div { }
 #lobby .game-lobby-panel .player-row .colors { }
 #lobby .game-lobby-panel .player-row .color { width:2vw; height:2vw; border-radius:.3vw; float:right; margin:.5vw; border:.3vw solid #3e3e3e; }
 #lobby .game-lobby-panel .player-row.me .color { cursor:pointer; }
 #lobby .game-lobby-panel .player-row .color.disabled { pointer-events:none; opacity:.4; }
 #lobby .game-lobby-panel .player-row .color.selected { box-shadow: 0px 0px 8px 1px gold; border-color:#fff;}
-#lobby .game-lobby-panel .game-info { position:absolute; top:1vw; left:1vw; text-align:right; width:12vw; padding-right:2vw; background:url(/Content/Agricola/img/lobby/rail.png) no-repeat top right; background-size:1px 60vh; height:60vh;}
+#lobby .game-lobby-panel .game-info { position:absolute; top:1vw; left:1vw; text-align:right; width:12vw; padding-right:2vw; background:url(/Areas/Agricola/Content/img/lobby/rail.png) no-repeat top right; background-size:1px 60vh; height:60vh;}
 #lobby .game-lobby-panel .game-info .game { color:#74b528; }
 #lobby .game-lobby-panel .game-info .name { font-weight:bold; }
 #lobby .game-lobby-panel .game-info label { opacity:.4;}

@@ -1,4 +1,4 @@
-﻿@using Monkey.Game;
+﻿@using BoardgamePlatform.Game;
 @using Newtonsoft.Json;
 @{
     
@@ -33,9 +33,6 @@
 
     </script>
 }
-
-
-
 
 
 <div id="lobby" style="display:none;" class="window">
@@ -75,7 +72,7 @@
                 <div class="games-list">
                     <ul>
                         @foreach(var game in games){
-                            <li><div data-game="@game.ViewPath"><img src="~/Content/@game.ViewPath/img/logo.png" /></div></li>
+                            <li><div data-game="@game.ViewPath"><img src="@Url.Content("/Areas/" + game.ViewPath + "/Content/img/logo.png")" alt="@game.ViewPath" /></div></li>
                         }
                     </ul>
                     

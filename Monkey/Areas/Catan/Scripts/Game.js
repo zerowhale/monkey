@@ -19,31 +19,32 @@ Game = Catan = {
         },
 
         Tile.getResourceTile(Catan.Resources.lumber, function (tile) {
+            tile.display.position.set(0, -3, 0);
             Renderer.addObject(tile);
         });      
 
         Tile.getResourceTile(Catan.Resources.ore, function (tile) {
-            tile.display.position.set(0, 0, 0.86603 * 2);
+            tile.display.position.set(0, -3, 0.86603 * 2);
             Renderer.addObject(tile);
         });
 
         Tile.getResourceTile(Catan.Resources.grain, function (tile) {
-            tile.display.position.set(1.5, 0, 0.86603);
+            tile.display.position.set(1.5, -3, 0.86603);
             Renderer.addObject(tile);
         });
 
         Tile.getResourceTile(Catan.Resources.brick, function (tile) {
-            tile.display.position.set(-1.5, 0, 0.86603);
+            tile.display.position.set(-1.5, -3, 0.86603);
             Renderer.addObject(tile);
         });
 
         Tile.getResourceTile(Catan.Resources.wool, function (tile) {
-            tile.display.position.set(1.5, 0, -0.86603);
+            tile.display.position.set(1.5, -3, -0.86603);
             Renderer.addObject(tile);
         });
 
         Tile.getDesertTile(function (tile) {
-            tile.display.position.set(-1.5, 0, -0.86603);
+            tile.display.position.set(-1.5, -3, -0.86603);
             Renderer.addObject(tile);
         });
 

@@ -13,6 +13,7 @@
             this.type = type;
 
             loadMesh(MESH_ROOT + type + MESH_EXTENSION, function (mesh) {
+                mesh.scale.set(1, 12, 1);
                 obj.setDisplay(mesh);
                 if (typeof (obj.onLoad) == "function")
                     obj.onLoad(obj);

@@ -6,5 +6,5 @@ docs/
 log*.txt
 mysql_backup.bat
 packages/
-Monkey/bin
-Monkey/obj
+**/bin
+**/obj

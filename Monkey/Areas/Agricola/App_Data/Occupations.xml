@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Occupations>
-  <Occupation Id="2000" Deck="Basic" MinPlayers="3"
+  <Occupation Id="214" Deck="Basic" MinPlayers="3"
               Image="/Areas/Agricola/Content/img/cards/occs/potter.jpg" >
     <Name>Potter</Name>
 
@@ -15,7 +15,7 @@
     </Text>
   </Occupation>
 
-  <Occupation Id="2001" Deck="Basic" MinPlayers="3"
+  <Occupation Id="197" Deck="Basic" MinPlayers="3"
               Image="/Areas/Agricola/Content/img/cards/occs/braggart.jpg" >
     <Name>Braggart</Name>
 
@@ -34,7 +34,7 @@
     </Text>
   </Occupation>
 
-  <Occupation Id="2002" Deck="Basic" MinPlayers="3"
+  <Occupation Id="152" Deck="Basic" MinPlayers="3"
               Image="/Areas/Agricola/Content/img/cards/occs/berry-picker.jpg" >
     <Name>Berry Picker</Name>
 
@@ -52,7 +52,7 @@
     </Text>
   </Occupation>
   
-  <Occupation Id="2003" Deck="Basic" MinPlayers="1"
+  <Occupation Id="188" Deck="Basic" MinPlayers="1"
               Image="/Areas/Agricola/Content/img/cards/occs/clay-mixer.jpg" >
     <Name>Clay Mixer</Name>
 
@@ -70,7 +70,7 @@
     </Text>
   </Occupation>
 
-  <Occupation Id="2004" Deck="Basic" MinPlayers="1"
+  <Occupation Id="176" Deck="Basic" MinPlayers="1"
               Image="/Areas/Agricola/Content/img/cards/occs/woodcutter.jpg" >
     <Name>Woodcutter</Name>
 
@@ -88,7 +88,7 @@
     </Text>
   </Occupation>
 
-    <Occupation Id="2005" Deck="Basic" MinPlayers="1"
+    <Occupation Id="187" Deck="Basic" MinPlayers="1"
             Image="/Areas/Agricola/Content/img/cards/occs/clay-deliveryman.jpg" >
         <Name>Clay Deliveryman</Name>
 
@@ -112,7 +112,7 @@
         </Text>
     </Occupation>
     
-    <Occupation Id="2006" Deck="Basic" MinPlayers="3"
+    <Occupation Id="205" Deck="Basic" MinPlayers="3"
             Image="/Areas/Agricola/Content/img/cards/occs/reed-collector.jpg" >
         <Name>Reed Collector</Name>
 
@@ -130,7 +130,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2007" Deck="Basic" MinPlayers="3"
+    <Occupation Id="155" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/bread-seller.jpg" >
         <Name>Bread Seller</Name>
 
@@ -146,7 +146,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2008" Deck="Basic" MinPlayers="4"
+    <Occupation Id="167" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/conjurer.jpg" >
         <Name>Conjurer</Name>
 
@@ -162,7 +162,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2009" Deck="Basic" MinPlayers="3"
+    <Occupation Id="147" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/land-agent.jpg" >
         <Name>Land Agent</Name>
 
@@ -184,11 +184,9 @@
     </Occupation>
 
     
-    <Occupation Id="2010" Deck="Basic" MinPlayers="4"
+    <Occupation Id="166" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/undergardener.jpg" >
         <Name>Undergardener</Name>
-
-
 
         <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
             <ResourceData Type="Vegetables" Count="1"/>
@@ -204,7 +202,7 @@
 
     
     
-    <Occupation Id="2011" Deck="Basic" MinPlayers="1"
+    <Occupation Id="189" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/lord-of-the-manor.jpg" >
         <Name>Lord of the Manor</Name>
 
@@ -220,7 +218,7 @@
     
         
     
-    <Occupation Id="2012" Deck="Basic" MinPlayers="3"
+    <Occupation Id="168" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/greengrocer.jpg" >
         <Name>Greengrocer</Name>
 
@@ -237,7 +235,7 @@
     </Occupation>
     
     
-    <Occupation Id="2013" Deck="Basic" MinPlayers="3"
+    <Occupation Id="177" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/wooden-hut-builder.jpg" >
         <Name>Wooden Hut Builder</Name>
 
@@ -252,7 +250,7 @@
     
     
     
-    <Occupation Id="2014" Deck="Basic" MinPlayers="4"
+    <Occupation Id="212" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/dancer.jpg" >
         <Name>Dancer</Name>
 
@@ -267,7 +265,7 @@
         </Text>
     </Occupation>
 
-    <!--Occupation Id="2015" Deck="Basic" MinPlayers="1"
+    <!--Occupation Id="162" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/meat-seller.jpg" >
         <Name>Meat-seller</Name>
 
@@ -288,7 +286,7 @@
         </Text>
     </Occupation-->
 
-    <Occupation Id="2016" Deck="Basic" MinPlayers="1"
+    <Occupation Id="154" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/master-brewer.jpg" >
         <Name>Master Brewer</Name>
 
@@ -304,7 +302,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2017" Deck="Basic" MinPlayers="1"
+    <Occupation Id="172" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/chief.jpg" >
         <Name>Chief</Name>
 
@@ -323,7 +321,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2018" Deck="Basic" MinPlayers="4"
+    <Occupation Id="183" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/basketmaker.jpg" >
         <Name>Basketmaker</Name>
 
@@ -338,7 +336,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2019" Deck="Basic" MinPlayers="3"
+    <Occupation Id="158" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/turner.jpg" >
         <Name>Turner</Name>
 
@@ -355,7 +353,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2020" Deck="Basic" MinPlayers="3"
+    <Occupation Id="209" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/quarryman.jpg" >
         <Name>Quarryman</Name>
 
@@ -372,7 +370,7 @@
         </Text>
     </Occupation>
     
-    <Occupation Id="2021" Deck="Basic" MinPlayers="1"
+    <Occupation Id="191" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/mason.jpg" >
         <Name>Mason</Name>
 
@@ -389,7 +387,7 @@
     </Occupation>
 
 
-    <Occupation Id="2022" Deck="Basic" MinPlayers="1"
+    <Occupation Id="153" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/mendicant.jpg" >
         <Name>Mendicant</Name>
 
@@ -403,7 +401,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2023" Deck="Basic" MinPlayers="1"
+    <Occupation Id="151" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/master-builder.jpg" >
         <Name>Master Builder</Name>
 
@@ -419,7 +417,7 @@
     </Occupation>
 
 
-    <Occupation Id="2024" Deck="Basic" MinPlayers="3"
+    <Occupation Id="170" Deck="Basic" MinPlayers="3"
         Image="/Areas/Agricola/Content/img/cards/occs/estate-manager.jpg" >
         <Name><![CDATA[Estate</br>Manager]]></Name>
 
@@ -433,7 +431,7 @@
     </Occupation>
     
    
-    <Occupation Id="2025" Deck="Basic" MinPlayers="4"
+    <Occupation Id="185" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/clay-firer.jpg" >
         <Name>Clay Firer</Name>
 
@@ -452,7 +450,7 @@
     </Occupation>
 
 
-    <Occupation Id="2026" Deck="Basic" MinPlayers="4"
+    <Occupation Id="186" Deck="Basic" MinPlayers="4"
         Image="/Areas/Agricola/Content/img/cards/occs/clay-seller.jpg" >
         <Name>Clay Seller</Name>
 
@@ -477,7 +475,7 @@
         </Text>
     </Occupation>
     
-    <Occupation Id="2027" Deck="Basic" MinPlayers="4"
+    <Occupation Id="204" Deck="Basic" MinPlayers="4"
             Image="/Areas/Agricola/Content/img/cards/occs/master-shepherd.jpg" >
         <Name>Master Shepherd</Name>
 
@@ -494,7 +492,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2028" Deck="Basic" MinPlayers="1"
+    <Occupation Id="171" Deck="Basic" MinPlayers="1"
         Image="/Areas/Agricola/Content/img/cards/occs/Dock-Worker.jpg" >
         <Name>Dock Worker</Name>
 
@@ -522,7 +520,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2029" Deck="Basic" MinPlayers="4"
+    <Occupation Id="201" Deck="Basic" MinPlayers="4"
             Image="/Areas/Agricola/Content/img/cards/occs/cattle-whisperer.jpg" >
         <Name>Cattle Whisperer</Name>
 
@@ -538,7 +536,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2030" Deck="Basic" MinPlayers="3"
+    <Occupation Id="148" Deck="Basic" MinPlayers="3"
             Image="/Areas/Agricola/Content/img/cards/occs/academic.jpg" >
         <Name>Academic</Name>
 
@@ -554,7 +552,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2031" Deck="Basic" MinPlayers="4"
+    <Occupation Id="160" Deck="Basic" MinPlayers="4"
             Image="/Areas/Agricola/Content/img/cards/occs/farmer.jpg" >
         <Name>Farmer</Name>
 
@@ -571,7 +569,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2032" Deck="Basic" MinPlayers="3"
+    <Occupation Id="165" Deck="Basic" MinPlayers="3"
             Image="/Areas/Agricola/Content/img/cards/occs/yeoman-farmer.jpg" >
         <Name>Yeoman Farmer</Name>
 
@@ -586,7 +584,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2033" Deck="Basic" MinPlayers="3"
+    <Occupation Id="217" Deck="Basic" MinPlayers="3"
             Image="/Areas/Agricola/Content/img/cards/occs/reeve.jpg" >
         <Name>Reeve</Name>
 
@@ -606,7 +604,7 @@
         </Text>
     </Occupation>    
     
-    <Occupation Id="2034" Deck="Basic" MinPlayers="1"
+    <Occupation Id="174" Deck="Basic" MinPlayers="1"
             Image="/Areas/Agricola/Content/img/cards/occs/tutor.jpg" >
         <Name>Tutor</Name>
         
@@ -623,7 +621,7 @@
         </Text>
     </Occupation>
 
-    <Occupation Id="2035" Deck="Basic" MinPlayers="1"
+    <Occupation Id="196" Deck="Basic" MinPlayers="1"
             Image="/Areas/Agricola/Content/img/cards/occs/mushroom-collector.jpg" >
         <Name>Mushroom Collector</Name>
 
@@ -639,7 +637,7 @@
     </Occupation>
 
 
-    <Occupation Id="2036" Deck="Basic" MinPlayers="4"
+    <Occupation Id="169" Deck="Basic" MinPlayers="4"
             Image="/Areas/Agricola/Content/img/cards/occs/storyteller.jpg" >
         <Name>Storyteller</Name>
 
@@ -653,6 +651,41 @@
           ]]>
         </Text>
     </Occupation>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 
     <Occupation Id="2037" Deck="Intermediate" MinPlayers="4"
             Image="/Areas/Agricola/Content/img/cards/occs/pig-catcher.jpg" >

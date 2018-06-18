@@ -441,7 +441,7 @@
             var card = IdLookup[player.OwnedCardIds[i]];
             if (card.Type == CardType.Occupation) {
                 numOwned++;
-                if (card.Id == 2030) // Academic
+                if (card.Id == 148) // Academic
                     numOwned++;
             }
         }
@@ -533,11 +533,11 @@
             return false;
 
         switch (cardData.Id) {
-            case 1003:  // Stables
+            case 52:  // Stables
                 if (!Curator.canBuildStable(player, 0))
                     return false;
                 break;
-            case 1014: // Outhouse
+            case 44: // Outhouse
                 for (var p in this.game.players) {
                     p = this.game.players[p];
                     var count = this.getOwnedOccupationsCount(p);

@@ -203,7 +203,7 @@ namespace Monkey.Games.Agricola
                 if (card is Occupation)
                 {
                     count++;
-                    if (card.Id == 2030) // Academic
+                    if (card.Id == 148) // Academic
                         count++;
                 }
             }
@@ -584,8 +584,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateFieldsScore(AgricolaPlayer player)
         {
             var fields = player.Farmyard.FieldLocations.Count();
-            // 2032 - yoeman farmer
-            if (fields < 2) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (fields < 2) return player.OwnsCard(165) ? 0 : -1;
             else if (fields < 5) return fields - 1;
             else return 4;
         }
@@ -593,8 +593,8 @@ namespace Monkey.Games.Agricola
         public static int CalculatePasturesScore(AgricolaPlayer player)
         {
             var pastures = player.Farmyard.Pastures.Count();
-            // 2032 - yoeman farmer
-            if (pastures == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (pastures == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (pastures > 4) return 4;
             else return pastures;
         }
@@ -602,8 +602,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateGrainScore(AgricolaPlayer player)
         {
             var grain = player.PersonalSupply.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain);
-            // 2032 - yoeman farmer
-            if (grain == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (grain == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (grain < 4) return 1;
             else if (grain < 6) return 2;
             else if (grain < 8) return 3;
@@ -613,8 +613,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateVegetablesScore(AgricolaPlayer player)
         {
             var vegetables = player.PersonalSupply.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables);
-            // 2032 - yoeman farmer
-            if (vegetables == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (vegetables == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (vegetables > 4) return 4;
             else return vegetables;
         }
@@ -622,8 +622,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateSheepScore(AgricolaPlayer player)
         {
             var sheep = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Sheep);
-            // 2032 - yoeman farmer
-            if (sheep == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (sheep == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (sheep < 4) return 1;
             else if (sheep < 6) return 2;
             else if (sheep < 8) return 3;
@@ -633,8 +633,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateBoarScore(AgricolaPlayer player)
         {
             var boar = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Boar);
-            // 2032 - yoeman farmer
-            if (boar == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (boar == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (boar < 3) return 1;
             else if (boar < 5) return 2;
             else if (boar < 7) return 3;
@@ -644,8 +644,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateCattleScore(AgricolaPlayer player)
         {
             var cattle = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Cattle);
-            // 2032 - yoeman farmer
-            if (cattle == 0) return player.OwnsCard(2032) ? 0 : -1;
+            // 165 - yoeman farmer
+            if (cattle == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (cattle < 2) return 1;
             else if (cattle < 4) return 2;
             else if (cattle < 6) return 3;

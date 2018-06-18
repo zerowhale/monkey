@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <MajorImprovements>
-    <MajorImprovement Id="400" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/fireplace2.jpg">
+    <MajorImprovement Id="10400" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/fireplace2.jpg">
         <Name>Fireplace</Name>
         <Costs>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
@@ -39,7 +39,7 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="401" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/fireplace3.jpg">
+    <MajorImprovement Id="10401" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/fireplace3.jpg">
         <Name>Fireplace</Name>
         <Costs>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
@@ -78,12 +78,12 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="402" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/cooking-hearth4.jpg">
+    <MajorImprovement Id="10402" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/cooking-hearth4.jpg">
         <Name>
             <![CDATA[Cooking<br />Hearth]]>
         </Name>
         <Costs>
-            <Option Class="Monkey.Games.Agricola.Cards.Costs.ReturnCardCardCost" Ids="1017, 401, 400" Text="Return Fireplace"/>
+            <Option Class="Monkey.Games.Agricola.Cards.Costs.ReturnCardCardCost" Ids="20, 10401, 10400" Text="Return Fireplace"/>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
                 <Cost Resource="Clay" Amount="4" />
             </Option>
@@ -118,12 +118,12 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="403" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/cooking-hearth5.jpg">
+    <MajorImprovement Id="10403" Points="1" Image="/Areas/Agricola/Content/img/cards/majors/cooking-hearth5.jpg">
         <Name>
             <![CDATA[Cooking<br />Hearth]]>
         </Name>
         <Costs>
-            <Option Class="Monkey.Games.Agricola.Cards.Costs.ReturnCardCardCost" Ids="1017, 401, 400" Text="Return Fireplace"/>
+            <Option Class="Monkey.Games.Agricola.Cards.Costs.ReturnCardCardCost" Ids="20, 10401, 10400" Text="Return Fireplace"/>
 
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
                 <Cost Resource="Clay" Amount="5" />
@@ -159,7 +159,7 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="404" Points="4" Image="/Areas/Agricola/Content/img/cards/majors/well.jpg">
+    <MajorImprovement Id="10404" Points="4" Image="/Areas/Agricola/Content/img/cards/majors/well.jpg">
         <Name>Well</Name>
         <Costs>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
@@ -183,7 +183,7 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="405" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/clay-oven.jpg" Oven="True">
+    <MajorImprovement Id="10405" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/clay-oven.jpg" Oven="True">
         
         <Name>Clay Oven</Name>
         
@@ -208,7 +208,7 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="406" Points="3" Image="/Areas/Agricola/Content/img/cards/majors/stone-oven.jpg" Oven="True">
+    <MajorImprovement Id="10406" Points="3" Image="/Areas/Agricola/Content/img/cards/majors/stone-oven.jpg" Oven="True">
         
         <Name>Stone Oven</Name>
             
@@ -233,7 +233,7 @@
         </Text>
     </MajorImprovement>
 
-    <MajorImprovement Id="407" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/pottery.jpg">
+    <MajorImprovement Id="10407" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/pottery.jpg">
         <Name>Pottery</Name>
         
         <Costs>
@@ -265,7 +265,7 @@
 
     </MajorImprovement>
 
-    <MajorImprovement Id="408" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/joinery.jpg">
+    <MajorImprovement Id="10408" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/joinery.jpg">
         <Name>Joinery</Name>
         
         <Costs>
@@ -297,7 +297,7 @@
 
     </MajorImprovement>
 
-    <MajorImprovement Id="409" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/basketmakers-workshop.jpg">
+    <MajorImprovement Id="10409" Points="2" Image="/Areas/Agricola/Content/img/cards/majors/basketmakers-workshop.jpg">
         <Name>
             <![CDATA[Basketmaker's<br/>Workshop]]>
         </Name>

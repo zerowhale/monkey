@@ -898,7 +898,7 @@ namespace Monkey.Games.Agricola
             foreach(var player in players)
             {
 
-                if (!true && players.Length == 1)
+                if (true && players.Length == 1)
                 {
                     // debug
 
@@ -919,9 +919,9 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.HandMinors.Add(GetCard(1049));
-                    player.HandOccupations.Add(GetCard(2014));
-                    player.HandOccupations.Add(GetCard(2036));
+                    player.HandMinors.Add(GetCard(40));
+                    //player.HandOccupations.Add(GetCard(2014));
+                    //player.HandOccupations.Add(GetCard(169));
                 }
                 
 

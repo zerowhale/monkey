@@ -147,7 +147,7 @@
 #game .rounds-board .stage > div.empty > div:first-child .text {font-family: 'Homenaje', sans-serif; font-size:1.7vh; text-align:center; margin-top:3vh; color:#efefdf;}
 #game .rounds-board .stage > div.empty > div:first-child .text strong { font-size:2vh; }
 #game .rounds-board .stage > div.empty > div:first-child .note { color: #bfbfaf;}
-#game .rounds-board .stage > div.harvest { background-color:orange; height:2.5vh; z-index:0; width:100%; font-family: 'Homenaje', sans-serif; font-size:2vh; font-weight:bold;
+#game .rounds-board .stage > div.harvest { background-color:orange; height:2.5vh; z-index:0; width:calc(100% - 2px); left:1px; font-family: 'Homenaje', sans-serif; font-size:2vh; font-weight:bold;
                                            line-height:2.5vh; text-align:center; border-bottom-left-radius:1vh; border-bottom-right-radius:1vh; }
 #game .rounds-board .deck { display:none; }
 #game .rounds-board > div > div .text-bubble { margin:auto; background-color:#efefa3; width:15vh; border-radius:1vh; border:.2vh solid #b94a48; font-size:1.6vh; line-height:1.8vh;

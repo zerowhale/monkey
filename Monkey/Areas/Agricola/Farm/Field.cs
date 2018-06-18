@@ -28,7 +28,7 @@ namespace Monkey.Games.Agricola.Farm
                 var count = 2;
 
                 // PotatoDibber
-                if (player.OwnedCardIds.Contains(1010))
+                if (player.OwnedCardIds.Contains(32))
                 {
                     count++;
                 }

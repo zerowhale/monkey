@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web;
 using Monkey.Game;
 using System.Web.Optimization;
-using System.Web;
 
 namespace Monkey.Games.Agricola
 {
@@ -31,8 +30,6 @@ namespace Monkey.Games.Agricola
                         "~/Areas/Agricola/Scripts/UI/Popups/FarmyardPopup.js",
                         "~/Areas/Agricola/Scripts/UI/Popups/FarmyardWithAnimalsPopup.js",
                         "~/Areas/Agricola/Scripts/UI/Popups/AnimalChoicePopup.js"));
-
-
         }
 
         public void LoadGameData()

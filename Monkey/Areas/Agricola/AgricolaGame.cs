@@ -99,10 +99,9 @@ namespace Monkey.Games.Agricola
             if (player.OwnedCardIds.Contains(cardId))
             {
                 var card = GetCard(cardId);
-                if (card.AnytimeAction != null && card.AnytimeAction.Id == actionId)
+                if (card.AnytimeAction?.Id == actionId)
                 {
-                    
-                    var action = card.AnytimeAction ;
+                    var action = card.AnytimeAction;
 
                     if (action.TryExecute(player, param))
                     {
@@ -135,17 +134,20 @@ namespace Monkey.Games.Agricola
                     if (action.TryExecute(player, param))
                     {
                         UpdateScorecards();
-                        CheckForInterrupt();
-
-
-                        if (NextActivePlayer(action.ResultingNotices))
+                        if (!CheckForInterrupt())
                         {
-                            update = BuildPartialUpdate(player, action);
+                            if (NextActivePlayer(action.ResultingNotices))
+                            {
+                                update = BuildPartialUpdate(player, action);
+                            }
+                            else
+                            {
+                                update = StartNextRound(action.ResultingNotices);
+                            }
                         }
                         else
                         {
-                            update = StartNextRound(action.ResultingNotices);
-
+                            update = BuildPartialUpdate(player, action);
                         }
                         notices = action.ResultingNotices;
 
@@ -195,17 +197,23 @@ namespace Monkey.Games.Agricola
                 {
                     if (action.TryExecute(player, param))
                     {
-                        Interrupt = null;
-                        CheckForInterrupt();
-
+                        this.Interrupt = null;
+                        if (!CheckForInterrupt() && this.Mode == GameMode.Work )
+                        {
+                            if (NextActivePlayer(action.ResultingNotices))
+                            {
+                                update = BuildPartialUpdate(player, action);
+                            }
+                            else
+                            {
+                                update = StartNextRound(action.ResultingNotices);
+                            }
+                        }
+                        else
+                        {
+                            update = BuildPartialUpdate(player, action);
+                        }
                         notices = action.ResultingNotices;
-                        update = new PartialGameUpdate();
-                        ((PartialGameUpdate)update).ActivePlayerName = players[ActivePlayerIndex].Name;
-                        ((PartialGameUpdate)update).AddAction(action);
-                        ((PartialGameUpdate)update).AddPlayer(player);
-
-                        if (Interrupt != null)
-                            ((PartialGameUpdate)update).Interrupt = Interrupt;
 
                         return true;
                     }
@@ -455,8 +463,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         /// <param name="interrupt"></param>
         public void AddInterrupt(InterruptAction interrupt)
-        {
-
+        { 
             interrupts.Push(interrupt);
         }
 
@@ -710,12 +717,14 @@ namespace Monkey.Games.Agricola
         {
             this.Mode = GameMode.Harvest;
 
+
+
             var trigger = new FieldPhaseTrigger();
             foreach (var player in players)
             {
                 player.HarvestFields(notices);
 
-                var events = Curator.GetEventData(player, player, trigger);
+                var events = player.GetCardEventData(player, trigger);
                 ActionService.ExecuteEvents(player, events, notices);
             }
         }
@@ -830,9 +839,6 @@ namespace Monkey.Games.Agricola
             AddAction(new BasicCacheAction(this, 7, Resource.Clay, 1));
             AddAction(new BasicCacheAction(this, 8, Resource.Reed, 1));
             AddAction(new BasicCacheAction(this, 9, Resource.Food, 1, new GameEventTrigger[]{ new FishingActionTrigger() }));
-
-
-
         }
 
         private void Build3PlayerActions()
@@ -919,9 +925,7 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.HandMinors.Add(GetCard(40));
-                    //player.HandOccupations.Add(GetCard(2014));
-                    //player.HandOccupations.Add(GetCard(169));
+                    player.HandOccupations.Add(GetCard(150));
                 }
                 
 

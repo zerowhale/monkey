@@ -2182,7 +2182,7 @@
     },
 
     formatNameForSystemMessage: function (name) {
-        return "<span class='c " + this.getPlayerColor(name) + "'>" + name + "</span>";
+        return "<span class='" + this.getPlayerColor(name) + " fg'>" + name + "</span>";
     },
     /**
         Adds a message to the system log and keeps the user autoscrolled

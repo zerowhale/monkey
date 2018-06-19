@@ -467,32 +467,7 @@ namespace Monkey.Games.Agricola
             return costs.ToArray();
         }
 
-        /// <summary>
-        /// This is probably not the correct place for this method.  This does not have anything to
-        /// do with game rules, but is a mechanism for getting event data from game objects.
-        /// </summary>
-        /// <param name="resolvingPlayer"></param>
-        /// <param name="triggeringPlayer"></param>
-        /// <param name="trigger"></param>
-        /// <returns></returns>
-        public static List<TriggeredEvent> GetEventData(AgricolaPlayer resolvingPlayer, AgricolaPlayer triggeringPlayer, GameEventTrigger trigger)
-        {
-            var events = new List<TriggeredEvent>();
-            foreach (var card in resolvingPlayer.OwnedCards)
-            {
-                if (card.Events == null)
-                    continue;
 
-                var e = card.Events.Where(x => x.Triggers.Any(s => s.Triggered(resolvingPlayer, triggeringPlayer, trigger) ));
-                foreach(var evt in e){
-                    evt.ActiveTrigger = trigger;
-                    evt.OwningCard = card;
-                }
-                events.AddRange(e);
-            }
-
-            return events;
-        }
 
         public static ResourceCache[] GetRoomsCosts(AgricolaPlayer player, int actionId, int numRooms)
         {

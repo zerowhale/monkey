@@ -36,26 +36,37 @@ input.disabled {opacity:.4; pointer-events:none; }
 .window { overflow:hidden; position:relative; position:absolute;  }
 .container { height:100%;}
 
+.red.fg { color:#bf2424; }
 .red.bg { background-color:#bf2424; }
 .red.bb { border-color:#bf2424; }
+.blue.fg{ color:#4a43db; }
 .blue.bg{ background-color:#4a43db; }
 .blue.bb{ border-color:#4a43db; }
+.green.fg { color:#19ac2a; }
 .green.bg { background-color:#19ac2a; }
 .green.bb{ border-color:#19ac2a; }
+.purple.fg { color:#a35cbd; }
 .purple.bg { background-color:#a35cbd; }
 .purple.bb{ border-color:#a35cbd; }
+.white.fg { color:#bfbfbf; }
 .white.bg { background-color:#bfbfbf; }
 .white.bb{ border-color:#bfbfbf; }
+.orange.fg { color:#ef7300; }
 .orange.bg { background-color:#ef7300; }
 .orange.bb{ border-color:#ef7300; }
+.teal.fg { color:#00cfef; }
 .teal.bg { background-color:#00cfef; }
 .teal.bb{ border-color:#00cfef; }
+.yellow.fg { color:#efed00; }
 .yellow.bg { background-color:#efed00; }
 .yellow.bb{ border-color:#efed00; }
+.pink.fg { color:#ef0097; }
 .pink.bg { background-color:#ef0097; }
 .pink.bb{ border-color:#ef0097; }
+.lime.fg { color:#97ef00; }
 .lime.bg { background-color:#97ef00; }
 .lime.bb{ border-color:#97ef00; }
+.brown.fg { color:#945a25; }
 .brown.bg { background-color:#945a25; }
 .brown.bb{ border-color:#945a25; }
 

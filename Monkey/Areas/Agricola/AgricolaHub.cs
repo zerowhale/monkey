@@ -50,9 +50,6 @@ namespace Monkey.Games.Agricola
                         }
 
                         UpdateGameState(game, update);
-
-
-
                     }
                 }
                 catch (Exception e)

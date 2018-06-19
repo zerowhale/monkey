@@ -48,7 +48,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             foreach (var p in ((AgricolaGame)player.Game).AgricolaPlayers)
             {
 
-                var events = Curator.GetEventData(p, player, trigger);
+                var events = p.GetCardEventData(player, trigger);
                 if(events.Count > 0)
                     ActionService.ExecuteEvents(p, events, resultingNotices);
             }

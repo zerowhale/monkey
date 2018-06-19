@@ -54,6 +54,7 @@ namespace Monkey.Games.Agricola.Cards
             return (Card)Activator.CreateInstance(cls, definition);
         }
 
+
         public Card Clone()
         {
             return Card.Create(this.definition);

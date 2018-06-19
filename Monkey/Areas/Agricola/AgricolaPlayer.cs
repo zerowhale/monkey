@@ -5,6 +5,8 @@ using Monkey.Games.Agricola.Actions.AnytimeActions;
 using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
+using Monkey.Games.Agricola.Events;
+using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Farm;
 using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
@@ -96,6 +98,35 @@ namespace Monkey.Games.Agricola
             {
                 ownedCards.Remove(card);
             }
+        }
+
+        /// <summary>
+        /// This is probably not the correct place for this method.  This does not have anything to
+        /// do with game rules, but is a mechanism for getting event data from game objects.
+        /// </summary>
+        /// <param name="resolvingPlayer"></param>
+        /// <param name="triggeringPlayer"></param>
+        /// <param name="trigger"></param>
+        /// <returns></returns>
+        public List<TriggeredEvent> GetCardEventData(AgricolaPlayer triggeringPlayer, GameEventTrigger trigger)
+        {
+            var resolvingPlayer = (AgricolaPlayer)this;
+            var events = new List<TriggeredEvent>();
+            foreach (var card in resolvingPlayer.OwnedCards)
+            {
+                if (card.Events == null)
+                    continue;
+
+                var cardEvents = card.Events.Where(x => x.Triggers.Any(s => s.Triggered(resolvingPlayer, triggeringPlayer, trigger)));
+                foreach (var cardEvent in cardEvents)
+                {
+                    cardEvent.ActiveTrigger = trigger;
+                    cardEvent.OwningCard = card;
+                }
+                events.AddRange(cardEvents);
+            }
+
+            return events;
         }
 
         public void HarvestFields(List<GameActionNotice> notices)

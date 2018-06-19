@@ -3,7 +3,7 @@
 #game .cols > div,
 #game .cols > ul { float:left; }
 
-#game.my-turn {background-color:#F7E352;}
+/*#game.my-turn {background-color:#F7E352;}*/
 
 #game .cols > div.clear {float:none; }
 #game .tooltip { display:none; pointer-events:none; padding:.2vh .5vh; border-radius:.4vh; position:absolute; top:0; left:0; font-family: 'Homenaje', sans-serif; font-size:2vh;
@@ -14,14 +14,8 @@
 
 #game .screen { position:absolute; z-index:9000; left:0; top:0; right:0; bottom:0; background:url(./img/screen-bg.png) no-repeat; background-size:100% 100%; display:none; }
 
-#game .c.red { color:#bf2424; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.blue{ color:#4a43db; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.green { color:#19ac2a; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.purple { color:#a35cbd; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.white { color:#bfbfbf; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.orange { color:#ef7300; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.teal { color:#00cfef; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
-#game .c.yellow { color:#efed00; text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000;}
+#game .fg { text-shadow: 1px 1px 1px #000, -1px -1px 1px #000, 1px -1px 1px #000 , -1px 1px 1px #000; }
+
 
 #game .family-member { width:8vh; height:7.4vh; position:absolute; background-size:100%; background-repeat:no-repeat;  pointer-events:none;}
 #game .family-member.phantom { opacity:.5; }
@@ -119,7 +113,7 @@
 
 #game .listing { overflow-y: auto; height: 100%; }
 #game .resource-conversions {  border-top:.1vh solid #3e3e3e; }
-#game .resource-conversions .alt-row{ background-color:#b2b282;}
+#game .resource-conversions .alt-row{ background-color:#dede87;}
 #game .resource-conversion { background:none; border-bottom:.1vh solid #3e3e3e; height:4vh; padding:.4vh .4vh; pointer-events:all;}
 #game .resource-conversion .note { vertical-align:.7vh; font-weight:bold; }
 #game .resource-conversion .controls { float:right; }
@@ -147,8 +141,8 @@
 #game .rounds-board .stage > div.empty > div:first-child .text {font-family: 'Homenaje', sans-serif; font-size:1.7vh; text-align:center; margin-top:3vh; color:#efefdf;}
 #game .rounds-board .stage > div.empty > div:first-child .text strong { font-size:2vh; }
 #game .rounds-board .stage > div.empty > div:first-child .note { color: #bfbfaf;}
-#game .rounds-board .stage > div.harvest { background-color:orange; height:2.5vh; z-index:0; width:calc(100% - 2px); left:1px; font-family: 'Homenaje', sans-serif; font-size:2vh; font-weight:bold;
-                                           line-height:2.5vh; text-align:center; border-bottom-left-radius:1vh; border-bottom-right-radius:1vh; }
+#game .rounds-board .stage > div.harvest { background-color:orange; height:2.3vh; z-index:0; width:calc(100% - 2px); left:1px; font-family: 'Homenaje', sans-serif; font-size:2vh; font-weight:bold;
+                                           line-height:2.3vh; text-align:center; border-bottom-left-radius:1vh; border-bottom-right-radius:1vh; }
 #game .rounds-board .deck { display:none; }
 #game .rounds-board > div > div .text-bubble { margin:auto; background-color:#efefa3; width:15vh; border-radius:1vh; border:.2vh solid #b94a48; font-size:1.6vh; line-height:1.8vh;
 											   box-shadow: 0 0 1vh .1vh rgba(0,0,0,0.85), inset 0 0 .3vh .1vh rgba(0,0,0,0.95); padding:.4vh;}
@@ -210,18 +204,18 @@
 #game li:hover { background-color:#d1d194;  }
 #game li.ui-state-disabled { pointer-events:none; cursor:default; opacity:.4;}
 #game li a { font-family: 'Homenaje', sans-serif; width:16vh; display:inline-block; text-align:center; font-size:2vh;}
-#game li.ui-tabs-active { position:relative; background-color:#efefa3; box-shadow: inset 0 -.6vh #fff;
+#game li.ui-tabs-active { position:relative; background-color:#efefa3; box-shadow: inset 0 .6vh #c6c68f;
                             animation:none; -webkit-animation:none; -moz-animation:none; transition:background-color .2s ease;}
-#game.my-turn li.ui-tabs-active {   background-color: #F7E352;  }
+/*#game.my-turn li.ui-tabs-active {   background-color: #F7E352;  }*/
 
 #game .my-controls { position:absolute; left:34vh; top:52.2vh; width:100.5vh; height:48vh;  }
 #game .my-controls ul {padding-left:.7vh; }
-#game .my-controls .ui-tabs-panel { position:relative; height:43.8vh; background-color:#c6c68f; z-index:1; }
+#game .my-controls .ui-tabs-panel { position:relative; height:43.8vh; z-index:1; }
 #game .my-controls .player-menu li.tab-harvest { animation: tab-highlight .6s linear infinite; 
 												-webkit-animation: tab-highlight .6s linear infinite;  
 												-moz-animation: tab-highlight .6s linear infinite; }
 #game .my-controls .player-menu li.tab-harvest.ui-state-disabled,
- #game .my-controls .player-menu li.tab-harvest.ui-state-active{ animation:none; -webkit-animation:none; -moz-animation:none;}
+#game .my-controls .player-menu li.tab-harvest.ui-state-active{ animation:none; -webkit-animation:none; -moz-animation:none;}
 #game .my-controls .player-menu .tab > div { margin-left:1vh; }
 
 #game .my-controls .harvest .harvest-wrapper { padding:2vh; }
@@ -361,7 +355,7 @@
 
 #game .chat { height:100%; width:100%; background-color:#efefdf; }
 #game .chat .system { width:100%; float:right; font-size:2vh; height:100%; overflow-y:scroll; padding:.2vh;}
-#game .chat .system .c { font-weight:bold; }
+#game .chat .system .fg { font-weight:bold; }
 #game .chat [data-image]{ background-color:#cdcdcd; padding:0 1vh; border-radius:1vh; }
 
 

@@ -22,7 +22,6 @@ namespace Monkey.Games.Agricola.Cards
             Fireplace = definition.Attribute("Fireplace") != null ? (bool)definition.Attribute("Fireplace") : false;
             Fireplace = definition.Attribute("Fireplace") != null ? (bool)definition.Attribute("Fireplace") : false;
             CookingHearth = definition.Attribute("CookingHearth") != null ? (bool)definition.Attribute("CookingHearth") : false;
-
             Plow = definition.Elements("Plow").Select(Plow.Create).FirstOrDefault();
 
         }

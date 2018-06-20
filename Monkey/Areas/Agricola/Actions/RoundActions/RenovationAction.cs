@@ -35,7 +35,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 case RenovationActionMode.Fences:
                     if(!(renovationData.FenceData == null 
                         || renovationData.FenceData.Fences.Length == 0
-                        || ActionService.CanBuildFences(player, Id, renovationData.FenceData, out pastures, out additionalCosts)))
+                        || ActionService.CanBuildFences(player, Id, renovationData.FenceData, out this.pastures, out additionalCosts)))
                         return false;
                     break;
                 

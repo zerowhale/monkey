@@ -96,7 +96,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         public static void AssignResource(AgricolaPlayer player, ResourceCache resource, List<GameActionNotice> resultingNotices)
         {
 
-            player.PersonalSupply.AddResource(resource);
+            player.AddResource(resource);
             var resourcePredicateFound = false;
             foreach (var predicates in resultingNotices.Where(x => ((string)x.Subject) == player.Name).Select(x => x.Predicates))
             {
@@ -176,7 +176,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             }
             else
             {
-                player.PersonalSupply.AddResource(cache.Type, cache.Count);
+                player.AddResource(cache.Type, cache.Count);
                 resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Take.ToString(), new ResourceCache(cache.Type, cache.Count)));
 
                 var resourceTrigger = new TakeCachedResourceTrigger(cache.Type);
@@ -360,7 +360,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                         var definition = conversions.First(x => x.InType.ToString() == animal.ToString());
                         var inputCache = new ResourceCache((Resource)animal, data.Cook[animal]);
                         var outputCache = new ResourceCache(Resource.Food, definition.OutAmount * data.Cook[animal]);
-                        player.PersonalSupply.AddResource(outputCache);
+                        player.AddResource(outputCache);
                         cookedAnimalPredicates.Add(new ConversionPredicate(inputCache, outputCache));
                     }
                 }
@@ -400,7 +400,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                     if(player.Farmyard.AnimalManager.GetAnimalCount(animalType) <  conversion.Count)
                         return false;
                 }
-                else if (player.PersonalSupply.GetResource(conversionDefinition.InType) <  conversion.Count)
+                else if (player.GetResource(conversionDefinition.InType) <  conversion.Count)
                 {
                     return false;
                 }
@@ -425,12 +425,12 @@ namespace Monkey.Games.Agricola.Actions.Services
                     var inputCache = new ResourceCache(conversionDefinition.InType, -conversion.Count );
                     var outputCache = new ResourceCache(conversionDefinition.OutType, (conversion.Count / conversionDefinition.InAmount) * conversionDefinition.OutAmount);
                     // Deduct the cost
-                    player.PersonalSupply.AddResource(inputCache);
+                    player.AddResource(inputCache);
 
                     if (!conversionDefinition.OutType.IsAnimal())
                     {
                         // Add the converted resources
-                        player.PersonalSupply.AddResource(outputCache);
+                        player.AddResource(outputCache);
                     }
                     else
                     {
@@ -478,7 +478,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 totalGrainNeeded += p.Count;
             }
 
-            if (totalGrainNeeded > player.PersonalSupply.Grain)
+            if (totalGrainNeeded > player.Grain)
                 return false;
 
             return true;
@@ -501,8 +501,8 @@ namespace Monkey.Games.Agricola.Actions.Services
                     var resources = Curator.GetBakeOutput(player, bake.Id, bake.Count);
                     if (resources != null)
                     {
-                        player.PersonalSupply.AddResource(card.BakeProperties.InType, -bake.Count);
-                        player.PersonalSupply.AddResource(resources);
+                        player.AddResource(card.BakeProperties.InType, -bake.Count);
+                        player.AddResource(resources);
 
                         bakeInput.Count += bake.Count;
                         bakeOutput.Count += resources.Count;
@@ -644,7 +644,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                     }
                     else
                     {
-                        player.PersonalSupply.AddResource(resource.Type, -resource.Count);
+                        player.AddResource(resource.Type, -resource.Count);
                     }
                 }
             }
@@ -734,7 +734,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                         vegetablesNeeded++;
                 }
 
-                if (player.PersonalSupply.Grain < grainNeeded || player.PersonalSupply.Vegetables < vegetablesNeeded)
+                if (player.Grain < grainNeeded || player.Vegetables < vegetablesNeeded)
                     return false;
             }
             return player.Farmyard.PlowAndSowLocationsValid(fields, sow);
@@ -780,7 +780,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 }
             }
 
-            if (player.PersonalSupply.Grain < grainNeeded || player.PersonalSupply.Vegetables < vegetablesNeeded
+            if (player.Grain < grainNeeded || player.Vegetables < vegetablesNeeded
                 || (sowData == null || !player.Farmyard.SowLocationsValid(sowData)))
                 return false;
 
@@ -799,7 +799,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                     vegetablesNeeded++;
             }
 
-            if (player.PersonalSupply.Grain < grainNeeded || player.PersonalSupply.Vegetables < vegetablesNeeded
+            if (player.Grain < grainNeeded || player.Vegetables < vegetablesNeeded
                 || !player.Farmyard.SowLocationsValid(sowData))
                 return false;
 
@@ -836,7 +836,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 var vegetables = 0;
                 foreach (var sow in sowData)
                 {
-                    player.PersonalSupply.AddResource(sow.Type, -1);
+                    player.AddResource(sow.Type, -1);
                     player.Farmyard.SowField(sow.Index, sow.Type);
 
                     if (sow.Type == Resource.Grain) grains++;
@@ -866,7 +866,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         {
             var costs = Curator.GetRenovationCost(player);
             foreach (var cost in costs)
-                player.PersonalSupply.RemoveResource(cost);
+                player.RemoveResource(cost);
             player.Farmyard.Renovate();
 
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Renovate.ToString(), new StringPredicate(player.Farmyard.HouseType.ToString())));
@@ -902,7 +902,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
             foreach (var resource in cost)
             {
-                player.PersonalSupply.AddResource(resource.Type, -resource.Count);
+                player.AddResource(resource.Type, -resource.Count);
             }
             player.PlayCard(data.Id.Value);
 

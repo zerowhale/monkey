@@ -27,10 +27,10 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             if (player.Farmyard.Pastures.Count() >= 4)
                 points++;
 
-            if (player.PersonalSupply.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain) >= 8)
+            if (player.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain) >= 8)
                 points++;
 
-            if (player.PersonalSupply.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables) >= 4)
+            if (player.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables) >= 4)
                 points++;
 
             if (player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Sheep) >= 8)

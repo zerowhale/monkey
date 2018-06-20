@@ -22,7 +22,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             var choiceData = (AnimalChoiceActionData)data;
 
-            if (choiceData.Option == AnimalResource.Cattle && player.PersonalSupply.Food < 1)
+            if (choiceData.Option == AnimalResource.Cattle && player.Food < 1)
                 return false;
 
             var animalData = new Dictionary<AnimalResource, int>();
@@ -37,9 +37,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             var choiceData = (AnimalChoiceActionData)data;
             if (choiceData.Option == AnimalResource.Sheep)
-                player.PersonalSupply.Food++;
+                player.AddResource(Resource.Food);
             else if (choiceData.Option == AnimalResource.Cattle)
-                player.PersonalSupply.Food--;
+                player.RemoveResource(Resource.Food);
 
             ActionService.AssignAnimals(player, choiceData.AnimalData, ResultingNotices);
         }

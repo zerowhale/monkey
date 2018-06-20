@@ -49,7 +49,7 @@ namespace Monkey.Games.Agricola
             {
                 var player = this.players[i];
 
-                player.PersonalSupply.Food = i == StartingPlayerIndex ? 2 : 3;
+                player.AddResource(Resource.Food, i == StartingPlayerIndex ? 2 : 3);
                 player.AddFamilyMember();
                 player.AddFamilyMember();
                 player.Farmyard.AddRoom(0, 1);

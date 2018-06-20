@@ -320,11 +320,7 @@ namespace Monkey.Games.Agricola
         }
 
 
-        public PersonalSupply PersonalSupply
-        {
-            get;
-            private set;
-        }
+
 
         public Farmyard Farmyard
         {
@@ -366,6 +362,132 @@ namespace Monkey.Games.Agricola
         }
 
 
+
+        /// <summary>
+        ///  Adds the cache to the personal supply
+        /// </summary>
+        /// <param name="cache"></param>
+        public void AddResource(ResourceCache cache)
+        {
+            this.AddResource(cache.Type, cache.Count);
+        }
+
+        /// <summary>
+        /// Subtracts the cache from the personal supply
+        /// </summary>
+        /// <param name="cache"></param>
+        public void RemoveResource(ResourceCache cache)
+        {
+            this.AddResource(cache.Type, -cache.Count);
+        }
+
+        /// <summary>
+        /// Removes one of the resource from the personal supply
+        /// </summary>
+        /// <param name="resource"></param>
+        public void RemoveResource(Resource resource)
+        {
+            this.PersonalSupply.AddResource(resource, -1);
+        }
+
+        /// <summary>
+        /// Removes one of the resource from the personal supply
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="count"></param>
+        public void RemoveResource(Resource resource, Int32 count)
+        {
+            this.PersonalSupply.AddResource(resource, -count);
+        }
+
+        /// <summary>
+        /// Adds one of a resource to the cache
+        /// </summary>
+        /// <param name="resource"></param>
+        public void AddResource(Resource resource)
+        {
+            this.PersonalSupply.AddResource(resource, 1);
+        }
+
+        /// <summary>
+        /// Adds a given quantity of a given resource to the cache
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="count"></param>
+        public void AddResource(Resource resource, Int32 count)
+        {
+            this.PersonalSupply.AddResource(resource, count);
+        }
+
+
+        /// <summary>
+        /// Gets the quantity of a resource
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <returns></returns>
+        public int GetResource(Resource resource)
+        {
+            return this.PersonalSupply.GetResource(resource);
+        }
+
+        /// <summary>
+        /// Gets the amount of food in the players personal supply
+        /// </summary>
+        public int Food
+        {
+            get { return this.PersonalSupply.Food; }
+        }
+
+        /// <summary>
+        /// Gets the amount of grain in the players personal supply
+        /// </summary>
+        public int Grain
+        {
+            get { return this.PersonalSupply.Grain; }
+        }
+
+        /// <summary>
+        /// Gets the amount of stone in the players personal supply
+        /// </summary>
+        public int Stone
+        {
+            get { return this.PersonalSupply.Stone; }
+        }
+
+        /// <summary>
+        /// Gets the amount of wood in the players personal supply
+        /// </summary>
+        public int Wood
+        {
+            get { return this.PersonalSupply.Wood; }
+        }
+        
+        /// <summary>
+        /// Gets the amount of vegetables in the players personal supply
+        /// </summary>
+        public int Vegetables
+        {
+            get { return this.PersonalSupply.Vegetables; }
+        }
+
+        /// <summary>
+        /// Gets the amount of clay in the players personal supply
+        /// </summary>
+        public int Clay
+        {
+            get { return this.PersonalSupply.Clay; }
+        }
+
+        /// <summary>
+        /// Gets the amount of reed in the players personal supply
+        /// </summary>
+        public int Reed
+        {
+            get { return this.PersonalSupply.Reed; }
+        }
+
+
+        private PersonalSupply PersonalSupply;
         private List<int> majorImprovements = new List<int>();
         private List<Card> ownedCards = new List<Card>();
         private int familySize;

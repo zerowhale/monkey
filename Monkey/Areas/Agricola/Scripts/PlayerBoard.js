@@ -1062,7 +1062,7 @@ PlayerBoard.prototype = {
     },
 
     canSowField: function () {
-        if ((this.player.PersonalSupply.Grain > 0 || this.player.PersonalSupply.Vegetables > 0)
+        if ((this.player.Grain > 0 || this.player.Vegetables > 0)
             && this.fields.length > 0) {
             for (var f in this.fields) {
                 var pos = this.fields[f];
@@ -1306,12 +1306,20 @@ PersonalSupply.prototype = {
     },
 
     update: function (player) {
-        if (player.PersonalSupply) {
+        if (player) {
+            for (var i in Resource) {
+                if (player[i]) {
+                    this.setResource(i, player[i]);
+                }
+            }
+            /*
             var vals = player.PersonalSupply
             for (var i in vals) {
                 this.setResource(i, vals[i]);
             }
+            */
         }
+
         if (player.Farmyard) {
             var animalCounts = {
                 Sheep: 0,

@@ -30,7 +30,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         {
             foreach (var option in options)
             {
-                var count = player.PersonalSupply.GetResource(option.Resource);
+                var count = player.GetResource(option.Resource);
                 if (option.Resource == Resource.Vegetables || option.Resource == Resource.Grain)
                 {
                     count += player.Farmyard.PlantedResourceCount(option.Resource);

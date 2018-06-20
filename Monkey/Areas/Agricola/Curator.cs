@@ -61,7 +61,7 @@ namespace Monkey.Games.Agricola
 
         public static bool CanAfford(AgricolaPlayer player, ResourceCache[] costs){
             foreach(var c in costs){
-                if (player.PersonalSupply.GetResource(c.Type) < c.Count)
+                if (player.GetResource(c.Type) < c.Count)
                     return false;
             }
             return true;
@@ -354,7 +354,7 @@ namespace Monkey.Games.Agricola
                     minBakeCost = card.BakeProperties.InAmount;
             }
 
-            return player.PersonalSupply.Grain >= minBakeCost; 
+            return player.Grain >= minBakeCost; 
         }
 
         /// <summary>
@@ -366,7 +366,7 @@ namespace Monkey.Games.Agricola
         {
             costs = GetRenovationCost(player);
             foreach(var cost in costs){
-                if (player.PersonalSupply.GetResource(cost.Type) < cost.Count)
+                if (player.GetResource(cost.Type) < cost.Count)
                     return false;
             }
 
@@ -433,7 +433,7 @@ namespace Monkey.Games.Agricola
                     return true;
                 default:
                     costs = new ResourceCache[]{new ResourceCache(Resource.Wood, count)};
-                    return player.PersonalSupply.Wood >= count;
+                    return player.Wood >= count;
             }
         }
 
@@ -524,7 +524,7 @@ namespace Monkey.Games.Agricola
                             return false;
                     }
                     else{
-                        if (resource.Count > player.PersonalSupply.GetResource(resource.Type))
+                        if (resource.Count > player.GetResource(resource.Type))
                             return false;
                     }
                 }
@@ -576,7 +576,7 @@ namespace Monkey.Games.Agricola
 
         public static int CalculateGrainScore(AgricolaPlayer player)
         {
-            var grain = player.PersonalSupply.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain);
+            var grain = player.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain);
             // 165 - yoeman farmer
             if (grain == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (grain < 4) return 1;
@@ -587,7 +587,7 @@ namespace Monkey.Games.Agricola
 
         public static int CalculateVegetablesScore(AgricolaPlayer player)
         {
-            var vegetables = player.PersonalSupply.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables);
+            var vegetables = player.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables);
             // 165 - yoeman farmer
             if (vegetables == 0) return player.OwnsCard(165) ? 0 : -1;
             else if (vegetables > 4) return 4;

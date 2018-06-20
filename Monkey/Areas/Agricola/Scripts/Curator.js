@@ -57,10 +57,10 @@
 
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
-                return player.PersonalSupply.Clay >= roomCount && player.PersonalSupply.Reed >= 1;
+                return player.Clay >= roomCount && player.Reed >= 1;
                 break;
             case HouseType.Clay:
-                return player.PersonalSupply.Stone >= roomCount && player.PersonalSupply.Reed >= 1;
+                return player.Stone >= roomCount && player.Reed >= 1;
                 break;
         }
         return false;
@@ -70,13 +70,13 @@
     canBuildFences: function(player){
         var board = this.game.playerBoards[player.Name];
         var fenceCount = board.getFenceCount();
-        return fenceCount < PlayerBoard.prototype.MAX_FENCES && player.PersonalSupply.Wood > 0;
+        return fenceCount < PlayerBoard.prototype.MAX_FENCES && player.Wood > 0;
     },
 
     canSow: function(player){
         var board = this.game.playerBoards[player.Name];
         return board.canSowField()
-            && (player.PersonalSupply.Grain > 0 || player.PersonalSupply.Vegetables > 0);
+            && (player.Grain > 0 || player.Vegetables > 0);
 
     },
 
@@ -105,7 +105,7 @@
         Checks if the player can bake
     */
     canBake: function (player) {
-        if (player.PersonalSupply.Grain <= 0)
+        if (player.Grain <= 0)
             return false;
 
         for (var c in player.OwnedCardIds) {
@@ -148,7 +148,7 @@
         var costs = this.getRoomCost(player);
         for (var c in costs) {
             var cost = costs[c];
-            if (player.PersonalSupply[cost.type] < parseInt(cost.amount))
+            if (player[cost.type] < parseInt(cost.amount))
                 return false;
         }
 
@@ -162,7 +162,7 @@
         if (isNaN(woodPerStable))
             woodPerStable = 2;
 
-        return player.PersonalSupply.Wood >= woodPerStable;
+        return player.Wood >= woodPerStable;
     },
 
     getStableBuildLimit: function(player, actionId){
@@ -222,11 +222,11 @@
         var board = this.game.playerBoards[player.Name];
         var resources = [];
         var cookValues = this.getAvailableResourceConversions(player);
-
+        console.info(board);
         for (var type in cookValues) {
             var data = cookValues[type];
 
-            var resourceCount = board.personalSupply[data.inType.toLowerCase()];// ? board.personalSupply[type.toLowerCase()] : animalCounts[type];
+            var resourceCount = board.personalSupply[data.inType.toLowerCase()];
             if (resourceCount >= data.inAmount && data.outAmount > 0 && data.outType === Resource.Food)
                 resources.push(data);
         }
@@ -275,8 +275,8 @@
 
     getAvailableResourceConversions: function (player) {
         function updateResourceConversions(check) {
+
             // If this is a server object convert it to a client version
-            
             check = ResourceConversion.fromServer(check);
 
             for (var v in maxValues) {
@@ -285,8 +285,6 @@
                     rc.inLimit == null && check.inLimit == null &&
                     rc.outType == check.outType) {
 
-                    console.info(rc.id, check.id);
-
                     if (rc.outAmount < check.outAmount) {
                         rc.outAmount = check.outAmount;
                         rc.id = check.id;
@@ -294,7 +292,6 @@
                     else if (rc.outAmount == check.outAmount && rc.id > check.id)
                         rc.id = check.id;
 
-                    console.info(rc.id);
                     return;
                 }
             }
@@ -314,13 +311,11 @@
                     rcs = card.ResourceConversions;
 
                 if (rcs) {
-                    console.info(rcs);
                     for (var c in rcs) {
                         var rc = rcs[c];
                         updateResourceConversions(rc);
                     }
                 }
-
             }
         }
 
@@ -633,6 +628,9 @@ function ResourceConversion(id, inType, inAmount, outType, outAmount, inLimit) {
     }
 }
 
+/**
+ * Checks if a given resource conversion item is from the server, and if so converts it to a client side ResourceConversion
+ */
 ResourceConversion.fromServer = function (item) {
     if (item.InType) {
         item = new ResourceConversion(item.Id, item.InType, item.InAmount, item.OutType, item.OutAmount, item.InLimit);

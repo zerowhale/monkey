@@ -77,7 +77,7 @@ namespace Monkey.Games.Agricola.Events
                 }
                 else
                 {
-                    owned = player.PersonalSupply.GetResource(this.RequiredType);
+                    owned = player.GetResource(this.RequiredType);
                 }
 
                 if (!this.Repeat)

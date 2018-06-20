@@ -86,7 +86,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 foreach (var cache in kvp.Value.Values)
                 {
                     if (!(Enum.IsDefined(typeof(AnimalResource), cache.Type.ToString())))
-                        player.PersonalSupply.AddResource(cache);
+                        player.AddResource(cache);
                     else
                     {
                         AnimalResource animalType = (AnimalResource)cache.Type;// (AnimalResource)Enum.Parse(typeof(AnimalResource), cache.Type.ToString());

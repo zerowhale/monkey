@@ -1258,7 +1258,7 @@
         </Text>
     </MinorImprovement>        
     
-    <MinorImprovement Id="1047" Deck="Expert" Passes="true"
+    <MinorImprovement Id="132" Deck="Expert" Passes="true"
                 Image="/Areas/Agricola/Content/img/cards/minors/clay-hut-extension.jpg" >
         <Name>Clay Hut Extension</Name>
 

@@ -361,7 +361,7 @@
 
 
 #game .popup { width:101vh; position:absolute; background-color:#efefdf;  z-index: 9100; display:none;
-					   box-shadow:0px 0 4vh .25vh rgba(0,0,0,0.35), inset 3.2vh 0 60px -30px rgba(0,0,0,0.72), inset -3.2vh 0 60px -30px rgba(0,0,0,0.72);}
+					   box-shadow:0px 0 4vh .25vh rgba(0,0,0,0.75); }
 #game .popup h2 { left:24vh; top:2vh; font-size:3vh; font-family: 'Homenaje', sans-serif; position:absolute;}
 #game .popup .menu { width:20vh; margin-top:15.9vh; }
 #game .wrapper { border-top:1px solid transparent; }
@@ -385,8 +385,7 @@
 #game .selected .button,
 #game .selected .button:hover,
 #game .selected .button:active { box-shadow: none; cursor:default; }
-#game .build-menu .selected { border-top:1px solid #3e3e3e; border-bottom:1px solid #3e3e3e; background-color:#fcfcfc;
-														  box-shadow: inset 3.2vh 0 60px -30px rgba(0,0,0,0.72); }
+#game .build-menu .selected { border-top:1px solid #3e3e3e; border-bottom:1px solid #3e3e3e; background-color:#fcfcfc; }
 #game .cancel-button .button:hover > div { color:red; }
 
 #game .button.only { background:none; border:none; }

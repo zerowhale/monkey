@@ -925,7 +925,8 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.HandOccupations.Add(GetCard(150));
+                    player.HandOccupations.Add(GetCard(2038));  // Field Watchman
+                    player.HandMinors.Add(GetCard(132));
                 }
                 
 

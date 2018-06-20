@@ -245,7 +245,6 @@ namespace Monkey.Games.Agricola.Farm
                 for(var y=0;y<HEIGHT;y++){
                     var plot = grid[x, y];
 
-
                     if (plot is Field
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))

@@ -208,6 +208,9 @@
         return IdLookup[id];
     },
 
+    /**
+     * Returns all resource conversions available to a given player that result in food.
+     */
     getHarvestResources: function (player) {
         function HarvestResourceConversion(id, inType, inAmount, available, outAmount, maxCook) {
             this.id = id;
@@ -216,13 +219,11 @@
             this.available = available;
             this.outAmount = outAmount;
             this.maxCook = maxCook;
-
         }
 
         var board = this.game.playerBoards[player.Name];
         var resources = [];
         var cookValues = this.getAvailableResourceConversions(player);
-        console.info(board);
         for (var type in cookValues) {
             var data = cookValues[type];
 

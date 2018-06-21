@@ -1,7 +1,5 @@
 ﻿using BoardgamePlatform.Game;
 using BoardgamePlatform.Game.Notification;
-using Monkey.Games.Agricola.Actions;
-using Monkey.Games.Agricola.Actions.AnytimeActions;
 using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
@@ -10,11 +8,10 @@ using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Farm;
 using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
-using System.Web;
 
 namespace Monkey.Games.Agricola
 {
@@ -24,7 +21,7 @@ namespace Monkey.Games.Agricola
         public AgricolaPlayer(AgricolaGame game, Player player)
             :base((IGame<GameHub>)game, player)
         {
-            PersonalSupply = new PersonalSupply();
+            PersonalSupply = PersonalSupply.Empty;
             Farmyard = new Farmyard(this);
             if (!game.FamilyMode)
             {
@@ -42,13 +39,13 @@ namespace Monkey.Games.Agricola
 
         public void AddMajorImprovement(int id)
         {
-            majorImprovements.Add(id);
+            this.majorImprovements = majorImprovements.Add(id);
             ownedCards.Add(Curator.GetMajorImprovement(id));
         }
 
         public void RemoveMajorImprovement(int id)
         {
-            majorImprovements.Remove(id);
+            this.majorImprovements = majorImprovements.Remove(id);
             ownedCards.Remove(Curator.GetMajorImprovement(id));
         }
 
@@ -387,7 +384,7 @@ namespace Monkey.Games.Agricola
         /// <param name="resource"></param>
         public void RemoveResource(Resource resource)
         {
-            this.PersonalSupply.AddResource(resource, -1);
+            this.PersonalSupply = this.PersonalSupply.AddResource(resource, -1);
         }
 
         /// <summary>
@@ -397,7 +394,7 @@ namespace Monkey.Games.Agricola
         /// <param name="count"></param>
         public void RemoveResource(Resource resource, Int32 count)
         {
-            this.PersonalSupply.AddResource(resource, -count);
+            this.PersonalSupply = this.PersonalSupply.AddResource(resource, -count);
         }
 
         /// <summary>
@@ -406,7 +403,7 @@ namespace Monkey.Games.Agricola
         /// <param name="resource"></param>
         public void AddResource(Resource resource)
         {
-            this.PersonalSupply.AddResource(resource, 1);
+            this.PersonalSupply = this.PersonalSupply.AddResource(resource, 1);
         }
 
         /// <summary>
@@ -416,7 +413,7 @@ namespace Monkey.Games.Agricola
         /// <param name="count"></param>
         public void AddResource(Resource resource, Int32 count)
         {
-            this.PersonalSupply.AddResource(resource, count);
+            this.PersonalSupply = this.PersonalSupply.AddResource(resource, count);
         }
 
 
@@ -488,8 +485,8 @@ namespace Monkey.Games.Agricola
 
 
         private PersonalSupply PersonalSupply;
-        private List<int> majorImprovements = new List<int>();
         private List<Card> ownedCards = new List<Card>();
+        private ImmutableList<int> majorImprovements = ImmutableList<int>.Empty;
         private int familySize;
 
     }

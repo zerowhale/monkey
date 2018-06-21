@@ -1308,17 +1308,10 @@ PersonalSupply.prototype = {
     update: function (player) {
         if (player) {
             for (var i in Resource) {
-                console.info(i, Resource[i], player[i]);
                 if (!isNaN(player[i])) {
                     this.setResource(i, player[i]);
                 }
             }
-            /*
-            var vals = player.PersonalSupply
-            for (var i in vals) {
-                this.setResource(i, vals[i]);
-            }
-            */
         }
 
         if (player.Farmyard) {
@@ -1351,7 +1344,6 @@ PersonalSupply.prototype = {
 
     setResource: function(name, value){
         name = name.toLowerCase();
-        console.info("Setting Resource", name, value);
         this[name] = value;
         this.display.find("." + name + " .count").text(value);
         this.fireEvent("resourceUpdated");

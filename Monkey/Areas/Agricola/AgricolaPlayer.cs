@@ -40,13 +40,13 @@ namespace Monkey.Games.Agricola
         public void AddMajorImprovement(int id)
         {
             this.majorImprovements = majorImprovements.Add(id);
-            ownedCards.Add(Curator.GetMajorImprovement(id));
+            ownedCards = ownedCards.Add(Curator.GetMajorImprovement(id));
         }
 
         public void RemoveMajorImprovement(int id)
         {
             this.majorImprovements = majorImprovements.Remove(id);
-            ownedCards.Remove(Curator.GetMajorImprovement(id));
+            ownedCards = ownedCards.Remove(Curator.GetMajorImprovement(id));
         }
 
 
@@ -86,14 +86,14 @@ namespace Monkey.Games.Agricola
                 HandMinors.Remove(card);
             else return;
 
-            ownedCards.Add(card);
+            ownedCards = ownedCards.Add(card);
         }
 
         public void ReturnCard(Card card)
         {
             if (this.OwnsCard(card.Id))
             {
-                ownedCards.Remove(card);
+                ownedCards = ownedCards.Remove(card);
             }
         }
 
@@ -485,7 +485,7 @@ namespace Monkey.Games.Agricola
 
 
         private PersonalSupply PersonalSupply;
-        private List<Card> ownedCards = new List<Card>();
+        private ImmutableList<Card> ownedCards = ImmutableList<Card>.Empty;
         private ImmutableList<int> majorImprovements = ImmutableList<int>.Empty;
         private int familySize;
 

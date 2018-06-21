@@ -51,7 +51,7 @@ namespace Monkey.Games.Agricola.Farm
                         if (!yields.ContainsKey(yield.Type))
                             yields[yield.Type] = new ResourceCache(yield.Type, 0);
 
-                        yields[yield.Type].Count += yield.Count;
+                        yields[yield.Type] = yields[yield.Type].updateCount(yield.Count);
                     }
                 }
             }

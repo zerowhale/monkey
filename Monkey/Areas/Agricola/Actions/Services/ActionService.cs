@@ -101,19 +101,21 @@ namespace Monkey.Games.Agricola.Actions.Services
             {
                 if (predicates != null)
                 {
-                    foreach (var predicate in predicates)
+                    for(var i = 0; i< predicates.Count; i++)
                     {
+                        var predicate = predicates[i];
                         if (predicate is ResourceCache)
                         {
                             resourcePredicateFound = true;
                             var cache = (ResourceCache)predicate;
                             if (cache.Type == resource.Type)
                             {
-                                cache.Count += resource.Count;
+                                predicates[i] = cache.updateCount(resource.Count);
                                 return;
                             }
                         }
                     }
+
                     if (resourcePredicateFound)
                     {
                         predicates.Add(new ResourceCache(resource.Type, resource.Count));
@@ -436,7 +438,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                         ((AgricolaGame)player.Game).AddInterrupt(new AssignAnimalsAction(player, (AnimalResource)conversionDefinition.OutType, conversionDefinition.OutAmount, resultingNotices));
                     }
 
-                    inputCache.Count *= -1;
+                    inputCache = new ResourceCache(inputCache.Type, inputCache.Count * -1);
                     resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Converted.ToString(), new ConversionPredicate(inputCache, outputCache)));
 
                     trigger.AddConvertedResources(ResourcesConvertedData.FromResourceConversion(conversionDefinition, conversion.Count / conversionDefinition.InAmount));
@@ -503,8 +505,8 @@ namespace Monkey.Games.Agricola.Actions.Services
                         player.AddResource(card.BakeProperties.InType, -bake.Count);
                         player.AddResource(resources);
 
-                        bakeInput.Count += bake.Count;
-                        bakeOutput.Count += resources.Count;
+                        bakeInput = bakeInput.updateCount(bake.Count);
+                        bakeOutput = bakeOutput.updateCount(resources.Count);
                     }
                 }
 

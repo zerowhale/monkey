@@ -45,10 +45,13 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             ActionService.AssignCacheResources(player, eventTriggers, ResultingNotices, resources.ToArray());
 
-            foreach (var cache in CacheResources.Values)
-                cache.Count = 0;
-                
-
+            foreach (var cache in resources)
+            {
+                if (CacheResources.ContainsKey(cache.Type))
+                {
+                    CacheResources[cache.Type] = new ResourceCache(cache.Type, 0);
+                }
+            }
         }
 
         /// <summary>

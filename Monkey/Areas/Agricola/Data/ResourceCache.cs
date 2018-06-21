@@ -27,19 +27,15 @@ namespace Monkey.Games.Agricola.Data
             get { return "ResourcePredicate"; }
         }
 
-
-        [JsonConverter(typeof(StringEnumConverter))] 
-        public Resource Type
+        public ResourceCache updateCount(int amount)
         {
-            get;
-            set;
+            return new ResourceCache(this.Type, this.Count + amount);
         }
 
-        public int Count
-        {
-            get;
-            set;
-        }
+        [JsonConverter(typeof(StringEnumConverter))]
+        public readonly Resource Type;
+
+        public readonly int Count;
 
     }
 }

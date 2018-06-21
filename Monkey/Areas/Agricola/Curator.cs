@@ -254,8 +254,7 @@ namespace Monkey.Games.Agricola
                     var resource = costs[i];
                     if (resource.Type == Resource.Food)
                     {
-                        var newResource = resource.Clone();
-                        newResource.Count += foodCost;
+                        var newResource = resource.updateCount(foodCost);
                         costs[i] = newResource;
                         return costs.ToArray();
                     }

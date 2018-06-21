@@ -73,7 +73,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 delayedResources[player] = new Dictionary<Resource, ResourceCache>();
             var playersCaches = delayedResources[player];
             if (playersCaches.ContainsKey(cache.Type))
-                playersCaches[cache.Type].Count += cache.Count;
+                playersCaches[cache.Type] = playersCaches[cache.Type].updateCount(cache.Count);
             else
                 playersCaches[cache.Type] = new ResourceCache(cache.Type, cache.Count);
         }
@@ -157,8 +157,6 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
         public void TakeCaches(AgricolaPlayer player, Dictionary<Resource, int> leaveBehind, Dictionary<Resource, int>gained)
         {
-
-
             var taking = new Dictionary<Resource, int>();
             foreach (var cache in CacheResources)
             {
@@ -213,8 +211,14 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                     ResultingNotices,
                     taking.Select(x => new ResourceCache(x.Key, x.Value)).ToArray());
 
-                foreach (var r in CacheResources.Values) 
-                    r.Count -= taking[r.Type];
+                foreach(var kvp in taking)
+                {
+                    if (CacheResources.ContainsKey(kvp.Key))
+                    {
+                        var cache = CacheResources[kvp.Key];
+                        CacheResources[kvp.Key] = cache.updateCount(-kvp.Value);
+                    }
+                }
             }
             else
             {
@@ -227,7 +231,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 {
                     ActionService.AssignCacheResource(player, eventTriggers, ResultingNotices, new ResourceCache(cache.Type, taking[cache.Type]));
                 }
-                cache.Count -= taking[cache.Type];
+                CacheResources[cache.Type] = cache.updateCount(-taking[cache.Type]);
             }
         }
 
@@ -239,7 +243,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         public void AddCacheResources(ResourceCache cache)
         {
             if (CacheResources.ContainsKey(cache.Type))
-                CacheResources[cache.Type].Count += cache.Count;
+                CacheResources[cache.Type] = CacheResources[cache.Type].updateCount(cache.Count);
             else
                 CacheResources[cache.Type] = new ResourceCache(cache.Type, cache.Count);
         }

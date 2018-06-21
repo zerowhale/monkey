@@ -131,7 +131,7 @@ namespace Monkey.Games.Agricola
             var resources = this.Farmyard.HarvestFields();
             foreach (var cache in resources)
             {
-                this.PersonalSupply.AddResource(cache);
+                this.PersonalSupply = this.PersonalSupply.AddResource(cache);
             }
             notices.Add(new GameActionNotice(this.Name, NoticeVerb.Harvested.ToString(), resources.ToList<INoticePredicate>()));
             Harvesting = true;
@@ -166,7 +166,7 @@ namespace Monkey.Games.Agricola
         {
             foreach (var cache in costs)
             {
-                this.PersonalSupply.AddResource(cache.Type, -cache.Count);
+                this.PersonalSupply = this.PersonalSupply.AddResource(cache.Type, -cache.Count);
             }
         }
 
@@ -230,16 +230,16 @@ namespace Monkey.Games.Agricola
                     notices.Add(new ResourceCache(conversionDefinition.InType, conversion.Count));
 
                     if (!Enum.IsDefined(typeof(AnimalResource), conversionDefinition.InType.ToString()))
-                        PersonalSupply.AddResource(conversionDefinition.InType, -conversion.Count);
+                        this.PersonalSupply = this.PersonalSupply.AddResource(conversionDefinition.InType, -conversion.Count);
                 }
                 else
                 {
                     if (!Enum.IsDefined(typeof(AnimalResource), conversionDefinition.InType.ToString()))
-                        PersonalSupply.AddResource(conversionDefinition.InType, -conversion.Count);
+                        this.PersonalSupply = this.PersonalSupply.AddResource(conversionDefinition.InType, -conversion.Count);
 
                     // This does not handle what happens if an item can be converted into animals. 
                     // Not sure this actually exists in the game.
-                    PersonalSupply.AddResource(conversionDefinition.OutType, (conversion.Count / conversionDefinition.InAmount) * conversionDefinition.OutAmount);
+                    this.PersonalSupply = this.PersonalSupply.AddResource(conversionDefinition.OutType, (conversion.Count / conversionDefinition.InAmount) * conversionDefinition.OutAmount);
                 }
             }
 
@@ -251,7 +251,7 @@ namespace Monkey.Games.Agricola
 
             var remainder = foodValue - foodNeeded;
             if (remainder > 0)
-                PersonalSupply.AddResource(Resource.Food, remainder);
+                this.PersonalSupply = this.PersonalSupply.AddResource(Resource.Food, remainder);
 
             Harvesting = false;
             return begTotal;

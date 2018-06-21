@@ -58,7 +58,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 foreach (var cost in additionalCosts)
                 {
                     if (totalCosts.ContainsKey(cost.Type))
-                        totalCosts[cost.Type].Count += cost.Count;
+                        totalCosts[cost.Type] = totalCosts[cost.Type].updateCount(cost.Count);
                     else
                         totalCosts[cost.Type] = cost;
                 }

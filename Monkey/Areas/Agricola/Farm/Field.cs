@@ -20,8 +20,7 @@ namespace Monkey.Games.Agricola.Farm
         {
             if (resource == Resource.Grain)
             {
-                Sown.Type = Resource.Grain;
-                Sown.Count = 3;
+                this.Sown = new ResourceCache(Resource.Grain,3);
             }
             else if (resource == Resource.Vegetables)
             {
@@ -33,8 +32,7 @@ namespace Monkey.Games.Agricola.Farm
                     count++;
                 }
 
-                Sown.Type = Resource.Vegetables;
-                Sown.Count = count;
+                this.Sown = new ResourceCache(Resource.Vegetables, count);
             }
         }
 
@@ -42,17 +40,13 @@ namespace Monkey.Games.Agricola.Farm
         {
             if (Sown.Count > 0)
             {
-                Sown.Count--;
+                Sown = Sown.updateCount(-1);
                 return new ResourceCache(Sown.Type, 1);
             }
             return null;
         }
 
-        public ResourceCache Sown
-        {
-            get;
-            private set;
-        }
+        public ResourceCache Sown;
 
 
     }

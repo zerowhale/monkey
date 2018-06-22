@@ -20,7 +20,7 @@ gameConn.client.startingGame = function (game, params) {
 
     Monkey.game = Game;
     Game.init();
-    Game.join(game, params.deck);
+    Game.join(game, params);
     Monkey.hideSplash();
 }
 

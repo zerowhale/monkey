@@ -8,8 +8,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class MendicantVictoryPoints: PointCalculator
     {
-        public MendicantVictoryPoints(XElement definition)
-            :base(definition)
+        public MendicantVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
 
         }

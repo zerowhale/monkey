@@ -98,6 +98,30 @@ namespace Monkey.Games.Agricola
         }
 
         /// <summary>
+        /// Sets a cards metadata information
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public AgricolaPlayer SetCardMetadata(Card card, Object data)
+        {
+            CardMetadata = CardMetadata.SetItem(card.Id, data);
+            return this;
+        }
+
+        /// <summary>
+        /// Retrieves a cards metadata information
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Boolean TryGetCardMetadata(Card card, out Object data)
+        {
+            return CardMetadata.TryGetValue(card.Id, out data);
+        }
+
+
+        /// <summary>
         /// This is probably not the correct place for this method.  This does not have anything to
         /// do with game rules, but is a mechanism for getting event data from game objects.
         /// </summary>
@@ -488,6 +512,12 @@ namespace Monkey.Games.Agricola
         private ImmutableList<Card> ownedCards = ImmutableList<Card>.Empty;
         private ImmutableList<int> majorImprovements = ImmutableList<int>.Empty;
         private int familySize;
+
+        /// <summary>
+        /// Any cards requiring preservation of custom state data should store
+        /// it in the metadata
+        /// </summary>
+        public ImmutableDictionary<int, Object> CardMetadata = ImmutableDictionary<int, Object>.Empty;
 
     }
 }

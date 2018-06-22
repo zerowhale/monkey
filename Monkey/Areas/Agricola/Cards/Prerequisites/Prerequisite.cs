@@ -6,6 +6,11 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+
+    /// <summary>
+    /// A prerequisite is a requirement that must be met to be able to play
+    /// a card. 
+    /// </summary>
     public abstract class Prerequisite
     {
         public Prerequisite(XElement definition)
@@ -21,7 +26,6 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
         }
 
         public abstract bool IsMet(AgricolaPlayer player);
-
 
         public string Type
         {

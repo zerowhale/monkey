@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
+using System.Collections.Immutable;
 
 namespace Monkey.Games.Agricola.Cards
 {
@@ -10,9 +11,17 @@ namespace Monkey.Games.Agricola.Cards
     {
         public Plow(XElement definition)
         {
-            OnActions = ((string)definition.Attribute("OnActions")).Split(',').Select(action => Convert.ToInt32(action)).ToArray();
+            OnActions = ((string)definition.Attribute("OnActions")).Split(',').Select(action => Convert.ToInt32(action)).ToArray().ToImmutableArray<int>();
             MaxUses = (int)definition.Attribute("MaxUses");
             Fields = (int)definition.Attribute("Fields");
+        }
+
+        public Plow(ImmutableArray<int> onActions, int maxUses, int numUses, int fields)
+        {
+            this.OnActions = onActions;
+            this.MaxUses = maxUses;
+            this.Used = maxUses;
+            this.Fields = fields;
         }
 
         public static Plow Create(XElement definition)
@@ -22,34 +31,22 @@ namespace Monkey.Games.Agricola.Cards
             return null;
         }
 
-        public void Use()
+        /// <summary>
+        /// Increases the use count on the plow by 1.
+        /// </summary>
+        /// <returns>The updated plow object.</returns>
+        public Plow Use()
         {
-            this.Used++;
+            return new Cards.Plow(this.OnActions, this.MaxUses, this.Used + 1, this.Fields);
         }
 
-        public int[] OnActions
-        {
-            get;
-            private set;
-        }
+        public readonly ImmutableArray<int> OnActions;
 
-        public int MaxUses
-        {
-            get;
-            private set;
-        }
+        public readonly int MaxUses;
 
-        public int Fields
-        {
-            get;
-            private set;
-        }
+        public readonly int Fields;
 
-        public int Used
-        {
-            get;
-            private set;
-        }
+        public readonly int Used;
 
     }
 }

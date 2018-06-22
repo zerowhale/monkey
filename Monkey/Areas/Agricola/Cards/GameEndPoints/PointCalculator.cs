@@ -8,39 +8,38 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public abstract class PointCalculator
     {
-        public PointCalculator(XElement definition)
+        public PointCalculator(XElement definition, Card owningCard)
         {
             AllPlayers = definition.Attribute("AllPlayers") != null ? (bool)definition.Attribute("AllPlayers") : false;
             Title = (string)definition.Attribute("Title");
-
+            OwningCard = owningCard;
         }
 
-        public abstract int GetPoints(AgricolaPlayer player, out string title);
 
-        public static PointCalculator Create(XElement definition)
+        public static PointCalculator Create(XElement definition, Card owningCard)
         {
             var cls = (string)definition.Attribute("Class");
             var type = Type.GetType(cls);
 
-            PointCalculator calculator = (PointCalculator)Activator.CreateInstance(type, definition);
+            PointCalculator calculator = (PointCalculator)Activator.CreateInstance(type, definition, owningCard);
             return calculator;
         }
-        public Card OwningCard
-        {
-            get;
-            set;
-        }
 
-        public bool AllPlayers
-        {
-            get;
-            private set;
-        }
+        public abstract int GetPoints(AgricolaPlayer player, out string title);
 
-        public string Title
-        {
-            get;
-            private set;
-        }
+        /// <summary>
+        /// The card this point calculator belongs to.
+        /// </summary>
+        public readonly Card OwningCard;
+
+        /// <summary>
+        /// If the victory point condition is available to all players.
+        /// </summary>
+        public readonly bool AllPlayers;
+
+        /// <summary>
+        /// The descriptive title of the point calculation.
+        /// </summary>
+        public readonly string Title;
     }
 }

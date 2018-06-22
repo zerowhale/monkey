@@ -618,7 +618,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             var card = ((AgricolaGame)player.Game).GetCard(data.Id);
             if (!Curator.IsImprovementAvailable(player, data.Id) 
                 || !Curator.CanAffordCard(player, data.Id, data.PaymentOption, out costs)
-                || (card is MinorImprovement && !((FullCard)card).PrerequisitesMet(player)))
+                || (card is MinorImprovement && !card.PrerequisitesMet(player)))
                 return false;
             return true;
         }
@@ -806,6 +806,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
             return true;
         }
+
         public static void Plow(AgricolaPlayer player, int[] fields, List<GameActionNotice> resultingNotices, int? plowUsed = null)
         {
             if(fields.Length > 0){
@@ -818,9 +819,13 @@ namespace Monkey.Games.Agricola.Actions.Services
                 if (plowUsed != null && fields.Length > 1)
                 {
                     var minor = (((AgricolaGame)player.Game).GetCard(plowUsed.Value) as MinorImprovement);
-                    var plow = minor.Plow;
-                    plow.Use();
-                    minor.Dirty = true;
+                    Object plow;
+                    if (!player.TryGetCardMetadata(minor, out plow))
+                        plow = minor.Plow;
+
+                    plow = ((Plow)plow).Use();
+                    player.SetCardMetadata(minor, plow);
+
                     predicates.Add(new StringPredicate(minor.Name));
                 }
 
@@ -882,7 +887,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 return false;
 
             costs = Curator.GetOccupationCost(player, actionId, cardId);
-            if (!player.CanAfford(costs) || !((FullCard)card).PrerequisitesMet(player)) 
+            if (!player.CanAfford(costs) || !card.PrerequisitesMet(player)) 
                 return false;
 
             return true;

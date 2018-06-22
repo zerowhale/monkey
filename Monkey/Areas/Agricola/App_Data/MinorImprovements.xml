@@ -1353,10 +1353,7 @@
         </Text>
     </MinorImprovement>
 
-
-
-
-    <MinorImprovement Id="1053" Deck="Expert"
+    <MinorImprovement Id="119" Deck="Expert"
             Image="/Areas/Agricola/Content/img/cards/minors/Crooked-plow.jpg" >
         <Name><![CDATA[Crooked<br/>Plow]]></Name>
         <Costs>

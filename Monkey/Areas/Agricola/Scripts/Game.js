@@ -372,11 +372,10 @@
 
 
 
-    join: function (game, deck) {
-        console.info("Joined game:", game, deck);
+    join: function (game, params) {
+        console.info("Joined game:", game, params);
 
-        Curator.loadDeck(deck);
-
+        Curator.loadDeck(params.deck);
 
         this.display.removeClassLike("players");
         this.display.addClass("players" + game.Players.length);

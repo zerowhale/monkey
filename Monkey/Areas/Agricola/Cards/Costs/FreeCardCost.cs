@@ -11,14 +11,5 @@ namespace Monkey.Games.Agricola.Cards.Costs
     /// </summary>
     public class FreeCardCost: CardCost
     {
-        public FreeCardCost()
-        {
-
-        }
-
-        public FreeCardCost(XElement definition) 
-        { 
-        }
-
     }
 }

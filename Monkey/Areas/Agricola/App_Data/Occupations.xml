@@ -608,11 +608,11 @@
           Image="/Areas/Agricola/Content/img/cards/occs/tutor.jpg" >
       <Name>Tutor</Name>
         
-      <Event Class="Monkey.Games.Agricola.Events.TutorEvent" Field="playedOccupations">
+      <Event Class="Monkey.Games.Agricola.Events.TutorEvent">
           <Trigger Class="Monkey.Games.Agricola.Events.Triggers.PlayOccupationTrigger" />
       </Event>
 
-      <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.TutorVictoryPoints" Field="playedOccupations" Title="tutored occupations" />
+      <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.TutorVictoryPoints" Title="tutored occupations" />
 
       <Text>
           <![CDATA[

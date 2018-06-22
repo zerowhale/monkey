@@ -185,15 +185,18 @@ namespace Monkey.Games.Agricola
             Begging = Curator.CalculateBeggingScore(player);
         }
 
+        /// <summary>
+        /// Calculates all bonus points from cards.
+        /// </summary>
+        /// <param name="player"></param>
         private void CalculateBonusPoints(AgricolaPlayer player)
         {
-
             BonusPoints = new List<BonusPointsData>();
             foreach (var card in player.OwnedCards)
             {
-                if (card is IImprovement && (card as IImprovement).Points > 0)
+                if (card is Improvement && (card as Improvement).Points > 0)
                 {
-                    BonusPoints.Add(new BonusPointsData(card.Name, (card as IImprovement).Points));
+                    BonusPoints.Add(new BonusPointsData(card.Name, (card as Improvement).Points));
                 }
 
                 if (/*player.Game.IsOver &&*/ card.GameEndPoints != null){

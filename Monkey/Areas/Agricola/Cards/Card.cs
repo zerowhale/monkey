@@ -11,27 +11,57 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 using Monkey.Games.Agricola.Utils;
+using System.Collections.Immutable;
 
 namespace Monkey.Games.Agricola.Cards
 {
+    /// <summary>
+    /// The base class for all Cards in the game.
+    /// </summary>
     public abstract class Card
     {
-        public Card(XElement definition)
+        public Card(XElement definition, string jsonType)
         {
             this.definition = definition;
+            this.JsonType = jsonType;
 
             Id = (int)definition.Attribute("Id");
             Name = (string)definition.Element("Name");
             Text = definition.Element("Text").Value;
-            Costs = definition.Grandchildren("Costs", "Option").Select(CardCost.Create).ToArray();
             Image = (string)definition.Attribute("Image");
             AnytimeAction = definition.Descendants("AnytimeAction").Select(AnytimeAction.Create).FirstOrDefault();
-            GameEndPoints = definition.Elements("VictoryPointCalculator").Select(PointCalculator.Create).ToArray();
+            GameEndPoints = definition.Elements("VictoryPointCalculator").Select(g => PointCalculator.Create(g, this)).ToArray();
             Events = definition.Elements("Event").Select(TriggeredEvent.Create).ToArray();
             OnPlayEvents = definition.Descendants("OnPlay").Select(GameEvent.Create).ToArray();
-            BakeProperties = definition.Descendants("Bake").Select(ResourceConversion.Create).FirstOrDefault();
-            ResourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(ResourceConversion.Create).ToArray();
 
+            var costs = definition.Grandchildren("Costs", "Option").Select(CardCost.Create).ToArray();
+            Costs = (costs.Length == 0 ? new CardCost[] { new FreeCardCost() } : costs).ToImmutableArray<CardCost>();
+
+            var bakeProperties = definition.Descendants("Bake").Select(ResourceConversion.Create).FirstOrDefault();
+            if (bakeProperties != null)
+                bakeProperties.Id = this.Id;
+            BakeProperties = bakeProperties;
+
+            resourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(ResourceConversion.Create).ToArray();
+            if (resourceConversions != null)
+            {
+                foreach (var resourceConversion in resourceConversions)
+                    resourceConversion.Id = Id;
+            }
+            ResourceConversions = resourceConversions;
+
+            Prerequisites = definition.Elements("Prerequisite").Select(Prerequisite.Create).ToArray();
+            Deck deck;
+            if (Enum.TryParse((string)definition.Attribute("Deck"), out deck))
+                this.Deck = deck;
+
+            var cacheExchanges = definition.Grandchildren("TakeCacheExchange", "CacheExchange").Select(CacheExchange.Create).ToArray();
+            if (cacheExchanges != null)
+            {
+                foreach (var cacheExchange in cacheExchanges)
+                    cacheExchange.Id = Id;
+            }
+            CacheExchanges = cacheExchanges;
         }
 
         public static Card Create(XElement definition)
@@ -54,163 +84,87 @@ namespace Monkey.Games.Agricola.Cards
             return (Card)Activator.CreateInstance(cls, definition);
         }
 
-
-        public Card Clone()
-        {
-            return Card.Create(this.definition);
-        }
-
-        public bool ShouldSerializeResourceConversions()
-        {
-            return resourceConversions.Length > 0;
-        }
-
         /// <summary>
         /// The cards unique identifier
         /// </summary>
-        public int Id
-        {
-            get;
-            set;
-        }
+        public readonly int Id;
 
         /// <summary>
         /// The card name
         /// </summary>
-        public string Name
-        {
-            get;
-            set;
-        }
+        public readonly string Name;
 
         /// <summary>
         /// The cards cost options
         /// </summary>
-        public CardCost[] Costs
-        {
-            get { return costs.ToArray();  }
-            set {
-                if (value.Length == 0)
-                    costs = new CardCost[] { new FreeCardCost() };
-                else
-                    costs = value;  
-            }
-        }
-
-        private CardCost[] costs;
-
-
+        public readonly ImmutableArray<CardCost> Costs;
 
         /// <summary>
         /// The card effect description text
         /// </summary>
-        public string Text
-        {
-            get;
-            set;
-        }
+        public readonly string Text;
 
         /// <summary>
         /// Resource Conversions that occur on bake opperations
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public ResourceConversion BakeProperties
-        {
-            get
-            {
-                return bakeProperties;
-            }
-            set
-            {
-                bakeProperties = value;
-                if(bakeProperties != null)
-                    bakeProperties.Id = this.Id;
-            }
-        }
+        public readonly ResourceConversion BakeProperties;
 
         /// <summary>
         /// Resource Conversions that occur as any time actions
         /// (Including cooking)
         /// </summary>
-        public ResourceConversion[] ResourceConversions
-        {
-            get
-            {
-                return resourceConversions;
-            }
-            set
-            {
-                resourceConversions = value;
-                if (resourceConversions != null)
-                {
-                    foreach (var resourceConversion in resourceConversions)
-                        resourceConversion.Id = Id;
-                }
-            }
-        }
-
-
-
-        public string Image
-        {
-            get;
-            set;
-        }
+        public readonly ResourceConversion[] ResourceConversions;
+        
+        /// <summary>
+        /// Url of the image that represents this card
+        /// </summary>
+        public readonly string Image;
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public AnytimeAction AnytimeAction
-        {
-            get;
-            set;
-        }
+        public readonly AnytimeAction AnytimeAction;
 
         [JsonIgnore]
-        public PointCalculator[] GameEndPoints{
-            get { return gameEndPoints; }
-            set {
-                gameEndPoints = value;
-                foreach (var pointCalculator in gameEndPoints)
-                {
-                    pointCalculator.OwningCard = this;
-                }
-            }
-        }
+        public readonly PointCalculator[] GameEndPoints;
 
         [JsonIgnore]
-        public TriggeredEvent[] Events
-        {
-            get;
-            set;
-        }
+        public readonly TriggeredEvent[] Events;
 
         [JsonIgnore]
-        public GameEvent[] OnPlayEvents
-        {
-            get;
-            set;
-        }
+        public readonly GameEvent[] OnPlayEvents;
 
-        [JsonIgnore]
-        public bool Dirty
-        {
-            get;
-            set;
-        }
+        [JsonProperty(PropertyName = "Type")]
+        public readonly string JsonType;
 
 
-        public abstract string JsonType
+
+        /// <summary>
+        /// Checks if all prerequisites of the card are met
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public bool PrerequisitesMet(AgricolaPlayer player)
         {
-            get;
+            return !Prerequisites.Any(x => !x.IsMet(player));
         }
 
         /// <summary>
-        /// Any cards requiring preservation of custom state data should store
-        /// it in the metadata
+        /// The deck this card belongs to (Basic, Intermediate, Expert)
         /// </summary>
         [JsonIgnore]
-        public Dictionary<String, Object> Metadata = new Dictionary<string, object>();
+        public readonly Deck? Deck;
 
-        private XElement definition;
+        /// <summary>
+        /// The prerequisites to play this card
+        /// </summary>
+        public readonly Prerequisite[] Prerequisites;
+
+        /// <summary>
+        /// Cache exchanges that are available
+        /// </summary>
+        public readonly CacheExchange[] CacheExchanges;
+
+        private readonly XElement definition;
 
         private ResourceConversion bakeProperties;
         private ResourceConversion[] resourceConversions;

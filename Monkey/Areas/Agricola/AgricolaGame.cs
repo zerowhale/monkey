@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Collections.Immutable;
 
 namespace Monkey.Games.Agricola
 {
@@ -475,17 +476,6 @@ namespace Monkey.Games.Agricola
         {
             if (this.Interrupt != null) return true;
             this.Interrupt = interrupts.Count() > 0 ? interrupts.Pop() : null;
-
-            dirtyCards.Clear();
-            foreach(var card in masterDeck.Values){
-                if (card.Dirty)
-                {
-                    card.Dirty = false;
-                    dirtyCards.Add(card);
-                }
-            }
-
-
             return this.Interrupt != null;
         }
 
@@ -546,10 +536,6 @@ namespace Monkey.Games.Agricola
         public override string Title
         {
             get { return "Agricola";  }
-        }
-
-        public List<Card> DirtyCards{
-            get { return dirtyCards; }
         }
 
 
@@ -771,7 +757,7 @@ namespace Monkey.Games.Agricola
 
         private void BuildMajorImprovements()
         {
-            var majors = Curator.MajorImprovements;
+            var majors = Curator.MajorImprovementsDeck;
             foreach (var major in majors)
             {
                 majorImprovements[major.Id] = null;
@@ -787,8 +773,8 @@ namespace Monkey.Games.Agricola
 
             if (!FamilyMode)
             {
-                minorImprovementsDeck = Curator.GetMinorImprovementsDeck();
-                occupationsDeck = Curator.GetOccupationsDeck();
+                minorImprovementsDeck = Curator.MinorImprovementsDeck;
+                occupationsDeck = Curator.OccupationsDeck;
 
                 foreach (var card in minorImprovementsDeck)
                     masterDeck[card.Id] = card;
@@ -925,12 +911,14 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.HandOccupations.Add(GetCard(2038));  // Field Watchman
-                    player.HandMinors.Add(GetCard(132));
+                    //player.HandOccupations.Add(GetCard(174));  // tutor
+                    //player.HandOccupations.Add(GetCard(2038));  // Field Watchman
+                    player.HandMinors.Add(GetCard(62)); // Turnwrest Plow
+                    player.HandMinors.Add(GetCard(119)); // Turnwrest Plow
                 }
-                
 
-                for(var i=0;i<STARTING_HAND_SIZE; i++){
+
+                for (var i=0;i<STARTING_HAND_SIZE; i++){
                     if (minors.Count > 0)
                     {
                         var index = rng.Next(0,minors.Count);
@@ -1008,8 +996,8 @@ namespace Monkey.Games.Agricola
         private Stack<InterruptAction> interrupts = new Stack<InterruptAction>();
 
         private Dictionary<int, Card> masterDeck = new Dictionary<int, Card>();
-        private List<MinorImprovement> minorImprovementsDeck;
-        private List<Occupation> occupationsDeck;
+        private ImmutableArray<MinorImprovement> minorImprovementsDeck;
+        private ImmutableArray<Occupation> occupationsDeck;
 
         private List<Card> dirtyCards = new List<Card>();
 

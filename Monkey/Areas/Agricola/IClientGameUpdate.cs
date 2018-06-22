@@ -62,10 +62,5 @@ namespace Monkey.Games.Agricola
             get;
             set;
         }
-
-        List<Card> DirtyCards
-        {
-            get;
-        }
     }
 }

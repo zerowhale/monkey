@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+    /// <summary>
+    /// A prerequisite requiring a player to have at least a certain number of rooms.
+    /// </summary>
     public class RoomPrerequisite: Prerequisite
     {
         public RoomPrerequisite(XElement definition)
@@ -21,6 +24,6 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
             return player.Farmyard.RoomCount >= RoomCount;
         }
 
-        public int RoomCount;
+        public readonly int RoomCount;
     }
 }

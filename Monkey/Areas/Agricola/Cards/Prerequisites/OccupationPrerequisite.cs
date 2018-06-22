@@ -6,6 +6,10 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+    /// <summary>
+    /// Prerequisite to playing a card that requires a certain number of
+    /// Occupations to be owned by the player.
+    /// </summary>
     public class OccupationPrerequisite: Prerequisite
     {
         public OccupationPrerequisite(XElement definition)
@@ -21,11 +25,7 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
             return owned >= Count;
         }
 
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public readonly int Count;
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -8,21 +9,22 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class TutorVictoryPoints: PointCalculator
     {
-        public TutorVictoryPoints(XElement definition)
-            :base(definition)
+        public TutorVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
-            field = (string)definition.Attribute("Field");
         }
 
         public override int GetPoints(AgricolaPlayer player, out string title)
         {
-            var cards = (List<Card>)OwningCard.Metadata[this.field];
-            title = Title;
-            return cards.Count - 1;
-        }
+            Object cardCount;
 
-        private string field;
-    
+            title = Title;
+            if (player.TryGetCardMetadata(this.OwningCard, out cardCount))
+            {
+                return (int)cardCount;
+            }
+            return 0;
+        }
     
     }
 }

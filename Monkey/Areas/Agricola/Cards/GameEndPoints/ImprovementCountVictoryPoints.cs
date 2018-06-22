@@ -8,8 +8,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class ImprovementCountVictoryPoints : PointCalculator
     {
-        public ImprovementCountVictoryPoints(XElement definition)
-            :base(definition)
+        public ImprovementCountVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
             var points = new List<RequiredImprovementPoints>();
 

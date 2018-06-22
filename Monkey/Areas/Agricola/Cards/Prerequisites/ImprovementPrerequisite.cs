@@ -17,14 +17,10 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
 
         public override bool IsMet(AgricolaPlayer player)
         {
-            return player.OwnedCards.Count(x => x is IImprovement) >= Count;
+            return player.OwnedCards.Count(x => x is Improvement) >= Count;
         }
 
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public readonly int Count;
 
     }
 }

@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
+using System.Collections.Immutable;
 
 namespace Monkey.Games.Agricola
 {
@@ -40,6 +41,7 @@ namespace Monkey.Games.Agricola
         {
             var xml = XDocument.Load(filePath);
             majorImprovements = xml.Descendants("MajorImprovement").Select(Card.Create).ToDictionary(key => key.Id, value => (MajorImprovement)value);
+            majorImprovementDeck = majorImprovementDeck.AddRange(majorImprovements.Values.ToArray<MajorImprovement>());
             return JsonConvert.SerializeObject(majorImprovements);
         }
 
@@ -48,6 +50,7 @@ namespace Monkey.Games.Agricola
 
             var xml = XDocument.Load(filePath);
             occupations = xml.Descendants("Occupation").Select(Card.Create).ToDictionary(key => key.Id, value => (Occupation)value);
+            occupationDeck = occupationDeck.AddRange(occupations.Values.ToArray<Occupation>());
             return JsonConvert.SerializeObject(occupations);
         }
 
@@ -56,6 +59,7 @@ namespace Monkey.Games.Agricola
         {
             var xml = XDocument.Load(filePath);
             minorImprovements = xml.Descendants("MinorImprovement").Select(Card.Create).ToDictionary(key => key.Id, value => (MinorImprovement)value);
+            minorImprovementDeck = minorImprovementDeck.AddRange(minorImprovements.Values.ToArray<MinorImprovement>());
             return JsonConvert.SerializeObject(minorImprovements);
         }
 
@@ -67,6 +71,7 @@ namespace Monkey.Games.Agricola
             return true;
         }
 
+
         /// <summary>
         /// Retrieves the card data for the given major improvement
         /// </summary>
@@ -77,30 +82,28 @@ namespace Monkey.Games.Agricola
             return majorImprovements[id];
         }
 
-        public static List<MajorImprovement> MajorImprovements
+        /// <summary>
+        /// The full deck of major improvements
+        /// </summary>
+        public static ImmutableArray<MajorImprovement> MajorImprovementsDeck
         {
-            get
-            {
-                return majorImprovements.Values.ToList();
-            }
+            get { return majorImprovementDeck; }
         }
 
         /// <summary>
-        /// Returns a unique copy of the minor improvement deck.
-        /// This is expensive, and is meant only to be called when a new game is started
+        /// The full deck of minor improvements
         /// </summary>
-        public static List<MinorImprovement> GetMinorImprovementsDeck()
+        public static ImmutableArray<MinorImprovement> MinorImprovementsDeck
         {
-            return minorImprovements.Values.Select(card => card.Clone() as MinorImprovement).ToList();
+            get { return minorImprovementDeck; }
         }
 
         /// <summary>
-        /// Returns a unique copy of the occupation deck.
-        /// This is expensive, and is meant only to be called when a new game is started
+        /// The full deck of occupations
         /// </summary>
-        public static List<Occupation> GetOccupationsDeck()
+        public static ImmutableArray<Occupation> OccupationsDeck
         {
-            return occupations.Values.Select(card => card.Clone() as Occupation).ToList();
+            get { return occupationDeck; }
         }
 
         /// <summary>
@@ -309,12 +312,21 @@ namespace Monkey.Games.Agricola
             return null;
         }
 
+        /// <summary>
+        /// Returns true if the player has an Oven on their farm
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static bool HasOven(AgricolaPlayer player)
         {
-            
-            return player.OwnedCards.Where(x => x is IImprovement).Any(x => (x as IImprovement).Oven);
+            return player.OwnedCards.Where(x => x is Improvement).Any(x => (x as Improvement).Oven);
         }
 
+        /// <summary>
+        /// Returns true if the player has any cards that allow them to convert resources into food.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static bool CanCook(AgricolaPlayer player)
         {
             var ids = player.OwnedCardIds;
@@ -539,9 +551,9 @@ namespace Monkey.Games.Agricola
         }
 
 
-        public static CardCost GetCardCost(AgricolaPlayer player, int id, int paymentIndex = 0)
+        public static CardCost GetCardCost(AgricolaPlayer player, int cardId, int paymentIndex = 0)
         {
-            var card = ((AgricolaGame)player.Game).GetCard(id);
+            var card = ((AgricolaGame)player.Game).GetCard(cardId);
 
             if (paymentIndex < 0 || card.Costs.Length <= paymentIndex)
                 throw new ArgumentOutOfRangeException("paymentIndex");
@@ -639,6 +651,11 @@ namespace Monkey.Games.Agricola
             return pastures.Intersect(stables).Count();
         }
 
+        /// <summary>
+        /// Calculates the points gained for each room a player has
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static int CalculateRoomsScore(AgricolaPlayer player)
         {
             var roomValue = 0;
@@ -650,12 +667,21 @@ namespace Monkey.Games.Agricola
             return player.Farmyard.RoomCount * roomValue;
         }
 
-
+        /// <summary>
+        /// Calculates the points gained for each family member a player has
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static int CalculateFamilyMemberScore(AgricolaPlayer player)
         {
             return player.FamilySize * 3;
         }
 
+        /// <summary>
+        /// Returns the amount of points lost for begging cards for a player
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public static int CalculateBeggingScore(AgricolaPlayer player)
         {
             return -player.BeggingCards * 3;
@@ -693,10 +719,13 @@ namespace Monkey.Games.Agricola
             resourceConversions.Add(new ResourceConversion(id, inType, inAmount, inLimit, outType, outAmount));
         }
 
-
         private static Dictionary<int, MajorImprovement> majorImprovements;
         private static Dictionary<int, MinorImprovement> minorImprovements;
         private static Dictionary<int, Occupation> occupations;
+
+        private static ImmutableArray<MajorImprovement> majorImprovementDeck = ImmutableArray<MajorImprovement>.Empty;
+        private static ImmutableArray<MinorImprovement> minorImprovementDeck = ImmutableArray<MinorImprovement>.Empty;
+        private static ImmutableArray<Occupation> occupationDeck = ImmutableArray<Occupation>.Empty;
 
         private static List<ResourceConversion> resourceConversions = new List<ResourceConversion>();
 

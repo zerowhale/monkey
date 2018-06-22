@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+    /// <summary>
+    /// Prerequisite for the Outhouse improvement
+    /// </summary>
     public class OuthousePrerequisite: Prerequisite
     {
         public OuthousePrerequisite(XElement definition)
@@ -14,6 +17,12 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
 
         }
 
+        /// <summary>
+        /// Returns true if at least one other player in a multiplayer game has no more than 1 occupations
+        /// in play.  Returns true if the only player has at most 1 occupation in play in a single player game.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
         public override bool IsMet(AgricolaPlayer player)
         {
             foreach (var p in ((AgricolaGame)player.Game).AgricolaPlayers)

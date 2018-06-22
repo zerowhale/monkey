@@ -8,8 +8,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class HouseTypeVictoryPoints: PointCalculator
     {
-        public HouseTypeVictoryPoints(XElement definition)
-            :base(definition)
+        public HouseTypeVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
             points = definition.Attribute("Points") == null ? 1 : (int)definition.Attribute("Points");
             houseType = (HouseType)Enum.Parse(typeof(HouseType), (string)definition.Attribute("HouseType"));

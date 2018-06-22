@@ -8,8 +8,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class PastureCountVictoryPoints: PointCalculator
     {
-        public PastureCountVictoryPoints(XElement definition)
-            :base(definition)
+        public PastureCountVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
             var pcp = new List<PastureCountPoints>();
 
@@ -24,6 +24,12 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             options = pcp.OrderByDescending(x => x.RequiredCount).ToArray();
         }
 
+        /// <summary>
+        /// Rewards additional points based on the number of pastures
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public override int GetPoints(AgricolaPlayer player, out string title)
         {
             var numPastures = player.Farmyard.PastureLocations.Count();

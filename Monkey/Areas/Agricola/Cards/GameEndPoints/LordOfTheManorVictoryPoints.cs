@@ -12,8 +12,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         /// Constructor for loading from an xml definition.
         /// </summary>
         /// <param name="definition">The XML segment that defines this object.</param>
-        public LordOfTheManorVictoryPoints(XElement definition)
-            :base(definition)
+        public LordOfTheManorVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
 
         }

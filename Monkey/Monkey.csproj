@@ -256,7 +256,7 @@
     <Compile Include="Areas\Agricola\Cards\GameEndPoints\MostOccupationsVictoryPoints.cs" />
     <Compile Include="Areas\Agricola\Cards\GameEndPoints\LordOfTheManorVictoryPoints.cs" />
     <Compile Include="Areas\Agricola\Cards\GameEndPoints\TutorVictoryPoints.cs" />
-    <Compile Include="Areas\Agricola\Cards\IImprovement.cs" />
+    <Compile Include="Areas\Agricola\Cards\Improvement.cs" />
     <Compile Include="Areas\Agricola\Cards\Plow.cs" />
     <Compile Include="Areas\Agricola\Cards\Prerequisites\CanBuildFencePrerequisite.cs" />
     <Compile Include="Areas\Agricola\Cards\Prerequisites\HousePrerequisite.cs" />
@@ -351,7 +351,6 @@
     <Compile Include="Areas\Agricola\Cards\Costs\CardCost.cs" />
     <Compile Include="Areas\Agricola\Cards\Prerequisites\Prerequisite.cs" />
     <Compile Include="Areas\Agricola\Cards\Deck.cs" />
-    <Compile Include="Areas\Agricola\Cards\FullCard.cs" />
     <Compile Include="Areas\Agricola\Cards\Costs\ReturnCardCardCost.cs" />
     <Compile Include="Areas\Agricola\Cards\MinorImprovement.cs" />
     <Compile Include="Areas\Agricola\Cards\Occupation.cs" />

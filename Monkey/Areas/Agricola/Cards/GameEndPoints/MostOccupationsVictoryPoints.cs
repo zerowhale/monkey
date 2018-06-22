@@ -8,12 +8,18 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class MostOccupationsVictoryPoints : PointCalculator
     {
-        public MostOccupationsVictoryPoints(XElement definition)
-            :base(definition)
+        public MostOccupationsVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
             points = (int)definition.Attribute("Points");
         }
 
+        /// <summary>
+        /// Returns points if the card owner has the most occupations
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
         public override int GetPoints(AgricolaPlayer player, out string title)
         {
             var players = ((AgricolaGame)player.Game).AgricolaPlayers;
@@ -32,8 +38,5 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         }
 
         private int points;
-
-
-
     }
 }

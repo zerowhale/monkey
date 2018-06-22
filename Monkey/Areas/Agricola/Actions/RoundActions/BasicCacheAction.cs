@@ -42,7 +42,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                     if (!ownsAllCards)
                         return false;
 
-                    availableConversions = player.OwnedCards.Where(x => x is FullCard && requestedIds.Contains(x.Id)).SelectMany(card => (card as FullCard).CacheExchanges);
+                    availableConversions = player.OwnedCards.Where(x => requestedIds.Contains(x.Id)).SelectMany(card => card.CacheExchanges);
                     var total = new Dictionary<Resource, int>();
                     foreach (var exchange in exchangeData.exchanges)
                     {

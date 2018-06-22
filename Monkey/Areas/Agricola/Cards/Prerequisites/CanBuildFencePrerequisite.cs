@@ -6,6 +6,9 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+    /// <summary>
+    /// Prerequisite that requires a player be able to place fences.
+    /// </summary>
     public class CanBuildFencePrerequisite: Prerequisite
     {
         public CanBuildFencePrerequisite(XElement definition)

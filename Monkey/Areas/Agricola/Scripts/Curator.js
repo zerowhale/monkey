@@ -253,9 +253,19 @@
             maxFields: 1,
             plows: []
         }
+
         for (var c in cards) {
-            var card = cards[c];
-            var plow = card.Plow;
+            var card = cards[c],
+                plow;
+            console.info(player, card);
+            if (!card.Plow)
+                continue;
+
+            if (player.CardMetadata[card.Id])
+                plow = player.CardMetadata[card.Id]
+            else
+                plow = card.Plow;
+
             if (plow && plow.Used < plow.MaxUses) {
                 for (var i in plow.OnActions) {
                     var id = plow.OnActions[i];

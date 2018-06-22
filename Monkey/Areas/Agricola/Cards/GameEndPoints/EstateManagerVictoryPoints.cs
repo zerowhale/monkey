@@ -8,8 +8,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class EstateManagerVictoryPoints: PointCalculator
     {
-        public EstateManagerVictoryPoints(XElement definition)
-            :base(definition)
+        public EstateManagerVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
 
         }

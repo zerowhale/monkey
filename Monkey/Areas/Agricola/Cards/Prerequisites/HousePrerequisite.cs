@@ -8,6 +8,9 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Cards.Prerequisites
 {
+    /// <summary>
+    /// Prerequisite that requires a specific level of house 
+    /// </summary>
     public class HousePrerequisite: Prerequisite
     {
         public HousePrerequisite(XElement definition)
@@ -22,6 +25,6 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public HouseType HouseType;
+        public readonly HouseType HouseType;
     }
 }

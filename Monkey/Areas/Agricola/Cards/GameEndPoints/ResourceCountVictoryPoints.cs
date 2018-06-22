@@ -9,8 +9,8 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 {
     public class ResourceCountVictoryPoints: PointCalculator
     {
-        public ResourceCountVictoryPoints(XElement definition)
-            :base(definition)
+        public ResourceCountVictoryPoints(XElement definition, Card owningCard)
+            :base(definition, owningCard)
         {
             var rrps = new List<RequiredResourcePoints>();
 

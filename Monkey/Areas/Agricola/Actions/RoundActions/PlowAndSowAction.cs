@@ -49,7 +49,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             if (sowEnabled)
             {
-                var toSow = ((PlowAndSowActionData)data).Sow.ToImmutableArray();
+                var toSow = ImmutableArray.Create(((PlowAndSowActionData)data).Sow);
                 ActionService.Sow(player, toSow, ResultingNotices);
             }
 

@@ -910,11 +910,12 @@ namespace Monkey.Games.Agricola
                         if (occupations.Contains(occ))
                             occupations.Remove(occ);
                     }
-
-                    //player.HandOccupations.Add(GetCard(174));  // tutor
+                    
+                    player.HandOccupations.Add(GetCard(191));  // Mason
+                    //player.HandOccupations.Add(GetCard(174));  // Tutor
                     //player.HandOccupations.Add(GetCard(2038));  // Field Watchman
-                    player.HandMinors.Add(GetCard(62)); // Turnwrest Plow
-                    player.HandMinors.Add(GetCard(119)); // Turnwrest Plow
+                    //player.HandMinors.Add(GetCard(62)); // Turnwrest Plow
+                    //player.HandMinors.Add(GetCard(119)); // Turnwrest Plow
                 }
 
 

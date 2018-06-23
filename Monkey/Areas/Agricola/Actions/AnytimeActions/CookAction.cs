@@ -10,21 +10,14 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
     public class CookAction : AnytimeAction
     {
-        public CookAction()
-            : base((int)AnytimeActionId.Cook)
-        {
-
-        }
-
-        public CookAction(XElement definition)
-            : base((int)AnytimeActionId.Cook, definition)
+        public CookAction(XElement definition, int cardId)
+            : base(definition, (int)AnytimeActionId.Cook, cardId)
         {
 
         }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-
             return base.CanExecute(player, data)
                 && ActionService.CanCook(player, ((CookActionData)data).Resources)
                 && ActionService.CanAssignAnimals(player, ((CookActionData)data).AnimalData, null);

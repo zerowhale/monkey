@@ -11,14 +11,8 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
     public class BuildRoomAction: AnytimeAction
     {
-        public BuildRoomAction()
-            : base((int)AnytimeActionId.BuildRoom)
-        {
-
-        }
-
-        public BuildRoomAction(XElement definition)
-            : base((int)AnytimeActionId.BuildRoom, definition)
+        public BuildRoomAction(XElement definition, int cardId)
+            : base(definition, (int)AnytimeActionId.BuildRoom, cardId)
         {
 
         }

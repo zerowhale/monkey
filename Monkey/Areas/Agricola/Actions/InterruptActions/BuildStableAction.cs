@@ -20,7 +20,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            var stables = ((BuildStableActionData)data).StableData.ToImmutableArray();
+            var stables = ImmutableArray.Create(((BuildStableActionData)data).StableData);
 
             if (stables.Length > Count)
                 return false;
@@ -36,7 +36,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            ActionService.BuildStables(player, ((BuildStableActionData)data).StableData.ToImmutableArray(), Id, ResultingNotices);
+            ActionService.BuildStables(player, ImmutableArray.Create(((BuildStableActionData)data).StableData), Id, ResultingNotices);
         }
 
         public readonly int Count;

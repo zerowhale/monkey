@@ -29,7 +29,7 @@ namespace Monkey.Games.Agricola.Cards
             Name = (string)definition.Element("Name");
             Text = definition.Element("Text").Value;
             Image = (string)definition.Attribute("Image");
-            AnytimeAction = definition.Descendants("AnytimeAction").Select(AnytimeAction.Create).FirstOrDefault();
+            AnytimeAction = definition.Descendants("AnytimeAction").Select(x => AnytimeAction.Create(x, this.Id)).FirstOrDefault();
             GameEndPoints = definition.Elements("VictoryPointCalculator").Select(g => PointCalculator.Create(g, this)).ToArray();
             Events = definition.Elements("Event").Select(TriggeredEvent.Create).ToArray();
             OnPlayEvents = definition.Descendants("OnPlay").Select(GameEvent.Create).ToArray();

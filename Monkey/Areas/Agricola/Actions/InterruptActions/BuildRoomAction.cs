@@ -23,7 +23,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             if (!ActionService.CanBuildRooms(
                 player, 
                 data.ActionId,
-                ImmutableArray.Create<int>(((BuildRoomData)data).RoomData)))
+                ImmutableArray.Create(((BuildRoomData)data).RoomData)))
             {
                 return false;
             }
@@ -36,7 +36,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.BuildRooms(
                 player, 
                 data.ActionId,
-                 ImmutableArray.Create<int>(((BuildRoomData)data).RoomData) , 
+                 ImmutableArray.Create(((BuildRoomData)data).RoomData) , 
                 ResultingNotices);
         }
 

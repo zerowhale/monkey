@@ -11,17 +11,19 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
     public abstract class AnytimeAction : GameAction
     {
-        public AnytimeAction(int id)
-            : base(null, id)
+        /*
+        public AnytimeAction(int actionId)
+            : base(null, actionId)
         {
 
-        }
+        }*/
 
-        public AnytimeAction(int id, XElement definition)
-            :base(null, id)
+        public AnytimeAction(XElement definition, int actionId, int cardId)
+            :base(null, actionId)
         {
             Prerequisites = definition.Descendants("Prerequisite").Select(Prerequisite.Create).ToArray();
             MaxUses = definition.Attribute("MaxUses") == null ? 0 : (int)definition.Attribute("MaxUses");
+            CardId = cardId;
 
             this.definition = definition;
         }
@@ -31,41 +33,46 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
-        public static AnytimeAction Create(XElement definition)
+        public static AnytimeAction Create(XElement definition, int cardId)
         {
             var cls = (string)definition.Attribute("Class");
             var type = Type.GetType(cls);
 
-            return (AnytimeAction)Activator.CreateInstance(type, definition);
+            return (AnytimeAction)Activator.CreateInstance(type, definition, cardId);
         }
 
 
         public override Boolean CanExecute(AgricolaPlayer player, GameActionData data)
         {
-            return (MaxUses <= 0 || MaxUses > uses)
-                    && meetsPrerequisites(player);
+            Object cardData;
+            if(MaxUses > 0 && player.TryGetCardMetadata(CardId, out cardData) && MaxUses <= (int)cardData)
+            {
+                return false;
+            }
+            return meetsPrerequisites(player);
         }
 
         public override void OnExecute(AgricolaPlayer player, GameActionData data)
         {
-            
-            uses++;
+            if(MaxUses > 0)
+            {
+                Object cardData;
+                if (!player.TryGetCardMetadata(CardId, out cardData))
+                    cardData = 0;
+                player.SetCardMetadata(CardId, ((int)cardData) + 1);
+            }
         }
 
         public AnytimeAction Clone()
         {
-            return AnytimeAction.Create(definition);
+            return AnytimeAction.Create(definition, CardId);
         }
 
+        public readonly int CardId;
 
         public readonly Prerequisite[] Prerequisites;
 
         public readonly int MaxUses;
-
-        public int Uses
-        {
-            get { return uses;  }
-        }
 
         [JsonProperty(PropertyName="Type")]
         public string ClassType
@@ -85,8 +92,6 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             }
             return true;
         }
-
-        private int uses = 0;
 
         /// <summary>
         /// A copy of the definition used to create this action

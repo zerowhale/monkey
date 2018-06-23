@@ -110,6 +110,17 @@ namespace Monkey.Games.Agricola
         }
 
         /// <summary>
+        /// Sets a cards metadata information
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public AgricolaPlayer SetCardMetadata(int cardId, Object data)
+        {
+            CardMetadata = CardMetadata.SetItem(cardId, data);
+            return this;
+        }
+        /// <summary>
         /// Retrieves a cards metadata information
         /// </summary>
         /// <param name="card"></param>
@@ -117,7 +128,18 @@ namespace Monkey.Games.Agricola
         /// <returns></returns>
         public Boolean TryGetCardMetadata(Card card, out Object data)
         {
-            return CardMetadata.TryGetValue(card.Id, out data);
+            return TryGetCardMetadata(card.Id, out data);
+        }
+
+        /// <summary>
+        /// Retrieves a cards metadata information by card id.
+        /// </summary>
+        /// <param name="card"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public Boolean TryGetCardMetadata(int card, out Object data)
+        {
+            return CardMetadata.TryGetValue(card, out data);
         }
 
 

@@ -28,7 +28,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         /// <returns></returns>
         public override bool CanExecute(AgricolaPlayer player, GameActionData data)
         {
-            var bakeData = ((BakeActionData)data).BakeData.ToImmutableArray();
+            var bakeData = ImmutableArray.Create(((BakeActionData)data).BakeData);
             if (bakeData == null || bakeData.Length == 0)
                 return true;
 
@@ -42,7 +42,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         /// <param name="data"></param>
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            var bakeData = ((BakeActionData)data).BakeData.ToImmutableArray();
+            var bakeData = ImmutableArray.Create(((BakeActionData)data).BakeData);
                 
             if(bakeData != null && bakeData.Length > 0)
                 ActionService.Bake(player, eventTriggers, ResultingNotices, bakeData);

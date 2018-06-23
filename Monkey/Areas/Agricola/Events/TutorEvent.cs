@@ -18,11 +18,13 @@ namespace Monkey.Games.Agricola.Events
 
         protected override void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
         {
-            Object cardCount;
-            if(!player.TryGetCardMetadata(this.OwningCard, out cardCount))
-                cardCount = -1;
-            cardCount = (int)cardCount + 1;
-            player.SetCardMetadata(this.OwningCard, cardCount);
+            ImmutableDictionary<string, Object> metadata;
+            int cardCount = -1;
+            if (player.TryGetCardMetadata(this.OwningCard, out metadata))
+                cardCount = (int)metadata["tutor"];
+            else
+                metadata = ImmutableDictionary<string, Object>.Empty;
+            player.SetCardMetadata(this.OwningCard, metadata.SetItem("tutor", cardCount + 1));
         }
     }
 }

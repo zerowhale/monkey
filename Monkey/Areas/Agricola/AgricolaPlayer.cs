@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Dynamic;
 using System.Linq;
 
 namespace Monkey.Games.Agricola
@@ -19,7 +20,7 @@ namespace Monkey.Games.Agricola
     {
 
         public AgricolaPlayer(AgricolaGame game, Player player)
-            :base((IGame<GameHub>)game, player)
+            : base((IGame<GameHub>)game, player)
         {
             PersonalSupply = PersonalSupply.Empty;
             Farmyard = new Farmyard(this);
@@ -103,7 +104,7 @@ namespace Monkey.Games.Agricola
         /// <param name="card"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public AgricolaPlayer SetCardMetadata(Card card, Object data)
+        public AgricolaPlayer SetCardMetadata(Card card, ImmutableDictionary<string, Object> data)
         {
             CardMetadata = CardMetadata.SetItem(card.Id, data);
             return this;
@@ -115,7 +116,7 @@ namespace Monkey.Games.Agricola
         /// <param name="card"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public AgricolaPlayer SetCardMetadata(int cardId, Object data)
+        public AgricolaPlayer SetCardMetadata(int cardId, ImmutableDictionary<string, Object> data)
         {
             CardMetadata = CardMetadata.SetItem(cardId, data);
             return this;
@@ -126,7 +127,7 @@ namespace Monkey.Games.Agricola
         /// <param name="card"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Boolean TryGetCardMetadata(Card card, out Object data)
+        public Boolean TryGetCardMetadata(Card card, out ImmutableDictionary<string, Object> data)
         {
             return TryGetCardMetadata(card.Id, out data);
         }
@@ -137,7 +138,7 @@ namespace Monkey.Games.Agricola
         /// <param name="card"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public Boolean TryGetCardMetadata(int card, out Object data)
+        public Boolean TryGetCardMetadata(int card, out ImmutableDictionary<string, Object> data)
         {
             return CardMetadata.TryGetValue(card, out data);
         }
@@ -222,11 +223,11 @@ namespace Monkey.Games.Agricola
 
             foreach (var conversion in data)
             {
-                var conversionDefinition = availableConversions.FirstOrDefault(x => x.Id == conversion.Id 
+                var conversionDefinition = availableConversions.FirstOrDefault(x => x.Id == conversion.Id
                     && x.InType == conversion.InType && x.InAmount == conversion.InAmount
                     && x.OutType == conversion.OutType);
 
-                if(conversionDefinition == null)
+                if (conversionDefinition == null)
                     return false;
 
                 // Invalid input amount
@@ -504,7 +505,7 @@ namespace Monkey.Games.Agricola
         {
             get { return this.PersonalSupply.Wood; }
         }
-        
+
         /// <summary>
         /// Gets the amount of vegetables in the players personal supply
         /// </summary>
@@ -539,7 +540,7 @@ namespace Monkey.Games.Agricola
         /// Any cards requiring preservation of custom state data should store
         /// it in the metadata
         /// </summary>
-        public ImmutableDictionary<int, Object> CardMetadata = ImmutableDictionary<int, Object>.Empty;
+        public ImmutableDictionary<int, ImmutableDictionary<string, Object>> CardMetadata = ImmutableDictionary<int, ImmutableDictionary<string, Object>>.Empty;
 
     }
 }

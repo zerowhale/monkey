@@ -11,6 +11,7 @@ using Monkey.Games.Agricola.Notification;
 using Monkey.Games.Agricola.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 
 namespace Monkey.Games.Agricola.Actions.Services
@@ -214,7 +215,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="stables"></param>
         /// <param name="actionId"></param>
         /// <returns></returns>
-        public static bool CanBuildStables(AgricolaPlayer player, int[] stables, int actionId)
+        public static bool CanBuildStables(AgricolaPlayer player, ImmutableArray<int> stables, int actionId)
         {
             var costs = Curator.GetStablesCosts(player, actionId, stables.Length);
             return player.CanAfford(costs) && player.Farmyard.StablesLocationsValid(stables);
@@ -227,7 +228,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="stables"></param>
         /// <param name="actionId"></param>
         /// <param name="resultingNotices"></param>
-        public static void BuildStables(AgricolaPlayer player, int[] stables, int actionId, List<GameActionNotice> resultingNotices)
+        public static void BuildStables(AgricolaPlayer player, ImmutableArray<int> stables, int actionId, List<GameActionNotice> resultingNotices)
         {
             var costs = Curator.GetStablesCosts(player, actionId, stables.Length);
             player.PayCosts(costs);
@@ -247,7 +248,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="rooms"></param>
         /// <returns></returns>
-        public static bool CanBuildRooms(AgricolaPlayer player, int actionId, int[] rooms)
+        public static bool CanBuildRooms(AgricolaPlayer player, int actionId, ImmutableArray<int> rooms)
         {
             var costs = Curator.GetRoomsCosts(player, actionId, rooms.Length);
             return player.CanAfford(costs) && player.Farmyard.RoomLocationsValid(rooms);
@@ -259,7 +260,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="rooms"></param>
         /// <param name="resultingNotices"></param>
-        public static void BuildRooms(AgricolaPlayer player, int actionId, int[] rooms, List<GameActionNotice> resultingNotices)
+        public static void BuildRooms(AgricolaPlayer player, int actionId, ImmutableArray<int> rooms, List<GameActionNotice> resultingNotices)
         {
             var costs = Curator.GetRoomsCosts(player, actionId, rooms.Length);
             player.PayCosts(costs);
@@ -335,7 +336,11 @@ namespace Monkey.Games.Agricola.Actions.Services
             var cooking = false;
             foreach (var count in data.Cook.Values)
             {
-                if (count > 0) cooking = true;
+                if (count > 0)
+                {
+                    cooking = true;
+                    break;
+                }
             }
 
             var freedAnimalsPredicates = new List<INoticePredicate>();
@@ -358,7 +363,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 {
                     if (data.Cook[animal] > 0)
                     {
-                        var definition = conversions.First(x => x.InType.ToString() == animal.ToString());
+                        var definition = conversions.Where(x => x.InType.ToString() == animal.ToString()).OrderByDescending(x => x.OutAmount).First();
                         var inputCache = new ResourceCache((Resource)animal, data.Cook[animal]);
                         var outputCache = new ResourceCache(Resource.Food, definition.OutAmount * data.Cook[animal]);
                         player.AddResource(outputCache);
@@ -417,9 +422,10 @@ namespace Monkey.Games.Agricola.Actions.Services
             var trigger = new ResourceConversionTrigger();
             foreach (var conversion in data)
             {
-                var conversionDefinition = availableConversions.FirstOrDefault(x => x.Id == conversion.Id
+                var conversionDefinition = availableConversions.Where(x => x.Id == conversion.Id
                     && x.InType == conversion.InType && x.InAmount == conversion.InAmount
-                    && x.OutType == conversion.OutType);
+                    && x.OutType == conversion.OutType).OrderByDescending(a => a.OutAmount).FirstOrDefault();
+
 
                 if (!conversionDefinition.InType.IsAnimal())
                 {
@@ -459,7 +465,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static bool CanBake(AgricolaPlayer player, ResourceConversionData[] data)
+        public static bool CanBake(AgricolaPlayer player, ImmutableArray<ResourceConversionData> data)
         {
             // Verify all the ids requested for bake actions are owned by the player
             var ownedCards = player.OwnedCardIds;
@@ -490,7 +496,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// </summary>
         /// <param name="player"></param>
         /// <param name="data"></param>
-        public static void Bake(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceConversionData[] data)
+        public static void Bake(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ImmutableArray<ResourceConversionData> data)
         {
             if (data != null && data.Length > 0)
             {
@@ -543,12 +549,11 @@ namespace Monkey.Games.Agricola.Actions.Services
                 return false;
 
             var fenceValidator = new FencePlacementValidator(fenceData.Fences, player.Farmyard, out pastures);
-            if (!fenceValidator.Valid ||
-               !player.Farmyard.PastureLocationsValid(pastures))
+            if (!fenceValidator.Valid || !player.Farmyard.PastureLocationsValid(pastures))
                 return false;
 
             var tempAnimalManager = new AnimalManager();
-            tempAnimalManager.Update(player.Farmyard.Grid, pastures);
+            tempAnimalManager.Update(player.Farmyard.Grid, pastures.ToImmutableArray());
             if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)fenceData.AnimalData, tempAnimalManager, null))
                 return false;
 
@@ -556,9 +561,9 @@ namespace Monkey.Games.Agricola.Actions.Services
         }
 
 
-        public static void BuildFences(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, BuildFencesActionData data, List<int[]> pastures)
+        public static void BuildFences(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, BuildFencesActionData data, ImmutableArray<int[]> pastures)
         {
-            var oldPastureCount = player.Farmyard.Pastures.Count;
+            var oldPastureCount = player.Farmyard.Pastures.Length;
 
             BuildFencesTrigger trigger = null;
             if (data != null)
@@ -575,7 +580,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                     {
                         var predicates = new List<INoticePredicate>();
                         predicates.Add(new BuildPredicate(data.Fences.Length, Buildable.Fence));
-                        predicates.Add(new BuildPredicate(pastures.Count - oldPastureCount, Buildable.Pasture));
+                        predicates.Add(new BuildPredicate(pastures.Length - oldPastureCount, Buildable.Pasture));
 
                         resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Build.ToString(), predicates));
                     }
@@ -742,7 +747,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         }
 
 
-        public static bool CanSowAndBake(AgricolaPlayer player, SowData[] sowData, ResourceConversionData[] bakeData)
+        public static bool CanSowAndBake(AgricolaPlayer player, ImmutableArray<SowData> sowData, ImmutableArray<ResourceConversionData> bakeData)
         {
             var grainNeeded = 0;
             var vegetablesNeeded = 0;
@@ -788,7 +793,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             return true;
         }
 
-        public static bool CanSow(AgricolaPlayer player, SowData[] sowData)
+        public static bool CanSow(AgricolaPlayer player, ImmutableArray<SowData> sowData)
         {
             var grainNeeded = 0;
             var vegetablesNeeded = 0;
@@ -834,9 +839,9 @@ namespace Monkey.Games.Agricola.Actions.Services
             }
         }
 
-        public static void Sow(AgricolaPlayer player, SowData[] sowData, List<GameActionNotice> resultingNotices)
+        public static void Sow(AgricolaPlayer player, ImmutableArray<SowData> sowData, List<GameActionNotice> resultingNotices)
         {
-            if (sowData != null && sowData.Length > 0)
+            if (sowData.Length > 0)
             {
                 var grains = 0;
                 var vegetables = 0;
@@ -878,15 +883,14 @@ namespace Monkey.Games.Agricola.Actions.Services
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Renovate.ToString(), new StringPredicate(player.Farmyard.HouseType.ToString())));
         }
 
-        public static bool CanPlayOccupation(AgricolaPlayer player, int actionId, int cardId, out ResourceCache[] costs)
+        public static bool CanPlayOccupation(AgricolaPlayer player, int actionId, int cardId)
         {
-            costs = null;
 
             var card = ((AgricolaGame)player.Game).GetCard(cardId);
             if (!player.HandOccupations.Contains(card))
                 return false;
 
-            costs = Curator.GetOccupationCost(player, actionId, cardId);
+            ResourceCache[] costs = Curator.GetOccupationCost(player, actionId, cardId);
             if (!player.CanAfford(costs) || !card.PrerequisitesMet(player)) 
                 return false;
 

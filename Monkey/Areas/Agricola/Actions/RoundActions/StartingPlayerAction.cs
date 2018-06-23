@@ -62,12 +62,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             this.ResultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Starts.ToString()));
         }
 
-        private ResourceCache resourcesPerRound
-        {
-            get;
-            set;
-        }
+        private readonly ResourceCache resourcesPerRound;
 
-        private Boolean familyMode;
+        private readonly Boolean familyMode;
+
     }
 }

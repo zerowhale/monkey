@@ -5,6 +5,7 @@ using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +16,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         public SelectResourcesAction(AgricolaPlayer player, ResourceCache[] options, int count, List<GameActionNotice> resultingNotices)
             : base(player, (int)InterruptActionId.SelectResources, resultingNotices)
         {
-            this.Options = options;
+            this.Options = ImmutableArray.Create(options);
             this.NumRequired = count;
         }
 
@@ -39,16 +40,8 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.AssignResources(player, list, ResultingNotices);
         }
 
-        public ResourceCache[] Options
-        {
-            get;
-            private set;
-        }
+        public readonly ImmutableArray<ResourceCache> Options;
 
-        public int NumRequired
-        {
-            get;
-            private set;
-        }
+        public readonly int NumRequired;
     }
 }

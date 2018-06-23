@@ -4,6 +4,7 @@ using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -19,26 +20,27 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            var room = ((BuildRoomData)data).RoomData;
-
-            if (!ActionService.CanBuildRooms(player, data.ActionId, new int[] { room }))
+            if (!ActionService.CanBuildRooms(
+                player, 
+                data.ActionId,
+                ImmutableArray.Create<int>(((BuildRoomData)data).RoomData)))
+            {
                 return false;
+            }
 
             return true;
         }
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            var room = ((BuildRoomData)data).RoomData;
-
-            ActionService.BuildRooms(player, data.ActionId, new int[] { room }, ResultingNotices);
+            ActionService.BuildRooms(
+                player, 
+                data.ActionId,
+                 ImmutableArray.Create<int>(((BuildRoomData)data).RoomData) , 
+                ResultingNotices);
         }
 
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public readonly int Count;
 
     }
 }

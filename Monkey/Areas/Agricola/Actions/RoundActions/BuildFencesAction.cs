@@ -6,6 +6,7 @@ using Monkey.Games.Agricola.Notification;
 using Monkey.Games.Agricola.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -14,10 +15,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
     public class BuildFencesAction: RoundAction
     {
         public BuildFencesAction(AgricolaGame game, int id)
-            :base(game, id)
-        {
-
-        }
+            :base(game, id) { }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
@@ -32,7 +30,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             player.PayCosts(costs);
 
-            ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures);
+            ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures.ToImmutableArray());
         }
 
         private List<int[]> pastures;

@@ -58,17 +58,9 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         }
 
 
-        public Prerequisite[] Prerequisites
-        {
-            get;
-            set;
-        }
+        public readonly Prerequisite[] Prerequisites;
 
-        public int MaxUses
-        {
-            get;
-            set;
-        }
+        public readonly int MaxUses;
 
         public int Uses
         {

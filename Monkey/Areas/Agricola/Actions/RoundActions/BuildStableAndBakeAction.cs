@@ -2,6 +2,7 @@
 using Monkey.Games.Agricola.Actions.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -20,8 +21,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             if (!base.CanExecute(player, data))
                 return false;
 
-            var stables = ((BuildStableAndBakeActionData)data).StableData;
-            var bake = ((BuildStableAndBakeActionData)data).BakeData;
+            var stables = ((BuildStableAndBakeActionData)data).StableData.ToImmutableArray();
+            var bake = ((BuildStableAndBakeActionData)data).BakeData.ToImmutableArray();
 
             if ((bake == null || bake.Length == 0) 
                 && (stables == null || stables.Length == 0))
@@ -43,8 +44,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         {
             base.OnExecute(player, data);
 
-            var bake = ((BuildStableAndBakeActionData)data).BakeData;
-            var stables = ((BuildStableAndBakeActionData)data).StableData;
+            var bake = ((BuildStableAndBakeActionData)data).BakeData.ToImmutableArray();
+            var stables = ((BuildStableAndBakeActionData)data).StableData.ToImmutableArray();
 
             if (bake != null && bake.Length > 0)
                 ActionService.Bake(player, eventTriggers, ResultingNotices, bake);

@@ -3,6 +3,7 @@ using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Events.Triggers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -24,7 +25,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             var brotpaData = (BuildRoomOrTravelingPlayersActionData)data;
 
             if (brotpaData.TakeFood == false
-                && (!brotpaData.Room.HasValue || !ActionService.CanBuildRooms(player, data.ActionId, new int[] { brotpaData.Room.Value })))
+                && (!brotpaData.Room.HasValue || !ActionService.CanBuildRooms(player, data.ActionId, ImmutableArray.Create(brotpaData.Room.Value) )))
                 return false;
 
             return true;
@@ -42,7 +43,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             else
             {
                 // Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
-                ActionService.BuildRooms(player, data.ActionId, new int[] { roomData.Value }, ResultingNotices);
+                ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create(roomData.Value), ResultingNotices);
             }
         }
     }

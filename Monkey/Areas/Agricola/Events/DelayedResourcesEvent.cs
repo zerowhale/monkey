@@ -23,10 +23,8 @@ namespace Monkey.Games.Agricola.Events
                          select new DelayedResourceCache(
                              item.Attribute("OnRound") == null ? (int)item.Attribute("RoundsDelayed") : (int)item.Attribute("OnRound"),
                              (Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("ResourceType")),
-                             (int)item.Attribute("ResourceCount"))
-                             {
-                                 OnRound = item.Attribute("OnRound") != null
-                             };
+                             (int)item.Attribute("ResourceCount"),
+                             item.Attribute("OnRound") != null);
 
             Resources = result.ToArray();
         }
@@ -36,10 +34,6 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).StoreFutureResources(player, Resources);
         }
 
-        private DelayedResourceCache[] Resources
-        {
-            get;
-            set;
-        }
+        private readonly DelayedResourceCache[] Resources;
     }
 }

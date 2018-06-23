@@ -38,8 +38,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 if (!occupationData.Id.HasValue)
                     return false;
 
-                ResourceCache[] costs;
-                if (!ActionService.CanPlayOccupation(player, data.ActionId, occupationData.Id.Value, out costs))
+                if (!ActionService.CanPlayOccupation(player, data.ActionId, occupationData.Id.Value))
                     return false;
             }
 

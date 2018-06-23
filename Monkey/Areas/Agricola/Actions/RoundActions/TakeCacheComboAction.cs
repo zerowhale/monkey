@@ -57,12 +57,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         /// <summary>
         /// List of resource caches for the take portion of the action
         /// </summary>
-        public ResourceCache[] TakeResourceCaches
-        {
-            get;
-            protected set;
-        }
-
+        public readonly ResourceCache[] TakeResourceCaches;
 
         protected ResourceCache resourcesPerRound;
     }

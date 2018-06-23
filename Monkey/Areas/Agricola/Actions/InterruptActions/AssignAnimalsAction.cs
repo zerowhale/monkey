@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -16,18 +17,15 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
     public class AssignAnimalsAction: InterruptAction
     {
         public AssignAnimalsAction(AgricolaPlayer player, AnimalResource animalType, int animalCount, List<GameActionNotice> resultingNotices)
-            : this(player, new ResourceCache[] { new ResourceCache((Resource)animalType, animalCount) }, resultingNotices)
-        {
-        }
+            : this(player, new ResourceCache[] { new ResourceCache((Resource)animalType, animalCount) }, resultingNotices) { }
+
         public AssignAnimalsAction(AgricolaPlayer player, ResourceCache animalCache, List<GameActionNotice> resultingNotices)
-            : this(player, new ResourceCache[] { animalCache }, resultingNotices)
-        {
-        }
+            : this(player, new ResourceCache[] { animalCache }, resultingNotices) { }
 
         public AssignAnimalsAction(AgricolaPlayer player, ResourceCache[] animals, List<GameActionNotice> resultingNotices)
             : base(player, (int)InterruptActionId.AssignAnimals, resultingNotices)
         {
-            this.Animals = animals;
+            this.Animals = ImmutableArray.Create(animals);
         }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
@@ -49,12 +47,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.AssignAnimals(player, (AnimalCacheActionData)data, ResultingNotices);
         }
 
-        public ResourceCache[] Animals
-        {
-            get;
-            private set;
-        }
-
+        public readonly ImmutableArray<ResourceCache> Animals;
     
     }
 }

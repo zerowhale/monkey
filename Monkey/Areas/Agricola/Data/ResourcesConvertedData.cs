@@ -13,6 +13,12 @@ namespace Monkey.Games.Agricola.Data
             AmountConverted = amountConverted;
         }
 
+        /// <summary>
+        /// Builds a resource data object from a resource conversion and an input amount
+        /// </summary>
+        /// <param name="resourceConversion">The resource conversion being applied</param>
+        /// <param name="amountConverted">The amount of input resource being converted</param>
+        /// <returns></returns>
         public static ResourcesConvertedData FromResourceConversion(ResourceConversion resourceConversion, int amountConverted){
             return new ResourcesConvertedData(
                 resourceConversion.Id,
@@ -24,11 +30,10 @@ namespace Monkey.Games.Agricola.Data
                 amountConverted);
         }
 
-        public int AmountConverted
-        {
-            get;
-            private set;
-        }
+        /// <summary>
+        /// The amount of the input resource being converted by the player
+        /// </summary>
+        public readonly int AmountConverted;
 
     }
 }

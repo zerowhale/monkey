@@ -137,8 +137,9 @@ namespace Monkey.Games.Agricola
                 {
                     foreach (var rc in card.ResourceConversions)
                     {
-                        if (!rc.InLimit.HasValue)
-                            updateResourceConversions(card.Id, rc.InType, rc.InAmount, rc.InLimit, rc.OutType, rc.OutAmount);
+                        //if (!rc.InLimit.HasValue)
+                        //updateResourceConversions(card.Id, rc.InType, rc.InAmount, rc.InLimit, rc.OutType, rc.OutAmount);
+                        resourceConversions.Add(rc);
                     }
                 }
             }
@@ -165,7 +166,8 @@ namespace Monkey.Games.Agricola
                 {
                     foreach (var rc in card.ResourceConversions)
                     {
-                        updateResourceConversions(card.Id, rc.InType, rc.InAmount, rc.InLimit, rc.OutType, rc.OutAmount);
+                        //updateResourceConversions(card.Id, rc.InType, rc.InAmount, rc.InLimit, rc.OutType, rc.OutAmount);
+                        resourceConversions.Add(rc);
                     }
                 
                 }
@@ -686,6 +688,7 @@ namespace Monkey.Games.Agricola
         {
             return -player.BeggingCards * 3;
         }
+
         /// <summary>
         /// Updates a resource in the food per resource listing if amount of food
         /// per resource is higher than the existing item.
@@ -695,8 +698,9 @@ namespace Monkey.Games.Agricola
         /// <param name="limited"></param>
         private static void updateResourceConversions(int id, Resource inType, int inAmount, int? inLimit, Resource outType, int outAmount)
         {
-            foreach (var row in resourceConversions)
+            for (var r = 0; r< resourceConversions.Count;r++)
             {
+                var row = resourceConversions[r];
                 if (row.InAmount == inAmount 
                     && row.InType == inType 
                     && row.InLimit == null && inLimit == null
@@ -704,8 +708,8 @@ namespace Monkey.Games.Agricola
                 {
                     if (row.OutAmount < outAmount)
                     {
-                        row.OutAmount = outAmount;
-                        row.Id = id;
+                        row = new ResourceConversion(id, row.InType, row.InAmount, row.InLimit, row.OutType, row.OutAmount);
+                        resourceConversions[r] = row;
                     }
                     else if(row.Id > id)
                     {

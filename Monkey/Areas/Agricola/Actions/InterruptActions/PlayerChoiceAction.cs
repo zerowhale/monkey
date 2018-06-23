@@ -5,6 +5,7 @@ using Monkey.Games.Agricola.Events;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -15,7 +16,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         public PlayerChoiceAction(AgricolaPlayer player, PlayerChoiceOption[] options, List<GameActionNotice> resultingNotices)
             : base(player, (int)InterruptActionId.PlayerChoice, resultingNotices)
         {
-            Options = options;
+            Options = ImmutableArray.Create(options);
         }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
@@ -34,11 +35,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             selected.Event.Execute(player, ResultingNotices);
         }
 
-        public PlayerChoiceOption[] Options
-        {
-            get;
-            private set;
-        }
+        public readonly ImmutableArray<PlayerChoiceOption> Options;
 
         private PlayerChoiceOption selected;
     }

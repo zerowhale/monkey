@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
+    /// <summary>
+    /// Ids for generic anytime actions
+    /// </summary>
     public enum AnytimeActionId
     {
         Cook = 600,

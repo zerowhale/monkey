@@ -3,6 +3,7 @@ using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -21,8 +22,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             if (!base.CanExecute(player, data))
                 return false;
 
-            var toSow =  ((SowAndBakeActionData)data).Sow;
-            var toBake = ((SowAndBakeActionData)data).BakeData;
+
+            var toSow =  ImmutableArray.Create(((SowAndBakeActionData)data).Sow);
+            var toBake = ImmutableArray.Create(((SowAndBakeActionData)data).BakeData);
 
 
             if (!ActionService.CanSowAndBake(player, toSow, toBake ))
@@ -35,8 +37,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         {
             base.OnExecute(player, data);
 
-            var sowData = ((SowAndBakeActionData)data).Sow;
-            var bakeData = ((SowAndBakeActionData)data).BakeData;
+            var sowData = ImmutableArray.Create(((SowAndBakeActionData)data).Sow);
+            var bakeData = ImmutableArray.Create(((SowAndBakeActionData)data).BakeData);
 
             ActionService.Sow(player, sowData, ResultingNotices);
             ActionService.Bake(player, eventTriggers, ResultingNotices, bakeData);

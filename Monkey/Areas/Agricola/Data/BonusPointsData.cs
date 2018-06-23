@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Data
 {
-    public class BonusPointsData
+    public struct BonusPointsData
     {
         public BonusPointsData(string name, int count)
         {
@@ -13,16 +13,8 @@ namespace Monkey.Games.Agricola.Data
             this.Count = count;
         }
 
-        public string Name
-        {
-            get;
-            set;
-        }
+        public readonly string Name;
 
-        public int Count
-        {
-            get;
-            set;
-        }
+        public readonly int Count;
     }
 }

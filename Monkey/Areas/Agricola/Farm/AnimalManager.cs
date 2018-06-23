@@ -4,6 +4,7 @@ using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Utils;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -18,12 +19,12 @@ namespace Monkey.Games.Agricola.Farm
             ResetAnimalCounts();
         }
 
-        public void Update(FarmyardEntity[,] grid, List<int[]> pastures)
+        public void Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures)
         {
             this.Update(grid, pastures, null);
         }
 
-        public void Update(FarmyardEntity[,] grid, List<int[]> pastures, AnimalHousingData[] animalAssignments){
+        public void Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
             var oldHousings = new Dictionary<String, AnimalHousing>();
             if (animalAssignments == null)
             {

@@ -24,8 +24,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             if (!occupationData.Id.HasValue)
                 return true;
 
-            ResourceCache[] costs;
-            if (!ActionService.CanPlayOccupation(player, data.ActionId, occupationData.Id.Value, out costs))
+            if (!ActionService.CanPlayOccupation(player, data.ActionId, occupationData.Id.Value))
                 return false;
 
 

@@ -6,6 +6,7 @@ using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -48,7 +49,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             if (sowEnabled)
             {
-                var toSow = ((PlowAndSowActionData)data).Sow;
+                var toSow = ((PlowAndSowActionData)data).Sow.ToImmutableArray();
                 ActionService.Sow(player, toSow, ResultingNotices);
             }
 

@@ -4,6 +4,7 @@ using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -77,7 +78,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             {
                 case RenovationActionMode.Fences:
                     player.PayCosts(additionalCosts);
-                    ActionService.BuildFences(player, eventTriggers, ResultingNotices, ((RenovationActionData)data).FenceData, pastures);
+                    ActionService.BuildFences(player, eventTriggers, ResultingNotices, ((RenovationActionData)data).FenceData, pastures.ToImmutableArray());
                     break;
                 
                 case RenovationActionMode.Improvement:

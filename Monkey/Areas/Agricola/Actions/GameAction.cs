@@ -12,11 +12,13 @@ namespace Monkey.Games.Agricola.Actions
 {
     public abstract class GameAction
     {
-        public GameAction(AgricolaGame game, int id)
+        public GameAction(AgricolaGame game, int id) : this(game, id, new List<GameActionNotice>()) { }
+
+        public GameAction(AgricolaGame game, int id, List<GameActionNotice>resultingNotices)
         {
             Game = game;
             Id = id;
-            ResultingNotices = new List<GameActionNotice>();
+            ResultingNotices = resultingNotices;
         }
 
         /// <summary>
@@ -58,30 +60,18 @@ namespace Monkey.Games.Agricola.Actions
         /// Listing of notices that have resulted from using this action.
         /// </summary>
         [JsonIgnore]
-        public List<GameActionNotice> ResultingNotices
-        {
-            get;
-            protected set;
-        }
+        public readonly List<GameActionNotice> ResultingNotices;
 
         /// <summary>
         /// The game this action belongs to
         /// </summary>
         [JsonIgnore]
-        public AgricolaGame Game
-        {
-            get;
-            private set;
-        }
+        public readonly AgricolaGame Game;
 
         /// <summary>
         /// The action id.
         /// </summary>
-        public Int32 Id
-        {
-            get;
-            private set;
-        }
+        public readonly Int32 Id;
 
         protected List<GameEventTrigger> eventTriggers = new List<GameEventTrigger>();
 

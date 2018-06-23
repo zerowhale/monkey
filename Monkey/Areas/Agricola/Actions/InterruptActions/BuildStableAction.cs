@@ -4,6 +4,7 @@ using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            var stables = ((BuildStableActionData)data).StableData;
+            var stables = ((BuildStableActionData)data).StableData.ToImmutableArray();
 
             if (stables.Length > Count)
                 return false;
@@ -35,14 +36,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            ActionService.BuildStables(player, ((BuildStableActionData)data).StableData, Id, ResultingNotices);
+            ActionService.BuildStables(player, ((BuildStableActionData)data).StableData.ToImmutableArray(), Id, ResultingNotices);
         }
 
-        public int Count
-        {
-            get;
-            private set;
-        }
+        public readonly int Count;
 
     }
 }

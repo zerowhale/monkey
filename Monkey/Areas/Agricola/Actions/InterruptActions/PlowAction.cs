@@ -33,10 +33,6 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.Plow(player, ((PlowAndSowActionData)data).Fields, ResultingNotices);
         }
 
-        public bool Optional
-        {
-            get;
-            private set;
-        }
+        public readonly bool Optional;
     }
 }

@@ -13,17 +13,16 @@ namespace Monkey.Games.Agricola.Data
             Delay = roundsDelayed;
         }
 
-        public int Delay
+        public DelayedResourceCache(int roundsDelayed, Resource type, int count, bool onRound)
+            : base(type, count)
         {
-            get;
-            private set;
+            this.Delay = roundsDelayed;
+            this.OnRound = onRound;
         }
 
-        public bool OnRound
-        {
-            get;
-            set;
-        }
+        public readonly int Delay;
+
+        public readonly bool OnRound;
 
         public override string ToString()
         {

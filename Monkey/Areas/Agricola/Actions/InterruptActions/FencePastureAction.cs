@@ -2,11 +2,8 @@
 using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Data;
-using Monkey.Games.Agricola.Notification;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Collections.Immutable;
 
 namespace Monkey.Games.Agricola.Actions.InterruptActions
 {
@@ -25,7 +22,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures);
+            ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures.ToImmutableArray());
         }
 
         private List<int[]> pastures;

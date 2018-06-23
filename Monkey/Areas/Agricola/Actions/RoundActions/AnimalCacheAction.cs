@@ -18,7 +18,6 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
         }
 
-
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             foreach (var cache in CacheResources.Values)

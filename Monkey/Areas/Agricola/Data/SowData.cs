@@ -7,7 +7,12 @@ namespace Monkey.Games.Agricola.Data
 {
     public struct SowData
     {
-        public Int32 Index;
-        public Resource Type;
+        public SowData(Int32 index, Resource type)
+        {
+            this.Index = index;
+            this.Type = type;
+        }
+        public readonly Int32 Index;
+        public readonly Resource Type;
     }
 }

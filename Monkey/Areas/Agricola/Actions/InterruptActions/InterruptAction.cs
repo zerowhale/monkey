@@ -12,10 +12,9 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
     {
 
         public InterruptAction(AgricolaPlayer player, int id, List<GameActionNotice> resultingNotices)
-            : base((AgricolaGame)player.Game, id)
+            : base((AgricolaGame)player.Game, id, resultingNotices)
         {
             Player = player;
-            ResultingNotices = resultingNotices;
         }
 
         [JsonProperty(PropertyName="Player")]
@@ -25,12 +24,8 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         }
 
         [JsonIgnore]
-        public AgricolaPlayer Player
-        {
-            get;
-            private set;
-        }
-
+        public readonly AgricolaPlayer Player;
+        
         [JsonProperty(PropertyName = "Type")]
         public string ClassType
         {

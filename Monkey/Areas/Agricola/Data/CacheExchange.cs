@@ -19,10 +19,6 @@ namespace Monkey.Games.Agricola.Data
             return new CacheExchange(definition);
         }
 
-        public string OnAction
-        {
-            get;
-            private set;
-        }
+        public readonly string OnAction;
     }
 }

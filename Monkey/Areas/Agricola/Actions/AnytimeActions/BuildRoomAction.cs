@@ -2,6 +2,7 @@
 using Monkey.Games.Agricola.Actions.Services;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -29,7 +30,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
 
             var room = ((BuildRoomData)data).RoomData;
 
-            if (!ActionService.CanBuildRooms(player, data.ActionId, new int[]{ room }))
+            if (!ActionService.CanBuildRooms(player, data.ActionId, ImmutableArray.Create<int>(room) ))
                 return false;
 
             return true;
@@ -40,8 +41,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             base.OnExecute(player, data);
 
             var room = ((BuildRoomData)data).RoomData;
-
-            ActionService.BuildRooms(player, data.ActionId, new int[]{ room }, ResultingNotices);
+            ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create<int>(room), ResultingNotices);
         }
 
     }

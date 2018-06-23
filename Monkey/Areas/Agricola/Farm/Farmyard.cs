@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -63,7 +64,7 @@ namespace Monkey.Games.Agricola.Farm
             fences.Add(index);
         }
 
-        public void SetPastures(List<int[]> pastures){
+        public void SetPastures(ImmutableArray<int[]> pastures){
             if (pastures != null)
             {
                 this.pastures = pastures;
@@ -234,10 +235,10 @@ namespace Monkey.Games.Agricola.Farm
 
         public Boolean RoomLocationsValid(int index)
         {
-            return RoomLocationsValid(new int[] { index });
+            return RoomLocationsValid(ImmutableArray.Create<int>(index));
         }
 
-        public Boolean RoomLocationsValid(int[] indices)
+        public Boolean RoomLocationsValid(ImmutableArray<int> indices)
         {
             var closed = new List<Point>();
 
@@ -313,7 +314,7 @@ namespace Monkey.Games.Agricola.Farm
 
 
 
-        public Boolean StablesLocationsValid(int[] stablesIndices)
+        public Boolean StablesLocationsValid(ImmutableArray<int> stablesIndices)
         {
             if (this.StableLocations.Count > MAX_STABLES)
                 return false;
@@ -413,7 +414,7 @@ namespace Monkey.Games.Agricola.Farm
         /// </summary>
         /// <param name="sowIndices"></param>
         /// <returns></returns>
-        public Boolean SowLocationsValid(SowData[] sowIndices)
+        public Boolean SowLocationsValid(ImmutableArray<SowData> sowIndices)
         {
             var fieldLocations = FieldLocations;
             foreach (var sowData in sowIndices)
@@ -573,7 +574,7 @@ namespace Monkey.Games.Agricola.Farm
         /// <summary>
         /// List of all pastures
         /// </summary>
-        public List<int[]> Pastures
+        public ImmutableArray<int[]> Pastures
         {
             get { return pastures; }
         }
@@ -632,7 +633,7 @@ namespace Monkey.Games.Agricola.Farm
         /// Listing of the Pastures, which can be comprised of
         /// 1 or more plots.
         /// </summary>
-        private List<int[]> pastures = new List<int[]>();
+        private ImmutableArray<int[]> pastures = ImmutableArray<int[]>.Empty;
 
         private FarmyardEntity[,] grid = new FarmyardEntity[WIDTH, HEIGHT];
         private List<int> fences = new List<int>();

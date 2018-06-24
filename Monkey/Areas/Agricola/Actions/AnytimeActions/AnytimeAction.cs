@@ -3,6 +3,7 @@ using Monkey.Games.Agricola.Cards.Prerequisites;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -44,8 +45,8 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
 
         public override Boolean CanExecute(AgricolaPlayer player, GameActionData data)
         {
-            Object cardData;
-            if(MaxUses > 0 && player.TryGetCardMetadata(CardId, out cardData) && MaxUses <= (int)cardData)
+            ImmutableDictionary<string, Object> cardData;
+            if(MaxUses > 0 && player.TryGetCardMetadata(CardId, out cardData) && MaxUses <= (int)cardData["usedCount"])
             {
                 return false;
             }
@@ -56,16 +57,13 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         {
             if(MaxUses > 0)
             {
-                Object cardData;
-                if (!player.TryGetCardMetadata(CardId, out cardData))
-                    cardData = 0;
-                player.SetCardMetadata(CardId, ((int)cardData) + 1);
+                ImmutableDictionary<string, Object> cardData;
+                int count = 0;
+                if (player.TryGetCardMetadata(CardId, out cardData))
+                    count = (int)cardData["usedCount"];
+                cardData = cardData.SetItem("usedCount", count);
+                player.SetCardMetadata(CardId, cardData);
             }
-        }
-
-        public AnytimeAction Clone()
-        {
-            return AnytimeAction.Create(definition, CardId);
         }
 
         public readonly int CardId;
@@ -96,7 +94,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         /// <summary>
         /// A copy of the definition used to create this action
         /// </summary>
-        private XElement definition;
+        private readonly XElement definition;
     }
 
 

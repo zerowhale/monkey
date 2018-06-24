@@ -16,12 +16,12 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 
         public override int GetPoints(AgricolaPlayer player, out string title)
         {
-            Object cardCount;
+            ImmutableDictionary<string, Object> metadata;
 
             title = Title;
-            if (player.TryGetCardMetadata(this.OwningCard, out cardCount))
+            if (player.TryGetCardMetadata(this.OwningCard, out metadata))
             {
-                return (int)cardCount;
+                return (int)metadata["tutor"];
             }
             return 0;
         }

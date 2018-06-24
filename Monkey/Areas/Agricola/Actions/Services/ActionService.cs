@@ -824,12 +824,12 @@ namespace Monkey.Games.Agricola.Actions.Services
                 if (plowUsed != null && fields.Length > 1)
                 {
                     var minor = (((AgricolaGame)player.Game).GetCard(plowUsed.Value) as MinorImprovement);
-                    Object plow;
-                    if (!player.TryGetCardMetadata(minor, out plow))
-                        plow = minor.Plow;
+                    ImmutableDictionary<string, Object> metadata;
+                    Plow plow = minor.Plow;
+                    if (player.TryGetCardMetadata(minor, out metadata))
+                        plow = metadata["plow"] as Plow;
 
-                    plow = ((Plow)plow).Use();
-                    player.SetCardMetadata(minor, plow);
+                    player.SetCardMetadata(minor, metadata.SetItem("plow", plow.Use()));
 
                     predicates.Add(new StringPredicate(minor.Name));
                 }

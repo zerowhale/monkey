@@ -59,6 +59,6 @@ namespace Monkey.Games.Agricola.Events
             
         }
 
-        private readonly int perNumConverted = 1;
+        private readonly int perNumConverted;
     }
 }

@@ -27,7 +27,7 @@ namespace Monkey.Games.Agricola.Events
                                                  Repeat = item.Attribute("Repeat") != null ? (bool)item.Attribute("Repeat") : false
                                              };
 
-            ConditionalResources = (ImmutableList<ConditionalResource>)resourceDependantResources.OrderByDescending(x => x.RequiredCount).Cast<ConditionalResource>().ToImmutableList();
+            var conditionalResources = (ImmutableList<ConditionalResource>)resourceDependantResources.OrderByDescending(x => x.RequiredCount).Cast<ConditionalResource>().ToImmutableList();
 
             var roundsRemainingDependantResources = from item in definition.Descendants("RoundsRemainingDependantResource")
                                                     select new RoundsRemainingDependantResource
@@ -37,7 +37,7 @@ namespace Monkey.Games.Agricola.Events
                                                  Count = (int)item.Attribute("Count"),
                                              };
 
-            ConditionalResources = ConditionalResources.AddRange((ImmutableList<ConditionalResource>)roundsRemainingDependantResources.OrderByDescending(x => x.RoundsRemaining).Cast<ConditionalResource>().ToImmutableList());
+            ConditionalResources = conditionalResources.AddRange((ImmutableList<ConditionalResource>)roundsRemainingDependantResources.OrderByDescending(x => x.RoundsRemaining).Cast<ConditionalResource>().ToImmutableList());
 
         }
 

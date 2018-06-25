@@ -121,6 +121,22 @@ namespace Monkey.Games.Agricola
             CardMetadata = CardMetadata.SetItem(cardId, data);
             return this;
         }
+
+        public AgricolaPlayer SetCardMetadataField(Card card, string key, object value)
+        {
+            return SetCardMetadataField(card.Id, key, value);
+        }
+        
+        public AgricolaPlayer SetCardMetadataField(int card, string key, object value)
+        {
+            ImmutableDictionary<string, Object> metadata;
+            if(!TryGetCardMetadata(card, out metadata))
+            {
+                metadata = ImmutableDictionary<string, Object>.Empty;
+            }            
+            return this.SetCardMetadata(card, metadata.SetItem(key, value));
+        }
+
         /// <summary>
         /// Retrieves a cards metadata information
         /// </summary>
@@ -143,10 +159,29 @@ namespace Monkey.Games.Agricola
             return CardMetadata.TryGetValue(card, out data);
         }
 
+        public Boolean TryGetCardMetadataField(Card card, string field, out ImmutableDictionary<string, Object> metadata, out Object fieldData)
+        {
+            fieldData = null;
+            if (TryGetCardMetadata(card, out metadata))
+            {
+                return metadata.TryGetValue(field, out fieldData);
+            }
+            return false;
+        }
+
+        public Boolean TryGetCardMetadataField(int card, string field, out ImmutableDictionary<string, Object> metadata, out Object fieldData)
+        {
+            fieldData = null;
+            if(TryGetCardMetadata(card, out metadata))
+            {
+                return metadata.TryGetValue(field, out fieldData);
+            }
+            return false;
+        }
+
 
         /// <summary>
-        /// This is probably not the correct place for this method.  This does not have anything to
-        /// do with game rules, but is a mechanism for getting event data from game objects.
+        /// 
         /// </summary>
         /// <param name="resolvingPlayer"></param>
         /// <param name="triggeringPlayer"></param>

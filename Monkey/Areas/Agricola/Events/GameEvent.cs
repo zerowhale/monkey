@@ -5,6 +5,7 @@ using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -55,27 +56,24 @@ namespace Monkey.Games.Agricola.Events
         /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
         public void Execute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-            ExecutionCount++;
+            if(card != null)
+            {
+                int executionCount = 0;
+                ImmutableDictionary<string, Object> metadata;
+                if(player.TryGetCardMetadata(card, out metadata))
+                {
+                    if (metadata.ContainsKey(MetadataKeyExecutionCount))
+                        executionCount = (int)metadata[MetadataKeyExecutionCount];
+                }
+                else
+                {
+                    metadata = ImmutableDictionary<string, Object>.Empty;
+                }
+                executionCount++;
+                player.SetCardMetadata(card, metadata.SetItem(MetadataKeyExecutionCount, executionCount));
+            }
+
             OnExecute(player, trigger, card, resultingNotices);
-        }
-
-        /// <summary>
-        /// Event execution code goes here.
-        /// </summary>
-        /// <param name="player">The player to execute the event for.</param>
-        /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
-        protected abstract void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices);
-
-        /// <summary>
-        /// The number of times this event has executed.  Whether or not
-        /// the execution has any effect is irrelevant, every call to 
-        /// Execute adds one to this counter.
-        /// </summary>
-        [JsonIgnore]
-        public int ExecutionCount
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -86,5 +84,15 @@ namespace Monkey.Games.Agricola.Events
         {
             get { return this.GetType().Name.ToString(); }            
         }
+
+        public const string MetadataKeyExecutionCount = "ExecutionCount";
+
+        /// <summary>
+        /// Event execution code goes here.
+        /// </summary>
+        /// <param name="player">The player to execute the event for.</param>
+        /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
+        protected abstract void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices);
+
     }
 }

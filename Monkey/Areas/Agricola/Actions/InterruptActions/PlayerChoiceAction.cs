@@ -13,10 +13,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 {
     public class PlayerChoiceAction: InterruptAction
     {
-        public PlayerChoiceAction(AgricolaPlayer player, PlayerChoiceOption[] options, List<GameActionNotice> resultingNotices)
+        public PlayerChoiceAction(AgricolaPlayer player, ImmutableArray<PlayerChoiceOption> options, List<GameActionNotice> resultingNotices)
             : base(player, (int)InterruptActionId.PlayerChoice, resultingNotices)
         {
-            Options = ImmutableArray.Create(options);
+            Options = options;
         }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
@@ -32,7 +32,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            selected.Event.Execute(player, ResultingNotices);
+            selected.Event.Execute(player, null, null, ResultingNotices);
         }
 
         public readonly ImmutableArray<PlayerChoiceOption> Options;

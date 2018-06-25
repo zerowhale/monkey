@@ -1,8 +1,11 @@
 ﻿using BoardgamePlatform.Game.Notification;
 using Monkey.Games.Agricola.Actions.Services;
+using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
+using Monkey.Games.Agricola.Events.Triggers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -24,7 +27,7 @@ namespace Monkey.Games.Agricola.Events
                                                  Repeat = item.Attribute("Repeat") != null ? (bool)item.Attribute("Repeat") : false
                                              };
 
-            ConditionalResources = (List<ConditionalResource>)resourceDependantResources.OrderByDescending(x => x.RequiredCount).Cast<ConditionalResource>().ToList();
+            ConditionalResources = (ImmutableList<ConditionalResource>)resourceDependantResources.OrderByDescending(x => x.RequiredCount).Cast<ConditionalResource>().ToImmutableList();
 
             var roundsRemainingDependantResources = from item in definition.Descendants("RoundsRemainingDependantResource")
                                                     select new RoundsRemainingDependantResource
@@ -34,29 +37,19 @@ namespace Monkey.Games.Agricola.Events
                                                  Count = (int)item.Attribute("Count"),
                                              };
 
-            ConditionalResources.AddRange((List<ConditionalResource>)roundsRemainingDependantResources.OrderByDescending(x => x.RoundsRemaining).Cast<ConditionalResource>().ToList());
-
-            
+            ConditionalResources = ConditionalResources.AddRange((ImmutableList<ConditionalResource>)roundsRemainingDependantResources.OrderByDescending(x => x.RoundsRemaining).Cast<ConditionalResource>().ToImmutableList());
 
         }
 
-        protected override void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-
             foreach (var conversion in ConditionalResources)
             {
                 conversion.OnExecute(player, resultingNotices);
             }
-
-
-
         }
 
-        private List<ConditionalResource> ConditionalResources
-        {
-            get;
-            set;
-        }
+        private readonly ImmutableList<ConditionalResource> ConditionalResources;
 
         private abstract class ConditionalResource
         {

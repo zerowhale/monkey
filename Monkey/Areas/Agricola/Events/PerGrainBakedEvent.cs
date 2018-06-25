@@ -1,5 +1,6 @@
 ﻿using BoardgamePlatform.Game.Notification;
 using Monkey.Games.Agricola.Actions.Services;
+using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Events.Triggers;
 using System;
@@ -23,18 +24,13 @@ namespace Monkey.Games.Agricola.Events
 
         }
 
-        protected override void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-            var trigger = (BakeTrigger)ActiveTrigger;
-            var resource = new ResourceCache(Resources[0].Type, Resources[0].Count * trigger.GrainBaked);
+            var resource = new ResourceCache(Resources[0].Type, Resources[0].Count * ((BakeTrigger)trigger).GrainBaked);
             ActionService.AssignResource(player, resource, resultingNotices);
         }
 
-        public ResourceCache[] Resources
-        {
-            get;
-            private set;
-        }
+        public readonly ResourceCache[] Resources;
 
     }
 }

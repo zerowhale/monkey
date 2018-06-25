@@ -8,10 +8,10 @@ namespace Monkey.Games.Agricola.Events.Triggers
 {
     public class BuildFencesTrigger : GameEventTrigger
     {
-        public BuildFencesTrigger()
+        public BuildFencesTrigger(int fencesBuilt)
             :base()
         {
-
+            FencesBuilt = fencesBuilt;
         }
 
         public BuildFencesTrigger(XElement definition)
@@ -20,10 +20,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public int FencesBuilt
-        {
-            get;
-            set;
-        }
+        public readonly int FencesBuilt;
     }
 }

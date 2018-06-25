@@ -43,11 +43,9 @@ namespace Monkey.Games.Agricola.Events.Triggers
                 || (this.TriggerType == GameEventTriggerType.Any));
         }
 
-        public GameEventTriggerType TriggerType
-        {
-            get;
-            protected set;
-        }
-
+        /// <summary>
+        /// Type of trigger
+        /// </summary>
+        public readonly GameEventTriggerType TriggerType;
     }
 }

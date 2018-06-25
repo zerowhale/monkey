@@ -60,11 +60,11 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="events"></param>
         /// <param name="resultingNotices"></param>
-        public static void ExecuteEvents(AgricolaPlayer player, List<TriggeredEvent> events, List<GameActionNotice> resultingNotices)
+        public static void ExecuteEvents(AgricolaPlayer player, List<EventData> events, List<GameActionNotice> resultingNotices)
         {
-            foreach (var ev in events)
+            foreach (var eventData in events)
             {
-                ev.Execute(player, resultingNotices);
+                eventData.TriggeredEvent.Execute(player, eventData.Trigger, eventData.Card, resultingNotices);
             }
         }
 
@@ -451,8 +451,6 @@ namespace Monkey.Games.Agricola.Actions.Services
                 }
             }
 
-            
-
             ProcessEventTrigger(player, trigger, resultingNotices);
 
             CheckTriggers(player, eventTriggers, resultingNotices);
@@ -518,19 +516,11 @@ namespace Monkey.Games.Agricola.Actions.Services
 
                 resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Bake.ToString(), new ConversionPredicate(bakeInput, bakeOutput)));
 
-                var trigger = new BakeTrigger();
-                trigger.GrainBaked = bakeInput.Count;
-
+                var trigger = new BakeTrigger(bakeInput.Count);
                 ProcessEventTrigger(player, trigger, resultingNotices);
-
                 CheckTriggers(player, eventTriggers, resultingNotices);
-            
             }
-
-            
         }
-
-
 
         /// <summary>
         /// Checks if the fence data is valid.
@@ -560,7 +550,6 @@ namespace Monkey.Games.Agricola.Actions.Services
             return true;
         }
 
-
         public static void BuildFences(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, BuildFencesActionData data, ImmutableArray<int[]> pastures)
         {
             var oldPastureCount = player.Farmyard.Pastures.Length;
@@ -588,10 +577,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
                     if (data.Fences.Length > 0)
                     {
-                        trigger = new BuildFencesTrigger()
-                        {
-                            FencesBuilt = data.Fences.Length
-                        };
+                        trigger = new BuildFencesTrigger(data.Fences.Length);
                     }
 
                 }
@@ -634,11 +620,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             var card = ((AgricolaGame)player.Game).GetCard(improvementData.Id);
             var cost = Curator.GetCardCost(player, improvementData.Id, improvementData.PaymentOption);
 
-            if (cost is FreeCardCost)
-            {
-
-            }
-            else if (cost is ResourceCardCost)
+            if (cost is ResourceCardCost)
             {
                 var rcCost = (ResourceCardCost)cost;
                 foreach (var resource in rcCost.Resources)
@@ -668,7 +650,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                     }
                 }
             }
-            else
+            else if (!(cost is FreeCardCost))
             {
                 throw new NotImplementedException("Cost type not supported.");
             }
@@ -687,7 +669,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.PurchaseImprovement.ToString(), new IdPredicate(data.Id)));
             foreach (var evnt in card.OnPlayEvents)
             {
-                evnt.Execute(player, resultingNotices);
+                evnt.Execute(player, null, card, resultingNotices);
             }
 
 
@@ -918,7 +900,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
             foreach (var evnt in card.OnPlayEvents)
             {
-                evnt.Execute(player, resultingNotices);
+                evnt.Execute(player, null, card, resultingNotices);
             }
 
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.PlayOccupation.ToString(), new IdPredicate(data.Id.Value)));
@@ -926,8 +908,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             CheckTriggers(player, eventTriggers, resultingNotices);
 
 
-            var trigger = new PlayOccupationTrigger();
-            trigger.Occupation = card;
+            var trigger = new PlayOccupationTrigger(card);
             ProcessEventTrigger(player, trigger, resultingNotices);
 
         }

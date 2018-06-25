@@ -13,10 +13,10 @@ namespace Monkey.Games.Agricola.Events.Triggers
     /// </summary>
     public class PlayOccupationTrigger: GameEventTrigger
     {
-        public PlayOccupationTrigger()
+        public PlayOccupationTrigger(Card occupation)
             :base()
         {
-
+            Occupation = occupation;
         }
 
         public PlayOccupationTrigger(XElement definition)
@@ -25,10 +25,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public Card Occupation
-        {
-            get;
-            set;
-        }
+        public readonly Card Occupation;
     }
 }

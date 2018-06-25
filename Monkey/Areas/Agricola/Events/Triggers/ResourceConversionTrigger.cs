@@ -46,6 +46,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         public override bool Triggered(AgricolaPlayer resolvingPlayer, AgricolaPlayer triggeringPlayer, GameEventTrigger trigger)
         {
+
             if (!base.Triggered(resolvingPlayer, triggeringPlayer, trigger))
                 return false;
 
@@ -70,11 +71,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
             get { return resourcesConverted.ToArray(); }
         }
 
-        public ResourcesConvertedData[] TriggeringResourcesConverted
-        {
-            get;
-            private set;
-        }
+        public ResourcesConvertedData[] TriggeringResourcesConverted;
 
         private List<ResourcesConvertedData> resourcesConverted = new List<ResourcesConvertedData>();
 

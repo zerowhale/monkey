@@ -53,10 +53,10 @@ namespace Monkey.Games.Agricola.Events
         /// </summary>
         /// <param name="player">The player to execute the event for.</param>
         /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
-        public void Execute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        public void Execute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
             ExecutionCount++;
-            OnExecute(player, resultingNotices);
+            OnExecute(player, trigger, card, resultingNotices);
         }
 
         /// <summary>
@@ -64,17 +64,7 @@ namespace Monkey.Games.Agricola.Events
         /// </summary>
         /// <param name="player">The player to execute the event for.</param>
         /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
-        protected abstract void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices);
-
-        /// <summary>
-        /// The trigger that caused this event to be executed.
-        /// </summary>
-        [JsonIgnore]
-        public GameEventTrigger ActiveTrigger
-        {
-            get;
-            set;
-        }
+        protected abstract void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices);
 
         /// <summary>
         /// The number of times this event has executed.  Whether or not

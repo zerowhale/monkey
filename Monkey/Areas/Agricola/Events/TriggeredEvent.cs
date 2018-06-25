@@ -47,31 +47,20 @@ namespace Monkey.Games.Agricola.Events
         }
 
         [JsonIgnore]
-        public GameEventTrigger[] Triggers
-        {
-            get;
-            private set;
-        }
+        public readonly GameEventTrigger[] Triggers;
+
+        [JsonIgnore]
+        public readonly int FromExecution;
+
+        [JsonIgnore]
+        public readonly int UntilExecution;
+
 
         [JsonIgnore]
         public Card OwningCard
         {
             get;
             set;
-        }
-
-        [JsonIgnore]
-        public int FromExecution
-        {
-            get;
-            private set;
-        }
-
-        [JsonIgnore]
-        public int UntilExecution
-        {
-            get;
-            private set;
         }
     }
 }

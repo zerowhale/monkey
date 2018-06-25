@@ -8,10 +8,10 @@ namespace Monkey.Games.Agricola.Events.Triggers
 {
     public class BakeTrigger : GameEventTrigger
     {
-        public BakeTrigger()
+        public BakeTrigger(int grainBaked = 0)
             :base()
         {
-
+            GrainBaked = grainBaked;
         }
 
         public BakeTrigger(XElement definition)
@@ -20,11 +20,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public int GrainBaked
-        {
-            get;
-            set;
-        }
+        public readonly int GrainBaked;
 
     }
 }

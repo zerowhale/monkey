@@ -208,6 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.SignalR.cs" />
+    <Compile Include="Areas\Agricola\Events\EventData.cs" />
     <Compile Include="Areas\Agricola\PlatformSetup.cs" />
     <Compile Include="Areas\Agricola\AgricolaAreaRegistration.cs" />
     <Compile Include="Areas\Catan\Board\Board.cs" />

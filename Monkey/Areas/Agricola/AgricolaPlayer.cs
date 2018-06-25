@@ -152,10 +152,10 @@ namespace Monkey.Games.Agricola
         /// <param name="triggeringPlayer"></param>
         /// <param name="trigger"></param>
         /// <returns></returns>
-        public List<TriggeredEvent> GetCardEventData(AgricolaPlayer triggeringPlayer, GameEventTrigger trigger)
+        public List<EventData> GetCardEventData(AgricolaPlayer triggeringPlayer, GameEventTrigger trigger)
         {
             var resolvingPlayer = (AgricolaPlayer)this;
-            var events = new List<TriggeredEvent>();
+            var events = new List<EventData>();
             foreach (var card in resolvingPlayer.OwnedCards)
             {
                 if (card.Events == null)
@@ -164,10 +164,9 @@ namespace Monkey.Games.Agricola
                 var cardEvents = card.Events.Where(x => x.Triggers.Any(s => s.Triggered(resolvingPlayer, triggeringPlayer, trigger)));
                 foreach (var cardEvent in cardEvents)
                 {
-                    cardEvent.ActiveTrigger = trigger;
-                    cardEvent.OwningCard = card;
+                    EventData data = new EventData(trigger, cardEvent, card);
+                    events.Add(data);
                 }
-                events.AddRange(cardEvents);
             }
 
             return events;

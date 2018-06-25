@@ -2,6 +2,7 @@
 using Monkey.Games.Agricola.Actions;
 using Monkey.Games.Agricola.Actions.InterruptActions;
 using Monkey.Games.Agricola.Actions.Services;
+using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
@@ -32,7 +33,7 @@ namespace Monkey.Games.Agricola.Events
 
         }
 
-        protected override void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
             
             var nonAnimals = new List<ResourceCache>();

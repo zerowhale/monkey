@@ -1,6 +1,7 @@
 ﻿using BoardgamePlatform.Game.Notification;
 using Monkey.Games.Agricola.Actions.InterruptActions;
 using Monkey.Games.Agricola.Actions.Services;
+using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Events.Triggers;
 using System;
@@ -20,20 +21,16 @@ namespace Monkey.Games.Agricola.Events
             perNumConverted = definition.Attribute("PerNumConverted") != null ? (int)definition.Attribute("PerNumConverted") : 1;
         }
 
-        protected override void OnExecute(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-            var trigger = (ResourceConversionTrigger)ActiveTrigger;
-
             var totalConverted = 0;
-            foreach (var resource in trigger.TriggeringResourcesConverted)
+            foreach (var resource in ((ResourceConversionTrigger)trigger).TriggeringResourcesConverted)
             {
                 totalConverted += resource.AmountConverted;
             }
+
             var activations = totalConverted / perNumConverted;
-
             var newResources = new Dictionary<Resource, int>();
-
-            
 
             foreach (var resourceData in Resources)
             {
@@ -62,6 +59,6 @@ namespace Monkey.Games.Agricola.Events
             
         }
 
-        private int perNumConverted = 1;
+        private readonly int perNumConverted = 1;
     }
 }

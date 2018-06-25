@@ -82,21 +82,21 @@ namespace Monkey.Games.Agricola.Events
             public ResourceData(ResourceCache resource, int fromExecution, int untilExecution, int fromRound)
             {
                 Resource = resource;
-                fromExecution = FromExecution;
-                untilExecution = UntilExecution;
-                fromRound = FromRound;
+                FromExecution = fromExecution;
+                UntilExecution = untilExecution;
+                FromRound = fromRound;
             }
 
             public readonly ResourceCache Resource;
 
             [JsonIgnore]
-            public readonly int FromExecution = 0;
+            public readonly int FromExecution;
             
             [JsonIgnore]
-            public readonly int UntilExecution = Int32.MaxValue;
+            public readonly int UntilExecution;
 
             [JsonIgnore]
-            public readonly int FromRound = 1;
+            public readonly int FromRound;
         }
 
     }

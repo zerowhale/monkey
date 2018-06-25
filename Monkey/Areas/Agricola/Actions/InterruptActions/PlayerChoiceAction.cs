@@ -21,7 +21,6 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            //return ActionService.CanPlowAndSow(player, ((PlowAndSowActionData)data).Fields, new SowData[] { });
             var choice = ((PlayerChoiceData)data).Choice;
             selected = Options.Where(x => x.Id == choice).FirstOrDefault();
             if (selected != null)

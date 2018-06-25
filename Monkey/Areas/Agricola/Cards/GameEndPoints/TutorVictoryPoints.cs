@@ -21,7 +21,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             title = Title;
             if (player.TryGetCardMetadata(this.OwningCard, out metadata))
             {
-                return (int)metadata["tutor"];
+                return metadata.Keys.Contains("tutor") ? (int)metadata["tutor"] : 0;
             }
             return 0;
         }

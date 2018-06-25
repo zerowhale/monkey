@@ -21,11 +21,12 @@ namespace Monkey.Games.Agricola.Events
         {
             ImmutableDictionary<string, Object> metadata;
             int cardCount = -1;
-            if (player.TryGetCardMetadata(this.OwningCard, out metadata))
-                cardCount = (int)metadata["tutor"];
+            if (player.TryGetCardMetadata(card, out metadata))
+                if(metadata.Keys.Contains("tutor"))
+                    cardCount = (int)metadata["tutor"];
             else
                 metadata = ImmutableDictionary<string, Object>.Empty;
-            player.SetCardMetadata(this.OwningCard, metadata.SetItem("tutor", cardCount + 1));
+            player.SetCardMetadata(card, metadata.SetItem("tutor", cardCount + 1));
         }
     }
 }

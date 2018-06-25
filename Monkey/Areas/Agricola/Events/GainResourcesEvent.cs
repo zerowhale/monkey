@@ -9,6 +9,7 @@ using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -21,14 +22,13 @@ namespace Monkey.Games.Agricola.Events
             : base(definition)
         {
             var result = from item in definition.Descendants("ResourceData")
-                         select new ResourceData()
-                         {
-                             Resource = new ResourceCache((Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("Type")),
+                         select new ResourceData(
+                             new ResourceCache((Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("Type")),
                                                              (int)item.Attribute("Count")),
-                             FromRound = item.Attribute("FromRound") != null ? (int)item.Attribute("FromRound") : 1,
-                             FromExecution = item.Attribute("FromExecution") != null ? (int)item.Attribute("FromExecution") : 0,
-                             UntilExecution = item.Attribute("UntilExecution") != null ? (int)item.Attribute("UntilExecution") : Int32.MaxValue
-                         };
+                             item.Attribute("FromExecution") != null ? (int)item.Attribute("FromExecution") : 0,
+                             item.Attribute("UntilExecution") != null ? (int)item.Attribute("UntilExecution") : Int32.MaxValue,
+                             item.Attribute("FromRound") != null ? (int)item.Attribute("FromRound") : 1
+                         );
             Resources = result.ToArray();
 
         }
@@ -41,9 +41,20 @@ namespace Monkey.Games.Agricola.Events
 
             foreach (var resourceData in Resources)
             {
+                int executionCount = 0;
+                if (card != null)
+                {
+                    Object fieldData;
+                    ImmutableDictionary<string, object> metadata;
+                    if(player.TryGetCardMetadataField(card, GameEvent.MetadataKeyExecutionCount, out metadata, out fieldData))
+                    {
+                        executionCount = (int)fieldData;
+                    }
+                }
+
                 if (((AgricolaGame)player.Game).CurrentRound >= resourceData.FromRound
-                    && this.ExecutionCount >= resourceData.FromExecution
-                    && this.ExecutionCount < resourceData.UntilExecution)
+                    && executionCount >= resourceData.FromExecution
+                    && executionCount < resourceData.UntilExecution)
                 {
                     if (resourceData.Resource.Type.IsAnimal())
                     {
@@ -64,24 +75,28 @@ namespace Monkey.Games.Agricola.Events
 
         }
 
-        public ResourceData[] Resources
-        {
-            get;
-            set;
-        }
+        public readonly ResourceData[] Resources;
 
         public class ResourceData
         {
-            public ResourceCache Resource;
+            public ResourceData(ResourceCache resource, int fromExecution, int untilExecution, int fromRound)
+            {
+                Resource = resource;
+                fromExecution = FromExecution;
+                untilExecution = UntilExecution;
+                fromRound = FromRound;
+            }
+
+            public readonly ResourceCache Resource;
 
             [JsonIgnore]
-            public int FromExecution = 0;
+            public readonly int FromExecution = 0;
             
             [JsonIgnore]
-            public int UntilExecution = Int32.MaxValue;
+            public readonly int UntilExecution = Int32.MaxValue;
 
             [JsonIgnore]
-            public int FromRound = 1;
+            public readonly int FromRound = 1;
         }
 
     }

@@ -121,6 +121,9 @@ namespace Monkey.Games.Agricola
             CardMetadata = CardMetadata.SetItem(cardId, data);
             return this;
         }
+
+        //public AgricolaPlayer SetCardMetadataField(int cardId,)
+
         /// <summary>
         /// Retrieves a cards metadata information
         /// </summary>
@@ -144,9 +147,19 @@ namespace Monkey.Games.Agricola
         }
 
 
+        public Boolean TryGetCardMetadataField(Card card, string field, out ImmutableDictionary<string, Object> metadata, out Object fieldData)
+        {
+            fieldData = null;
+            if(TryGetCardMetadata(card, out metadata))
+            {
+                return metadata.TryGetValue(field, out fieldData);
+            }
+            return false;
+        }
+
+
         /// <summary>
-        /// This is probably not the correct place for this method.  This does not have anything to
-        /// do with game rules, but is a mechanism for getting event data from game objects.
+        /// 
         /// </summary>
         /// <param name="resolvingPlayer"></param>
         /// <param name="triggeringPlayer"></param>

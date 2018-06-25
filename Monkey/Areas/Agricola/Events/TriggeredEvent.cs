@@ -41,9 +41,7 @@ namespace Monkey.Games.Agricola.Events
 
         public static TriggeredEvent Create(XElement options, Card owningCard)
         {
-            var n = TriggeredEvent.Create(options);
-            n.OwningCard = owningCard;
-            return n;
+            return TriggeredEvent.Create(options);
         }
 
         [JsonIgnore]
@@ -55,12 +53,5 @@ namespace Monkey.Games.Agricola.Events
         [JsonIgnore]
         public readonly int UntilExecution;
 
-
-        [JsonIgnore]
-        public Card OwningCard
-        {
-            get;
-            set;
-        }
     }
 }

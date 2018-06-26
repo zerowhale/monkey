@@ -20,6 +20,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public readonly int FencesBuilt;
+        public int FencesBuilt { get; }
     }
 }

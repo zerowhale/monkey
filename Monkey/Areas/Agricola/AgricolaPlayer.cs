@@ -22,56 +22,171 @@ namespace Monkey.Games.Agricola
         public AgricolaPlayer(AgricolaGame game, Player player)
             : base((IGame<GameHub>)game, player)
         {
-            PersonalSupply = PersonalSupply.Empty;
+            InitializeState();
             Farmyard = new Farmyard(this);
-            if (!game.FamilyMode)
+        }
+
+        [JsonIgnore]
+        public ImmutableDictionary<string, Object> State
+        {
+            get;
+            private set;
+        }
+
+        public ImmutableDictionary<string, Object> AddFamilyMember()
+        {
+            State = State.SetItem(StateKeyFamilySize, FamilySize + 1);
+            State = State.SetItem(StateKeyNumBabies, NumBabies + 1);
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> ReturnFamilyHome()
+        {
+            State = State.SetItem(StateKeyFamilyAtHome, FamilySize);
+            State = State.SetItem(StateKeyNumBabies, 0);
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> UseFamilyMember()
+        {
+            if (!HasFamilyMemberAvailable())
+                throw new InvalidOperationException("No family members available");
+            return State = State.SetItem(StateKeyFamilyAtHome, FamilyAtHome - 1);
+        }
+
+
+        /// <summary>
+        ///  Adds the cache to the personal supply
+        /// </summary>
+        /// <param name="cache"></param>
+        public ImmutableDictionary<string, Object> AddResource(ResourceCache cache)
+        {
+            return State = this.AddResource(cache.Type, cache.Count);
+        }
+
+        /// <summary>
+        /// Subtracts the cache from the personal supply
+        /// </summary>
+        /// <param name="cache"></param>
+        public ImmutableDictionary<string, Object> RemoveResource(ResourceCache cache)
+        {
+            return State = AddResource(cache.Type, -cache.Count);
+        }
+
+        /// <summary>
+        /// Removes one of the resource from the personal supply
+        /// </summary>
+        /// <param name="resource"></param>
+        public ImmutableDictionary<string, Object> RemoveResource(Resource resource)
+        {
+
+            PersonalSupply = PersonalSupply.AddResource(resource, -1);
+            return State;
+        }
+
+        /// <summary>
+        /// Removes one of the resource from the personal supply
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="count"></param>
+        public ImmutableDictionary<string, Object> RemoveResource(Resource resource, Int32 count)
+        {
+            PersonalSupply = PersonalSupply.AddResource(resource, -count);
+            return State;
+        }
+
+        /// <summary>
+        /// Adds one of a resource to the cache
+        /// </summary>
+        /// <param name="resource"></param>
+        public ImmutableDictionary<string, Object> AddResource(Resource resource)
+        {
+            PersonalSupply = PersonalSupply.AddResource(resource, 1);
+            return State;
+        }
+
+        /// <summary>
+        /// Adds a given quantity of a given resource to the cache
+        /// </summary>
+        /// <param name="resource"></param>
+        /// <param name="count"></param>
+        public ImmutableDictionary<string, Object> AddResource(Resource resource, Int32 count)
+        {
+            PersonalSupply = PersonalSupply.AddResource(resource, count);
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> AddMajorImprovement(int id)
+        {
+            MajorImprovements = MajorImprovements.Add(id);
+            OwnedCards = OwnedCards.Add(Curator.GetMajorImprovement(id));
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> RemoveMajorImprovement(int id)
+        {
+            MajorImprovements = MajorImprovements.Remove(id);
+            OwnedCards = OwnedCards.Remove(Curator.GetMajorImprovement(id));
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> PlayCard(Card card)
+        {
+            if (HandOccupations.Contains(card))
+                HandOccupations = HandOccupations.Remove(card);
+            else if (HandMinors.Contains(card))
+                HandMinors = HandMinors.Remove(card);
+            else return State;
+
+            OwnedCards = OwnedCards.Add(card);
+            return State;
+        }
+
+        public ImmutableDictionary<string, Object> AddCardToHand(Card card)
+        {
+            if(card is Occupation)
             {
-                HandMinors = new List<Card>();
-                HandOccupations = new List<Card>();
+                HandOccupations = HandOccupations.Add(card);
             }
+            else if(card is MinorImprovement)
+            {
+                HandMinors = HandMinors.Add(card);
+            }
+            else
+            {
+                throw new InvalidOperationException("Only minor improvements and occupations can be added to a players hand.");
+            }
+            return State;
         }
 
-
-        public void AddFamilyMember()
+        public ImmutableDictionary<string, Object> RemoveCardFromHand(Card card)
         {
-            this.familySize++;
-            this.NumBabies++;
+            if (card is Occupation)
+            {
+                HandOccupations = HandOccupations.Remove(card);
+            }
+            else if (card is MinorImprovement)
+            {
+                HandMinors = HandMinors.Remove(card);
+            }
+            else
+            {
+                throw new InvalidOperationException("Only minor improvements and occupations can be removed from a players hand.");
+            }
+            return State;
         }
 
-        public void AddMajorImprovement(int id)
-        {
-            this.majorImprovements = majorImprovements.Add(id);
-            ownedCards = ownedCards.Add(Curator.GetMajorImprovement(id));
-        }
-
-        public void RemoveMajorImprovement(int id)
-        {
-            this.majorImprovements = majorImprovements.Remove(id);
-            ownedCards = ownedCards.Remove(Curator.GetMajorImprovement(id));
-        }
 
 
-        public void ReturnFamilyHome()
-        {
-            FamilyAtHome = FamilySize;
-            NumBabies = 0;
-        }
 
+        /// <summary>
+        /// Returns true if there are any family members at home
+        /// </summary>
+        /// <returns></returns>
         public Boolean HasFamilyMemberAvailable()
         {
             return FamilyAtHome > 0;
         }
-
-        public Boolean UseFamilyMember()
-        {
-            if (FamilyAtHome > 0)
-            {
-                FamilyAtHome--;
-                return true;
-            }
-            return false;
-        }
-
 
         public void PlayCard(int id)
         {
@@ -79,22 +194,13 @@ namespace Monkey.Games.Agricola
             PlayCard(card);
         }
 
-        public void PlayCard(Card card)
-        {
-            if (HandOccupations.Contains(card))
-                HandOccupations.Remove(card);
-            else if (HandMinors.Contains(card))
-                HandMinors.Remove(card);
-            else return;
 
-            ownedCards = ownedCards.Add(card);
-        }
 
         public void ReturnCard(Card card)
         {
             if (this.OwnsCard(card.Id))
             {
-                ownedCards = ownedCards.Remove(card);
+                OwnedCards = OwnedCards.Remove(card);
             }
         }
 
@@ -348,54 +454,40 @@ namespace Monkey.Games.Agricola
             this.ScoreCard = new ScoreCard(this);
         }
 
-        public int[] MajorImprovements
-        {
-            get { return majorImprovements.ToArray(); }
-        }
-
         public bool Harvesting
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Number of family members still available to take actions
+        /// </summary>
         public int FamilyAtHome
         {
-            get;
-            private set;
+            get
+            {
+                return (int)State[StateKeyFamilyAtHome];
+            }
         }
 
         public int FamilySize
         {
             get
             {
-                return familySize;
+                return (int)State[StateKeyFamilySize];
             }
         }
 
         public int NumBabies
         {
-            get;
-            private set;
-        }
-
-        public ScoreCard ScoreCard
-        {
-            get;
-            private set;
+            get
+            {
+                return (int)State[StateKeyNumBabies];
+            }
         }
 
 
-        [JsonIgnore]
-        public Card[] OwnedCards
-        {
-            get { return ownedCards.ToArray(); }
-        }
-
-        public int[] OwnedCardIds
-        {
-            get { return ownedCards.Select(x => x.Id).ToArray(); }
-        }
 
 
 
@@ -406,12 +498,16 @@ namespace Monkey.Games.Agricola
             private set;
         }
 
-        public int BeggingCards
-        {
-            get;
-            private set;
-        }
 
+
+
+
+
+
+
+        /// <summary>
+        /// Used by partial updates to retrieve the players whole hand
+        /// </summary>
         [JsonIgnore]
         public Object Hand
         {
@@ -419,84 +515,11 @@ namespace Monkey.Games.Agricola
             {
                 return new
                 {
-                    Minors = HandMinors.Select(x => x.Id).ToArray(),
-                    Occupations = HandOccupations.Select(x => x.Id).ToArray()
+                    Minors = HandMinors.Select(x => x.Id).ToImmutableArray(),
+                    Occupations = HandOccupations.Select(x => x.Id).ToImmutableArray()
                 };
             }
         }
-
-        [JsonIgnore]
-        public List<Card> HandMinors
-        {
-            get;
-            private set;
-        }
-
-        [JsonIgnore]
-        public List<Card> HandOccupations
-        {
-            get;
-            private set;
-        }
-
-
-
-        /// <summary>
-        ///  Adds the cache to the personal supply
-        /// </summary>
-        /// <param name="cache"></param>
-        public void AddResource(ResourceCache cache)
-        {
-            this.AddResource(cache.Type, cache.Count);
-        }
-
-        /// <summary>
-        /// Subtracts the cache from the personal supply
-        /// </summary>
-        /// <param name="cache"></param>
-        public void RemoveResource(ResourceCache cache)
-        {
-            this.AddResource(cache.Type, -cache.Count);
-        }
-
-        /// <summary>
-        /// Removes one of the resource from the personal supply
-        /// </summary>
-        /// <param name="resource"></param>
-        public void RemoveResource(Resource resource)
-        {
-            this.PersonalSupply = this.PersonalSupply.AddResource(resource, -1);
-        }
-
-        /// <summary>
-        /// Removes one of the resource from the personal supply
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <param name="count"></param>
-        public void RemoveResource(Resource resource, Int32 count)
-        {
-            this.PersonalSupply = this.PersonalSupply.AddResource(resource, -count);
-        }
-
-        /// <summary>
-        /// Adds one of a resource to the cache
-        /// </summary>
-        /// <param name="resource"></param>
-        public void AddResource(Resource resource)
-        {
-            this.PersonalSupply = this.PersonalSupply.AddResource(resource, 1);
-        }
-
-        /// <summary>
-        /// Adds a given quantity of a given resource to the cache
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <param name="count"></param>
-        public void AddResource(Resource resource, Int32 count)
-        {
-            this.PersonalSupply = this.PersonalSupply.AddResource(resource, count);
-        }
-
 
         /// <summary>
         /// Gets the quantity of a resource
@@ -505,7 +528,7 @@ namespace Monkey.Games.Agricola
         /// <returns></returns>
         public int GetResource(Resource resource)
         {
-            return this.PersonalSupply.GetResource(resource);
+            return PersonalSupply.GetResource(resource);
         }
 
         /// <summary>
@@ -513,7 +536,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Food
         {
-            get { return this.PersonalSupply.Food; }
+            get { return PersonalSupply.Food; }
         }
 
         /// <summary>
@@ -521,7 +544,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Grain
         {
-            get { return this.PersonalSupply.Grain; }
+            get { return PersonalSupply.Grain; }
         }
 
         /// <summary>
@@ -529,7 +552,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Stone
         {
-            get { return this.PersonalSupply.Stone; }
+            get { return PersonalSupply.Stone; }
         }
 
         /// <summary>
@@ -537,7 +560,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Wood
         {
-            get { return this.PersonalSupply.Wood; }
+            get { return PersonalSupply.Wood; }
         }
 
         /// <summary>
@@ -545,7 +568,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Vegetables
         {
-            get { return this.PersonalSupply.Vegetables; }
+            get { return PersonalSupply.Vegetables; }
         }
 
         /// <summary>
@@ -553,7 +576,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Clay
         {
-            get { return this.PersonalSupply.Clay; }
+            get { return PersonalSupply.Clay; }
         }
 
         /// <summary>
@@ -561,14 +584,131 @@ namespace Monkey.Games.Agricola
         /// </summary>
         public int Reed
         {
-            get { return this.PersonalSupply.Reed; }
+            get { return PersonalSupply.Reed; }
+        }
+
+        /// <summary>
+        /// Number of Begging cards the player has.
+        /// </summary>
+        public int BeggingCards
+        {
+            get
+            {
+                return ((int)State[StateKeyBeggingCards]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyBeggingCards, value);
+            }
+        }
+
+        public ImmutableList<int> MajorImprovements
+        {
+            get
+            {
+                return ((ImmutableList<int>)State[StateKeyMajorImprovements]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyMajorImprovements, value);
+            }
+        }
+
+        [JsonIgnore]
+        public ImmutableList<Card> OwnedCards
+        {
+            get
+            {
+                return ((ImmutableList<Card>)State[StateKeyOwnedCards]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyOwnedCards, value);
+            }
+        }
+
+        [JsonIgnore]
+        public ImmutableList<Card> HandMinors
+        {
+            get
+            {
+                return ((ImmutableList<Card>)State[StateKeyHandMinors]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyHandMinors, value);
+            }
+        }
+
+        [JsonIgnore]
+        public ImmutableList<Card> HandOccupations
+        {
+            get
+            {
+                return ((ImmutableList<Card>)State[StateKeyHandOccupations]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyHandOccupations, value);
+            }
+        }
+
+        public ScoreCard ScoreCard
+        {
+            get
+            {
+                return ((ScoreCard)State[StateKeyScorecard]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyScorecard, value);
+            }
         }
 
 
-        private PersonalSupply PersonalSupply;
-        private ImmutableList<Card> ownedCards = ImmutableList<Card>.Empty;
-        private ImmutableList<int> majorImprovements = ImmutableList<int>.Empty;
-        private int familySize;
+        public int[] OwnedCardIds
+        {
+            get { return OwnedCards.Select(x => x.Id).ToArray(); }
+        }
+
+
+        private void InitializeState()
+        {
+            State = ImmutableDictionary<string, Object>.Empty;
+            State = State.SetItem(StateKeyFamilySize, 0);
+            State = State.SetItem(StateKeyNumBabies, 0);
+            State = State.SetItem(StateKeyFamilyAtHome, 0);
+            State = State.SetItem(StateKeyBeggingCards, 0);
+            State = State.SetItem(StateKeyPersonalSupply, PersonalSupply.Empty);
+            State = State.SetItem(StateKeyMajorImprovements, ImmutableList<int>.Empty);
+            State = State.SetItem(StateKeyOwnedCards, ImmutableList<Card>.Empty);
+            State = State.SetItem(StateKeyHandMinors, ImmutableList<Card>.Empty);
+            State = State.SetItem(StateKeyHandOccupations, ImmutableList<Card>.Empty);
+        }
+
+        private PersonalSupply PersonalSupply
+        {
+            get
+            {
+                return ((PersonalSupply)State[StateKeyPersonalSupply]);
+            }
+            set
+            {
+                State = State.SetItem(StateKeyPersonalSupply, value);
+            }
+        }
+
+
+        private const string StateKeyFamilySize = "FamilySize";
+        private const string StateKeyNumBabies = "NumBabies";
+        private const string StateKeyFamilyAtHome = "FamilyAtHome";
+        private const string StateKeyPersonalSupply = "PersonalSupply";
+        private const string StateKeyMajorImprovements = "MajorImprovements";
+        private const string StateKeyOwnedCards = "OwnedCards";
+        private const string StateKeyBeggingCards = "BeggingCards";
+        private const string StateKeyHandMinors = "HandMinors";
+        private const string StateKeyHandOccupations = "HandOccupations";
+        private const string StateKeyScorecard = "Scorecard";
 
         /// <summary>
         /// Any cards requiring preservation of custom state data should store

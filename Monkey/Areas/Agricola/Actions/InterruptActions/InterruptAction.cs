@@ -32,7 +32,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         /// The player that owns the Interrupt Action
         /// </summary>
         [JsonIgnore]
-        public readonly AgricolaPlayer Player;
+        public AgricolaPlayer Player { get; }
         
         /// <summary>
         /// Type of this event

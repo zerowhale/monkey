@@ -25,6 +25,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public readonly Card Occupation;
+        public Card Occupation { get; }
     }
 }

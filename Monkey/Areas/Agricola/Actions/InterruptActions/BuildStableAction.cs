@@ -39,7 +39,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.BuildStables(player, ImmutableArray.Create(((BuildStableActionData)data).StableData), Id, ResultingNotices);
         }
 
-        public readonly int Count;
+        public int Count { get; }
 
     }
 }

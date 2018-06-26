@@ -25,6 +25,6 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
         }
 
         [JsonConverter(typeof(StringEnumConverter))]
-        public readonly HouseType HouseType;
+        public HouseType HouseType { get; }
     }
 }

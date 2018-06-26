@@ -27,10 +27,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
                 && this.Type == ((TakeSoleCachedResourceTrigger)trigger).Type;
         }
 
-        public Resource Type
-        {
-            get;
-            private set;
-        }
+        public Resource Type { get; }
     }
 }

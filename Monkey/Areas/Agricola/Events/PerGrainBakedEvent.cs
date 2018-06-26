@@ -30,7 +30,7 @@ namespace Monkey.Games.Agricola.Events
             ActionService.AssignResource(player, resource, resultingNotices);
         }
 
-        public readonly ResourceCache[] Resources;
+        public ResourceCache[] Resources { get; }
 
     }
 }

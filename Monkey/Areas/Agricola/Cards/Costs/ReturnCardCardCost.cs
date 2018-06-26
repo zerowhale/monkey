@@ -21,12 +21,12 @@ namespace Monkey.Games.Agricola.Cards.Costs
         /// <summary>
         /// Ids of the cards that may be returned to pay this cost.
         /// </summary>
-        public readonly ImmutableArray<int> Ids;
+        public ImmutableArray<int> Ids { get; }
 
         /// <summary>
         /// Descriptive text of the alternate costs.
         /// </summary>
-        public readonly string Text;
+        public string Text { get; }
 
     }
 }

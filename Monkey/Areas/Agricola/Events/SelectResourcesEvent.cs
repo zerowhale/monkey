@@ -6,6 +6,7 @@ using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -21,7 +22,7 @@ namespace Monkey.Games.Agricola.Events
                          select new ResourceCache(
                              (Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("Type")),
                              (int)item.Attribute("Count"));
-            ResourceOptions = result.ToArray();
+            ResourceOptions = result.ToImmutableArray();
 
         }
 
@@ -30,7 +31,7 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).AddInterrupt(new SelectResourcesAction(player, ResourceOptions, 1, resultingNotices));
         }
 
-        public readonly ResourceCache[] ResourceOptions;
+        public ImmutableArray<ResourceCache> ResourceOptions { get; }
     
     }
 }

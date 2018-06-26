@@ -20,6 +20,6 @@ namespace Monkey.Games.Agricola.Cards.Costs
             Resources = result.ToImmutableArray<ResourceCache>();
         }
 
-        public readonly ImmutableArray<ResourceCache> Resources;
+        public ImmutableArray<ResourceCache> Resources { get; }
     }
 }

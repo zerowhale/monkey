@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -21,7 +22,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
                 points.Add(point);
             }
 
-            options = points.OrderByDescending(x => x.RequiredCount).ToArray();
+            options = points.OrderByDescending(x => x.RequiredCount).ToImmutableArray();
         }
 
         public override int GetPoints(AgricolaPlayer player, out string title)
@@ -40,7 +41,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             return 0;
         }
 
-        private RequiredImprovementPoints[] options;
+        private ImmutableArray<RequiredImprovementPoints> options { get; }
 
 
         private struct RequiredImprovementPoints

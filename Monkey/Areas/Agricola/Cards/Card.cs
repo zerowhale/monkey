@@ -87,54 +87,54 @@ namespace Monkey.Games.Agricola.Cards
         /// <summary>
         /// The cards unique identifier
         /// </summary>
-        public readonly int Id;
+        public int Id { get; }
 
         /// <summary>
         /// The card name
         /// </summary>
-        public readonly string Name;
+        public string Name { get; }
 
         /// <summary>
         /// The cards cost options
         /// </summary>
-        public readonly ImmutableArray<CardCost> Costs;
+        public ImmutableArray<CardCost> Costs { get; }
 
         /// <summary>
         /// The card effect description text
         /// </summary>
-        public readonly string Text;
+        public string Text { get; }
 
         /// <summary>
         /// Resource Conversions that occur on bake opperations
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public readonly ResourceConversion BakeProperties;
+        public ResourceConversion BakeProperties { get; }
 
         /// <summary>
         /// Resource Conversions that occur as any time actions
         /// (Including cooking)
         /// </summary>
-        public readonly ResourceConversion[] ResourceConversions;
-        
+        public ResourceConversion[] ResourceConversions { get; }
+
         /// <summary>
         /// Url of the image that represents this card
         /// </summary>
-        public readonly string Image;
+        public string Image { get; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public readonly AnytimeAction AnytimeAction;
+        public AnytimeAction AnytimeAction { get; }
 
         [JsonIgnore]
-        public readonly PointCalculator[] GameEndPoints;
+        public PointCalculator[] GameEndPoints { get; }
 
         [JsonIgnore]
-        public readonly TriggeredEvent[] Events;
+        public TriggeredEvent[] Events { get; }
 
         [JsonIgnore]
-        public readonly GameEvent[] OnPlayEvents;
+        public GameEvent[] OnPlayEvents { get; }
 
         [JsonProperty(PropertyName = "Type")]
-        public readonly string JsonType;
+        public string JsonType { get; }
 
 
 

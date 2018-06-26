@@ -119,25 +119,25 @@ namespace Monkey.Games.Agricola
         }
 
         [JsonProperty]
-        public readonly Int32 Food;
+        public Int32 Food { get; }
 
         [JsonProperty]
-        public readonly Int32 Wood;
+        public Int32 Wood { get; }
 
         [JsonProperty]
-        public readonly Int32 Clay;
+        public Int32 Clay { get; }
 
         [JsonProperty]
-        public readonly Int32 Reed;
+        public Int32 Reed { get; }
 
         [JsonProperty]
-        public readonly Int32 Stone;
+        public Int32 Stone { get; }
 
         [JsonProperty]
-        public readonly Int32 Grain;
+        public Int32 Grain { get; }
 
         [JsonProperty]
-        public readonly Int32 Vegetables;
+        public Int32 Vegetables { get; }
 
         private static readonly PersonalSupply emptyPersonalSupply = new PersonalSupply();
     }

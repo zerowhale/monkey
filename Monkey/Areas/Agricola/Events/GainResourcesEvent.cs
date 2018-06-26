@@ -29,7 +29,7 @@ namespace Monkey.Games.Agricola.Events
                              item.Attribute("UntilExecution") != null ? (int)item.Attribute("UntilExecution") : Int32.MaxValue,
                              item.Attribute("FromRound") != null ? (int)item.Attribute("FromRound") : 1
                          );
-            Resources = result.ToArray();
+            Resources = result.ToImmutableArray();
 
         }
 
@@ -75,7 +75,7 @@ namespace Monkey.Games.Agricola.Events
 
         }
 
-        public readonly ResourceData[] Resources;
+        public ImmutableArray<ResourceData> Resources { get; }
 
         public class ResourceData
         {
@@ -87,16 +87,16 @@ namespace Monkey.Games.Agricola.Events
                 FromRound = fromRound;
             }
 
-            public readonly ResourceCache Resource;
+            public ResourceCache Resource { get; }
 
             [JsonIgnore]
-            public readonly int FromExecution;
+            public int FromExecution { get; }
             
             [JsonIgnore]
-            public readonly int UntilExecution;
+            public int UntilExecution { get; }
 
             [JsonIgnore]
-            public readonly int FromRound;
+            public int FromRound { get; }
         }
 
     }

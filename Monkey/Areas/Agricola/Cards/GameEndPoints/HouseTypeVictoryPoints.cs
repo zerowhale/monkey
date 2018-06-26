@@ -37,7 +37,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             return player.Farmyard.HouseType == houseType ? points : 0;
         }
 
-        private int points;
-        private HouseType houseType;
+        private int points { get; }
+        private HouseType houseType { get; }
     }
 }

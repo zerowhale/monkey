@@ -24,7 +24,7 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).AddInterrupt(new PlowAction(player, resultingNotices, optional));
         }
 
-        private readonly int count;
-        private readonly bool optional;
+        private int count { get; }
+        private bool optional { get; }
     }
 }

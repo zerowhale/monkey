@@ -30,16 +30,16 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         /// <summary>
         /// The card this point calculator belongs to.
         /// </summary>
-        public readonly Card OwningCard;
+        public Card OwningCard { get; }
 
         /// <summary>
         /// If the victory point condition is available to all players.
         /// </summary>
-        public readonly bool AllPlayers;
+        public bool AllPlayers { get; }
 
         /// <summary>
         /// The descriptive title of the point calculation.
         /// </summary>
-        public readonly string Title;
+        public string Title { get; }
     }
 }

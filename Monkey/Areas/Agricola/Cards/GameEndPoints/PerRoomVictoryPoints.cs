@@ -38,6 +38,6 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             return points;
         }
 
-        private readonly HouseType HouseType;
+        private HouseType HouseType { get; }
     }
 }

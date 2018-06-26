@@ -34,7 +34,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             selected.Event.Execute(player, null, null, ResultingNotices);
         }
 
-        public readonly ImmutableArray<PlayerChoiceOption> Options;
+        public ImmutableArray<PlayerChoiceOption> Options { get; }
 
         private PlayerChoiceOption selected;
     }

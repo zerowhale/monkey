@@ -25,7 +25,7 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
             return owned >= Count;
         }
 
-        public readonly int Count;
+        public int Count { get; }
 
     }
 }

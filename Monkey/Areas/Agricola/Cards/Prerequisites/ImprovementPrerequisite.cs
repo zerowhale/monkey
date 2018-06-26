@@ -20,7 +20,7 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
             return player.OwnedCards.Count(x => x is Improvement) >= Count;
         }
 
-        public readonly int Count;
+        public int Count { get; }
 
     }
 }

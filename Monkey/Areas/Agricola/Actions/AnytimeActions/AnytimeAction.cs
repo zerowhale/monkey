@@ -66,11 +66,11 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             }
         }
 
-        public readonly int CardId;
+        public int CardId { get; }
 
-        public readonly Prerequisite[] Prerequisites;
+        public Prerequisite[] Prerequisites { get; }
 
-        public readonly int MaxUses;
+        public int MaxUses { get; }
 
         [JsonProperty(PropertyName="Type")]
         public string ClassType
@@ -94,7 +94,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         /// <summary>
         /// A copy of the definition used to create this action
         /// </summary>
-        private readonly XElement definition;
+        private XElement definition { get; }
     }
 
 

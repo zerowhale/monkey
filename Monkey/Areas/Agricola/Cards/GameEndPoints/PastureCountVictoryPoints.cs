@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -21,7 +22,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
                 pcp.Add(rrp);
             }
 
-            options = pcp.OrderByDescending(x => x.RequiredCount).ToArray();
+            options = pcp.OrderByDescending(x => x.RequiredCount).ToImmutableArray();
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             return 0;
         }
 
-        private PastureCountPoints[] options;
+        private ImmutableArray<PastureCountPoints> options;
 
         private struct PastureCountPoints
         {

@@ -20,7 +20,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public readonly int GrainBaked;
+        public int GrainBaked { get; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Monkey.Games.Agricola.Actions;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -23,7 +24,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
                 rrps.Add(rrp);
             }
 
-            options = rrps.OrderByDescending(x => x.RequiredCount).ToArray();
+            options = rrps.OrderByDescending(x => x.RequiredCount).ToImmutableArray();
         }
 
         public override int GetPoints(AgricolaPlayer player, out string title)
@@ -47,7 +48,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             return 0;
         }
 
-        private RequiredResourcePoints[] options;
+        private ImmutableArray<RequiredResourcePoints> options;
 
 
         private struct RequiredResourcePoints

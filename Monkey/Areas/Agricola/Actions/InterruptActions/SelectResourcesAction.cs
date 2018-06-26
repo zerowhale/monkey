@@ -13,10 +13,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 {
     public class SelectResourcesAction : InterruptAction
     {
-        public SelectResourcesAction(AgricolaPlayer player, ResourceCache[] options, int count, List<GameActionNotice> resultingNotices)
+        public SelectResourcesAction(AgricolaPlayer player, ImmutableArray<ResourceCache> options, int count, List<GameActionNotice> resultingNotices)
             : base(player, (int)InterruptActionId.SelectResources, resultingNotices)
         {
-            this.Options = ImmutableArray.Create(options);
+            this.Options = options;
             this.NumRequired = count;
         }
 
@@ -40,8 +40,8 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.AssignResources(player, list, ResultingNotices);
         }
 
-        public readonly ImmutableArray<ResourceCache> Options;
+        public ImmutableArray<ResourceCache> Options { get; }
 
-        public readonly int NumRequired;
+        public int NumRequired { get; }
     }
 }

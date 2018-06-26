@@ -2,6 +2,7 @@
 using Monkey.Games.Agricola.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -23,24 +24,34 @@ namespace Monkey.Games.Agricola.Events.Triggers
             var numInputTypes = inputTypes.Count();
             if (numInputTypes > 0)
             {
-                triggerOnInputTypes = new Resource[numInputTypes];
+                var triggerOnInputTypes = new Resource[numInputTypes];
                 var i = 0;
                 foreach (var inputType in inputTypes)
                 {
                     triggerOnInputTypes[i++] = (Resource)Enum.Parse(typeof(Resource), (String)inputType);
                 }
+                TriggerOnInputTypes = triggerOnInputTypes.ToImmutableArray();
+            }
+            else
+            {
+                 TriggerOnInputTypes = ImmutableArray.Create(new[] { Resource.Boar, Resource.Cattle, Resource.Clay, Resource.Food, Resource.Grain, Resource.Reed, Resource.Sheep, Resource.Stone, Resource.Vegetables, Resource.Wood });
             }
 
             var cardIds = definition.Descendants("ConvertedWithCardId");
             var numCardIds = cardIds.Count();
             if (numCardIds > 0)
             {
-                triggerOnCardIds = new int[numCardIds];
+                var triggerOnCardIds = new int[numCardIds];
                 var i = 0;
                 foreach (var cardId in cardIds)
                 {
                     triggerOnCardIds[i++] = (int)cardId;
+                    TriggerOnCardIds = triggerOnCardIds.ToImmutableArray();
                 }
+            }
+            else
+            {
+                TriggerOnCardIds = ImmutableArray<int>.Empty;
             }
         }
 
@@ -51,10 +62,10 @@ namespace Monkey.Games.Agricola.Events.Triggers
                 return false;
 
             var incomingTrigger = (ResourceConversionTrigger)trigger;
-            var matches = incomingTrigger.ResourcesConverted.Where(x => triggerOnInputTypes.Contains(x.InType));
+            var matches = incomingTrigger.ResourcesConverted.Where(x => TriggerOnInputTypes.Contains(x.InType));
 
-            if (triggerOnCardIds.Count() > 0)
-                matches = matches.Where(x => triggerOnCardIds.Contains(x.Id));
+            if (TriggerOnCardIds.Count() > 0)
+                matches = matches.Where(x => TriggerOnCardIds.Contains(x.Id));
 
             incomingTrigger.TriggeringResourcesConverted = matches.ToArray();
             return matches.Count() > 0;
@@ -78,7 +89,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
         /// <summary>
         /// Types being converted that trigger, defaulted to all types
         /// </summary>
-        private Resource[] triggerOnInputTypes = new[] { Resource.Boar, Resource.Cattle, Resource.Clay, Resource.Food, Resource.Grain, Resource.Reed, Resource.Sheep, Resource.Stone, Resource.Vegetables, Resource.Wood };
-        private int[] triggerOnCardIds = new int[] { };
+        private ImmutableArray<Resource> TriggerOnInputTypes { get; }
+        private ImmutableArray<int> TriggerOnCardIds { get; }
     }
 }

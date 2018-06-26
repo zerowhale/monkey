@@ -47,7 +47,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             ActionService.AssignAnimals(player, (AnimalCacheActionData)data, ResultingNotices);
         }
 
-        public readonly ImmutableArray<ResourceCache> Animals;
+        public ImmutableArray<ResourceCache> Animals { get; }
     
     }
 }

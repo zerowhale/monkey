@@ -29,7 +29,7 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).AddInterrupt(new PlayerChoiceAction(player, Options, resultingNotices));
         }
 
-        private readonly ImmutableArray<PlayerChoiceOption> Options;
+        private ImmutableArray<PlayerChoiceOption> Options { get; }
     
     }
 }

@@ -33,7 +33,7 @@ namespace Monkey.Games.Agricola
         public AgricolaGame(string name, string viewPath, int maxPlayers, Player[] players, Dictionary<string, object> props)
             :base(name, viewPath, maxPlayers, players, props)
         {
-
+            
             if (players.Length > maxPlayers)
                 throw new ArgumentException("Agricola supports no more than 5 players.");
 
@@ -182,9 +182,6 @@ namespace Monkey.Games.Agricola
             if (action is StartingPlayerAction)
                 ((PartialGameUpdate)update).StartingPlayerName = StartingPlayerName;
 
-            if (dirtyCards.Count > 0)
-                ((PartialGameUpdate)update).DirtyCards = dirtyCards;
-
             return update;
         }
 
@@ -236,9 +233,6 @@ namespace Monkey.Games.Agricola
         {
             if (!player.CanFeedFamily(data.FeedResources))
                 return false;
-
-
-
 
             var sheepUsedAsFood = 0;
             var boarUsedAsFood = 0;
@@ -426,7 +420,7 @@ namespace Monkey.Games.Agricola
             return masterDeck[id];
         }
 
-        public void StoreFutureResources(AgricolaPlayer player, DelayedResourceCache[] delayedCaches)
+        public void StoreFutureResources(AgricolaPlayer player, ImmutableArray<DelayedResourceCache> delayedCaches)
         {
             newReservedResourcesAdded = true;
             foreach(var cache in delayedCaches){
@@ -449,11 +443,11 @@ namespace Monkey.Games.Agricola
                 var i = Array.IndexOf(players, currentOwner);
                 i = i + 1 == players.Length ? 0 : i + 1;
                 var leftPlayer = players[i];
-                leftPlayer.HandMinors.Add(card);
+                leftPlayer.AddCardToHand(card);
 
             }
 
-            currentOwner.HandMinors.Remove(card);
+            currentOwner.RemoveCardFromHand(card);
         }
 
         /// <summary>
@@ -896,7 +890,7 @@ namespace Monkey.Games.Agricola
 
                     if (minors.Count > 0)
                     {
-                        player.HandMinors.Add(minors.Last());
+                        player.AddCardToHand(minors.Last());
                         minors.Remove(minors.Last());
                     }
 
@@ -904,19 +898,19 @@ namespace Monkey.Games.Agricola
                     if (allOccupations.Count > 0)
                     {
                         var occ = allOccupations.Last();
-                        player.HandOccupations.Add(occ);
+                        player.AddCardToHand(occ);
                         allOccupations.Remove(occ);
 
                         if (occupations.Contains(occ))
                             occupations.Remove(occ);
                     }
                     
-                    player.HandOccupations.Add(GetCard(191));  // Mason
-                    player.HandOccupations.Add(GetCard(174));  // Tutor
-                    player.HandOccupations.Add(GetCard(160));  // Farmer
-                    //player.HandOccupations.Add(GetCard(2038));  // Field Watchman
-                    //player.HandMinors.Add(GetCard(62)); // Turnwrest Plow
-                    //player.HandMinors.Add(GetCard(119)); // Turnwrest Plow
+                    player.AddCardToHand(GetCard(191));  // Mason
+                    player.AddCardToHand(GetCard(174));  // Tutor
+                    player.AddCardToHand(GetCard(160));  // Farmer
+                    //player.AddCardToHandGetCard(2038));  // Field Watchman
+                    //player.AddCardToHand(GetCard(62)); // Turnwrest Plow
+                    //player.AddCardToHand(GetCard(119)); // Turnwrest Plow
                 }
 
 
@@ -924,14 +918,14 @@ namespace Monkey.Games.Agricola
                     if (minors.Count > 0)
                     {
                         var index = rng.Next(0,minors.Count);
-                        player.HandMinors.Add(minors[index]);
+                        player.AddCardToHand(minors[index]);
                         minors.RemoveAt(index);
                     }
 
                     if (occupations.Count > 0)
                     {
                         var index = rng.Next(0, occupations.Count);
-                        player.HandOccupations.Add(occupations[index]);
+                        player.AddCardToHand(occupations[index]);
                         occupations.RemoveAt(index);
                     }
                 }
@@ -1001,8 +995,7 @@ namespace Monkey.Games.Agricola
         private ImmutableArray<MinorImprovement> minorImprovementsDeck;
         private ImmutableArray<Occupation> occupationsDeck;
 
-        private List<Card> dirtyCards = new List<Card>();
-
         private bool newReservedResourcesAdded = false;
+
     }
 }

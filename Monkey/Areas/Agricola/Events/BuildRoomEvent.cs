@@ -23,7 +23,7 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).AddInterrupt(new BuildRoomAction(player, count, resultingNotices));
         }
 
-        private readonly int count;
+        private int count { get; }
     
     }
 }

@@ -49,7 +49,7 @@ namespace Monkey.Games.Agricola.Events
             }
         }
 
-        private readonly ImmutableList<ConditionalResource> ConditionalResources;
+        private ImmutableList<ConditionalResource> ConditionalResources { get; }
 
         private abstract class ConditionalResource
         {

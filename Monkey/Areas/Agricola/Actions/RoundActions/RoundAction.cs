@@ -249,6 +249,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         }
 
 
+        /// <summary>
+        /// Client visibile array of chache resources
+        /// </summary>
         public ResourceCache[] Cache
         {
             get { return CacheResources.Values.ToArray();  }

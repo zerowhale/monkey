@@ -24,6 +24,6 @@ namespace Monkey.Games.Agricola.Cards.Prerequisites
             return player.Farmyard.RoomCount >= RoomCount;
         }
 
-        public readonly int RoomCount;
+        public int RoomCount { get; }
     }
 }

@@ -428,12 +428,14 @@
             this.disableHarvestTab();
         }
 
+        /*
         if (game.DirtyCards && game.DirtyCards.length > 0) {
             for (var c in game.DirtyCards) {
                 var card = game.DirtyCards[c];
                 Curator.updateCard(card);
             }
         }
+        */
         
         if (!this.interrupt) {
             if (this.mode == GameMode.Over) {

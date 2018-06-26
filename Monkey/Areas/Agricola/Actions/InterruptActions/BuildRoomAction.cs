@@ -40,7 +40,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
                 ResultingNotices);
         }
 
-        public readonly int Count;
+        public int Count { get; }
 
     }
 }

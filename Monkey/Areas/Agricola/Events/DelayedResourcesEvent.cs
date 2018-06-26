@@ -4,6 +4,7 @@ using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Events.Triggers;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
@@ -28,7 +29,7 @@ namespace Monkey.Games.Agricola.Events
                              (int)item.Attribute("ResourceCount"),
                              item.Attribute("OnRound") != null);
 
-            Resources = result.ToArray();
+            Resources = result.ToImmutableArray();
         }
 
         protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
@@ -36,6 +37,6 @@ namespace Monkey.Games.Agricola.Events
             ((AgricolaGame)player.Game).StoreFutureResources(player, Resources);
         }
 
-        private readonly DelayedResourceCache[] Resources;
+        private ImmutableArray<DelayedResourceCache> Resources { get; }
     }
 }

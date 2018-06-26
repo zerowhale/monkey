@@ -16,9 +16,9 @@ namespace Monkey.Games.Agricola.Events
             Card = card;
         }
 
-        public readonly GameEventTrigger Trigger;
-        public readonly TriggeredEvent TriggeredEvent;
-        public readonly Card Card;
+        public GameEventTrigger Trigger { get; }
+        public TriggeredEvent TriggeredEvent { get; }
+        public Card Card { get; }
 
     }
 }

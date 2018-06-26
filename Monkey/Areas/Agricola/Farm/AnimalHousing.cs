@@ -7,65 +7,74 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Farm
 {
+    /// <summary>
+    /// Immutable class that represents an animal housing
+    /// </summary>
     public class AnimalHousing
     {
         
-        public AnimalHousing(string id, int capacity) {
+        public AnimalHousing(string id, int capacity, AnimalResource? animalType = null, int count = 0) {
             Id = id;
             Capacity = capacity;
+            AnimalType = animalType;
+            AnimalCount = count;
         }
-
-        public void SetAnimals(AnimalResource type, int count){
+        
+        /// <summary>
+        /// Sets the quantity and type of animals in the housing and returns 
+        /// the new object.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        public AnimalHousing SetAnimals(AnimalResource type, int count){
             if(count > Capacity)
                 throw new ArgumentOutOfRangeException("count");
 
-            AnimalType = type;
-            AnimalCount = count;
+            return new AnimalHousing(Id, Capacity, type, count);
         }
 
-        public void Empty()
+        /// <summary>
+        /// Returns a copy of this housing with no animals assigned to it
+        /// </summary>
+        /// <returns></returns>
+        public AnimalHousing Empty()
         {
-            this.AnimalCount = 0;
+            return new AnimalHousing(Id, Capacity, AnimalType, 0);
         }
 
+        /// <summary>
+        /// True if the housing has no animals in it
+        /// </summary>
+        /// <returns></returns>
         public Boolean IsEmpty(){
             return AnimalCount == 0;
         }
 
-        public AnimalHousing Clone()
-        {
-            var housing = new AnimalHousing(this.Id, this.Capacity);
-            housing.AnimalType = this.AnimalType;
-            housing.AnimalCount = this.AnimalCount;
-            return housing;
-        }
+        /// <summary>
+        /// Identifer of this housing
+        /// </summary>
+        public string Id { get; }
 
-        public string Id
-        {
-            get;
-            private set;
-        }
-
-        public int Capacity
-        {
-            get;
-            private set;
-        }
-
-
+        /// <summary>
+        /// Total number of animals that fit in this housing
+        /// </summary>
+        public int Capacity { get; }
+        
+        /// <summary>
+        /// Type of animal in this housing
+        /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public AnimalResource AnimalType
-        {
-            get;
-            private set;
-        }
+        public AnimalResource? AnimalType { get; }
 
-        public int AnimalCount
-        {
-            get;
-            private set;
-        }
+        /// <summary>
+        /// Number of animals in this housing
+        /// </summary>
+        public int AnimalCount { get; }
 
+        /// <summary>
+        /// Amount of space left in this housing
+        /// </summary>
         [JsonIgnore]
         public int RemainingCapacity
         {

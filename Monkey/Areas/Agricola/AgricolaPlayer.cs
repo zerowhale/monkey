@@ -176,7 +176,15 @@ namespace Monkey.Games.Agricola
             return State;
         }
 
-
+        /// <summary>
+        /// Recalculates the score card for the player
+        /// </summary>
+        /// <returns></returns>
+        public ImmutableDictionary<string, Object> UpdateScoreCard()
+        {
+            this.ScoreCard = new ScoreCard(this);
+            return State;
+        }
 
 
         /// <summary>
@@ -449,16 +457,7 @@ namespace Monkey.Games.Agricola
             return this.OwnedCardIds.Contains(id);
         }
 
-        public void UpdateScoreCard()
-        {
-            this.ScoreCard = new ScoreCard(this);
-        }
 
-        public bool Harvesting
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         /// Number of family members still available to take actions
@@ -666,6 +665,18 @@ namespace Monkey.Games.Agricola
         }
 
 
+        public bool Harvesting
+        {
+            get
+            {
+                return ((bool)State[StateKeyIsHarvesting]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyIsHarvesting, value);
+            }
+        }
+
         public int[] OwnedCardIds
         {
             get { return OwnedCards.Select(x => x.Id).ToArray(); }
@@ -684,6 +695,7 @@ namespace Monkey.Games.Agricola
             State = State.SetItem(StateKeyOwnedCards, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyHandMinors, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyHandOccupations, ImmutableList<Card>.Empty);
+            State = State.SetItem(StateKeyIsHarvesting, false);
         }
 
         private PersonalSupply PersonalSupply
@@ -709,6 +721,7 @@ namespace Monkey.Games.Agricola
         private const string StateKeyHandMinors = "HandMinors";
         private const string StateKeyHandOccupations = "HandOccupations";
         private const string StateKeyScorecard = "Scorecard";
+        private const string StateKeyIsHarvesting = "IsHarvesting";
 
         /// <summary>
         /// Any cards requiring preservation of custom state data should store

@@ -40,7 +40,7 @@ namespace Monkey.Games.Agricola.Farm
 
             // Default house pet
             var id = "house";
-            this.housings[id] = new AnimalHousing(id , 1);
+            this.housings[id] = new AnimalHousing(id, 1);
 
             var stablesCounted = new List<int>();
             foreach (var pasture in pastures) {
@@ -144,15 +144,16 @@ namespace Monkey.Games.Agricola.Farm
                     throw new ArgumentException("Invalid animal assignments, housing id " + assignment.Id + " not found.");
             }
 
-            foreach (var housing in housings.Values)
+            var temp = housings.ToImmutableDictionary();
+            foreach (var kvp in temp) 
             {
-                housing.Empty();
+                housings[kvp.Key] = kvp.Value.Empty();
             }
 
             ResetAnimalCounts();
             foreach (var assignment in assignments)
             {
-                housings[assignment.Id].SetAnimals(assignment.Type, assignment.Count);
+                housings[assignment.Id] = housings[assignment.Id].SetAnimals(assignment.Type, assignment.Count);
                 CountAnimal(assignment.Type, assignment.Count);
             }
         }
@@ -164,8 +165,10 @@ namespace Monkey.Games.Agricola.Farm
                 if (housing.AnimalCount > 0 && !this.housings.ContainsKey(housing.Id))
                     throw new ArgumentException("Invalid animal assignments, housing id "+ housing.Id + " not found.");
 
-                this.housings[housing.Id].SetAnimals(housing.AnimalType, housing.AnimalCount);
-                CountAnimal(housing.AnimalType, housing.AnimalCount);
+                this.housings[housing.Id] = this.housings[housing.Id].SetAnimals(housing.AnimalType.Value, housing.AnimalCount);
+
+
+                CountAnimal(housing.AnimalType.Value, housing.AnimalCount);
             }
         }
 
@@ -176,7 +179,7 @@ namespace Monkey.Games.Agricola.Farm
             foreach (var m in matches)
             {
                 var toRemove = m.AnimalCount < count ? m.AnimalCount : count;
-                m.SetAnimals(type, m.AnimalCount - toRemove);
+                housings[m.Id] = m.SetAnimals(type, m.AnimalCount - toRemove);
                 count -= toRemove;
                 CountAnimal(type, -toRemove);
 

@@ -9,28 +9,15 @@ namespace Monkey.Games.Agricola.Farm
     {
         public FenceInfo(int x, int y)
         {
-            this.x = x;
-            this.y = y;
-            this.index = x + y * Farmyard.FENCES_WIDTH;
+            X = x;
+            Y = y;
+            Index = x + y * Farmyard.FENCES_WIDTH;
         }
 
-        public int X
-        {
-            get { return X; }
-        }
+        public int X { get; }
+        public int Y { get; }
 
-        public int Y
-        {
-            get { return Y; }
-        }
+        public int Index { get; }
 
-        public int Index
-        {
-            get { return index; }
-        }
-
-        private int x;
-        private int y;
-        private int index;
     }
 }

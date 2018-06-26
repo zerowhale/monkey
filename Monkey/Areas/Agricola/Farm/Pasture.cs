@@ -14,9 +14,14 @@ namespace Monkey.Games.Agricola.Farm
         }
 
         public Pasture(bool hasStable)
+            : base ("Pasture", hasStable )
         {
-            this.Type = "Pasture";
-            this.HasStable = hasStable;
         }
+
+        public override Empty AddStable()
+        {
+            return new Pasture(true);
+        }
+
     }
 }

@@ -9,15 +9,28 @@ namespace Monkey.Games.Agricola.Farm
     {
 
         public Empty()
+            : this(false)
+        {
+        }
+
+        public Empty(bool hasStable)
             : base("Empty")
         {
-
+            HasStable = hasStable;
         }
 
-        public Boolean HasStable
+        public Empty(string type, bool hasStable)
+            : base(type)
         {
-            get;
-            set;
+            HasStable = hasStable;
         }
+
+        public virtual Empty AddStable()
+        {
+            return new Empty(true);
+        }
+
+        public Boolean HasStable { get; }
+
     }
 }

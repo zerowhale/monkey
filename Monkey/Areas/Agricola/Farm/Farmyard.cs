@@ -133,7 +133,7 @@ namespace Monkey.Games.Agricola.Farm
 
         public void AddStable(int x, int y)
         {
-            ((Empty)grid[x, y]).HasStable = true;
+            grid[x, y] = ((Empty)grid[x, y]).AddStable();
         }
 
         public void PlowField(int index)

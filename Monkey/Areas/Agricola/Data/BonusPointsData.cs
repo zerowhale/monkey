@@ -13,8 +13,8 @@ namespace Monkey.Games.Agricola.Data
             this.Count = count;
         }
 
-        public readonly string Name;
+        public string Name { get; }
 
-        public readonly int Count;
+        public int Count { get; }
     }
 }

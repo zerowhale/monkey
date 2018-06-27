@@ -452,12 +452,15 @@ namespace Monkey.Games.Agricola
             return begTotal;
         }
 
+        /// <summary>
+        /// Returns true if the player owns the card with the specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool OwnsCard(int id)
         {
             return this.OwnedCardIds.Contains(id);
         }
-
-
 
         /// <summary>
         /// Number of family members still available to take actions
@@ -677,6 +680,23 @@ namespace Monkey.Games.Agricola
             }
         }
 
+        /// <summary>
+        /// Any cards requiring preservation of custom state data should store
+        /// it in the metadata
+        /// </summary>
+        public ImmutableDictionary<int, ImmutableDictionary<string, Object>> CardMetadata
+        {
+            get
+            {
+                return ((ImmutableDictionary<int, ImmutableDictionary<string, Object>>)State[StateKeyCardMetadata]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyCardMetadata, value);
+            }
+        }
+
+
         public int[] OwnedCardIds
         {
             get { return OwnedCards.Select(x => x.Id).ToArray(); }
@@ -696,6 +716,7 @@ namespace Monkey.Games.Agricola
             State = State.SetItem(StateKeyHandMinors, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyHandOccupations, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyIsHarvesting, false);
+            State = State.SetItem(StateKeyCardMetadata, ImmutableDictionary<int, ImmutableDictionary<string, Object>>.Empty);
         }
 
         private PersonalSupply PersonalSupply
@@ -722,12 +743,8 @@ namespace Monkey.Games.Agricola
         private const string StateKeyHandOccupations = "HandOccupations";
         private const string StateKeyScorecard = "Scorecard";
         private const string StateKeyIsHarvesting = "IsHarvesting";
+        private const string StateKeyCardMetadata = "CardMetada";
 
-        /// <summary>
-        /// Any cards requiring preservation of custom state data should store
-        /// it in the metadata
-        /// </summary>
-        public ImmutableDictionary<int, ImmutableDictionary<string, Object>> CardMetadata = ImmutableDictionary<int, ImmutableDictionary<string, Object>>.Empty;
 
     }
 }

@@ -20,9 +20,9 @@ namespace Monkey.Games.Agricola.Data
             this.OnRound = onRound;
         }
 
-        public readonly int Delay;
+        public int Delay { get; }
 
-        public readonly bool OnRound;
+        public bool OnRound { get; }
 
         public override string ToString()
         {

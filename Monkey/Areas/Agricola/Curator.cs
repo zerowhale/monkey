@@ -689,40 +689,6 @@ namespace Monkey.Games.Agricola
             return -player.BeggingCards * 3;
         }
 
-        /// <summary>
-        /// Updates a resource in the food per resource listing if amount of food
-        /// per resource is higher than the existing item.
-        /// </summary>
-        /// <param name="resource"></param>
-        /// <param name="amount"></param>
-        /// <param name="limited"></param>
-        private static void updateResourceConversions(int id, Resource inType, int inAmount, int? inLimit, Resource outType, int outAmount)
-        {
-            for (var r = 0; r< resourceConversions.Count;r++)
-            {
-                var row = resourceConversions[r];
-                if (row.InAmount == inAmount 
-                    && row.InType == inType 
-                    && row.InLimit == null && inLimit == null
-                    && row.OutType == outType)
-                {
-                    if (row.OutAmount < outAmount)
-                    {
-                        row = new ResourceConversion(id, row.InType, row.InAmount, row.InLimit, row.OutType, row.OutAmount);
-                        resourceConversions[r] = row;
-                    }
-                    else if(row.Id > id)
-                    {
-                        row.Id = id;
-                    }
-                    return;
-                }
-                
-            }
-
-            resourceConversions.Add(new ResourceConversion(id, inType, inAmount, inLimit, outType, outAmount));
-        }
-
         private static Dictionary<int, MajorImprovement> majorImprovements;
         private static Dictionary<int, MinorImprovement> minorImprovements;
         private static Dictionary<int, Occupation> occupations;

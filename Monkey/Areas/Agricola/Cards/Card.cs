@@ -37,31 +37,15 @@ namespace Monkey.Games.Agricola.Cards
             var costs = definition.Grandchildren("Costs", "Option").Select(CardCost.Create).ToArray();
             Costs = (costs.Length == 0 ? new CardCost[] { new FreeCardCost() } : costs).ToImmutableArray<CardCost>();
 
-            var bakeProperties = definition.Descendants("Bake").Select(ResourceConversion.Create).FirstOrDefault();
-            if (bakeProperties != null)
-                bakeProperties.Id = this.Id;
-            BakeProperties = bakeProperties;
-
-            resourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(ResourceConversion.Create).ToArray();
-            if (resourceConversions != null)
-            {
-                foreach (var resourceConversion in resourceConversions)
-                    resourceConversion.Id = Id;
-            }
-            ResourceConversions = resourceConversions;
+            BakeProperties = definition.Descendants("Bake").Select(x => ResourceConversion.Create(x, Id)).FirstOrDefault();
+            ResourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(x => ResourceConversion.Create(x, Id)).ToArray();
 
             Prerequisites = definition.Elements("Prerequisite").Select(Prerequisite.Create).ToArray();
             Deck deck;
             if (Enum.TryParse((string)definition.Attribute("Deck"), out deck))
                 this.Deck = deck;
 
-            var cacheExchanges = definition.Grandchildren("TakeCacheExchange", "CacheExchange").Select(CacheExchange.Create).ToArray();
-            if (cacheExchanges != null)
-            {
-                foreach (var cacheExchange in cacheExchanges)
-                    cacheExchange.Id = Id;
-            }
-            CacheExchanges = cacheExchanges;
+            CacheExchanges = definition.Grandchildren("TakeCacheExchange", "CacheExchange").Select(x => CacheExchange.Create(x, Id)).ToArray();
         }
 
         public static Card Create(XElement definition)

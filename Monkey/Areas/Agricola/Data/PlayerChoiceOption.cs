@@ -14,8 +14,8 @@ namespace Monkey.Games.Agricola.Data
             Event = triggeredEvent;
         }
 
-        public readonly int Id;
+        public int Id { get; }
 
-        public readonly TriggeredEvent Event;
+        public TriggeredEvent Event { get; }
     }
 }

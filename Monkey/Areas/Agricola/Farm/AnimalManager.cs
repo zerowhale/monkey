@@ -15,32 +15,37 @@ namespace Monkey.Games.Agricola.Farm
 
         public AnimalManager()
         {
-            this.housings["house"] = new AnimalHousing("house", 1);
-            ResetAnimalCounts();
+            this.housings = ImmutableDictionary<string, AnimalHousing>.Empty.SetItem("house", new AnimalHousing("house", 1));
         }
 
-        public void Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures)
+        public AnimalManager(ImmutableDictionary<string, AnimalHousing> housings)
         {
-            this.Update(grid, pastures, null);
+            this.housings = housings;
         }
 
-        public void Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
+        public AnimalManager Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures)
+        {
+            return this.Update(grid, pastures, null);
+        }
+
+        public AnimalManager Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
             var oldHousings = new Dictionary<String, AnimalHousing>();
             if (animalAssignments == null)
             {
-                foreach (var key in housings.Keys)
+                foreach (var key in this.housings.Keys)
                 {
-                    if(housings[key].AnimalCount > 0)
-                        oldHousings[key] = housings[key];
+                    if(this.housings[key].AnimalCount > 0)
+                        oldHousings[key] = this.housings[key];
                 }
             }
 
             var stables = new List<Point>();
-            housings.Clear();
+
+            var housings = new Dictionary<string, AnimalHousing>();
 
             // Default house pet
             var id = "house";
-            this.housings[id] = new AnimalHousing(id, 1);
+            housings[id] = new AnimalHousing(id, 1);
 
             var stablesCounted = new List<int>();
             foreach (var pasture in pastures) {
@@ -67,7 +72,7 @@ namespace Monkey.Games.Agricola.Farm
         
                 var capacity = (count * 2) << stableCount;
                 id = "pasture" + compiledId;
-                this.housings[id] = new AnimalHousing(id, capacity);
+                housings[id] = new AnimalHousing(id, capacity);
             }
 
             for (var x = 0; x < Farmyard.WIDTH; x++)
@@ -89,7 +94,7 @@ namespace Monkey.Games.Agricola.Farm
                 if (!stablesCounted.Contains(index))
                 {
                     id = "stable" + index;
-                    this.housings[id] = new AnimalHousing(id, 1);
+                    housings[id] = new AnimalHousing(id, 1);
                 }
             }
 
@@ -105,13 +110,15 @@ namespace Monkey.Games.Agricola.Farm
                 }
              
                 if(!skipAutomated)
-                    AssignAnimals(eHousings);
+                    assignAnimals(housings, eHousings);
             }
             else
-                AssignAnimals(animalAssignments);
+                assignAnimals(housings, animalAssignments);
+
+            return new AnimalManager(housings.ToImmutableDictionary());
         }
 
-        public AnimalHousing[] GetOccupiedHousings()
+        public ImmutableArray<AnimalHousing> GetOccupiedHousings()
         {
             var occupied = new List<AnimalHousing>();
             foreach (var housing in housings.Values)
@@ -119,7 +126,7 @@ namespace Monkey.Games.Agricola.Farm
                 if (housing.AnimalCount > 0)
                     occupied.Add(housing);
             }
-            return occupied.ToArray();
+            return occupied.ToImmutableArray();
         }
 
         public Boolean AreAssignmentsValid(AnimalHousingData[] assignments)
@@ -136,7 +143,77 @@ namespace Monkey.Games.Agricola.Farm
             return true;
         }
 
-        public void AssignAnimals(AnimalHousingData[] assignments)
+        public AnimalManager AssignAnimals(AnimalHousingData[] assignments)
+        {
+            ImmutableDictionary<string, AnimalHousing> newHousings = housings;
+            foreach (var assignment in assignments)
+            {
+                if (!housings.ContainsKey(assignment.Id))
+                    throw new ArgumentException("Invalid animal assignments, housing id " + assignment.Id + " not found.");
+            }
+
+            foreach (var kvp in housings) 
+            {
+                newHousings = newHousings.SetItem(kvp.Key, kvp.Value.Empty());
+            }
+
+            foreach (var assignment in assignments)
+            {
+                newHousings = newHousings.SetItem(assignment.Id, housings[assignment.Id].SetAnimals(assignment.Type, assignment.Count));
+            }
+            return newHousings == null ? this : new AnimalManager(newHousings);
+        }
+
+
+        public AnimalManager AssignAnimals(AnimalHousing[] housings) {
+            ImmutableDictionary<string, AnimalHousing> newHousings = null;
+            foreach (var housing in housings)
+            {
+                if (housing.AnimalCount > 0 && !this.housings.ContainsKey(housing.Id))
+                    throw new ArgumentException("Invalid animal assignments, housing id "+ housing.Id + " not found.");
+
+               newHousings = this.housings.SetItem(housing.Id, this.housings[housing.Id].SetAnimals(housing.AnimalType.Value, housing.AnimalCount));
+            }
+            return newHousings == null ? this : new AnimalManager(newHousings);
+        }
+
+
+        public AnimalManager RemoveAnimals(AnimalResource type, int count)
+        {
+            ImmutableDictionary<string, AnimalHousing> newHousings = null;
+            var matches = housings.Values.Where(x => x.AnimalType == type).OrderBy(x => x.AnimalCount);
+            foreach (var m in matches)
+            {
+                var toRemove = m.AnimalCount < count ? m.AnimalCount : count;
+                newHousings = housings.SetItem(m.Id, m.SetAnimals(type, m.AnimalCount - toRemove));
+                count -= toRemove;
+
+                if (count == 0)
+                    break;
+            }
+            return newHousings == null ? this : new AnimalManager(newHousings);
+        }
+
+
+        public int GetAnimalCount(AnimalResource type)
+        {
+            return housings.Values.Where(x => x.AnimalType == type).Sum(y => y.AnimalCount);
+        }
+
+
+
+        private void assignAnimals(Dictionary<string, AnimalHousing> housings, AnimalHousing[] oldHousings)
+        {
+            foreach (var housing in oldHousings)
+            {
+                if (housing.AnimalCount > 0 && !this.housings.ContainsKey(housing.Id))
+                    throw new ArgumentException("Invalid animal assignments, housing id " + housing.Id + " not found.");
+
+                housings[housing.Id] = this.housings[housing.Id].SetAnimals(housing.AnimalType.Value, housing.AnimalCount);
+            }
+        }
+
+        private void assignAnimals(Dictionary<string, AnimalHousing> housings, AnimalHousingData[] assignments)
         {
             foreach (var assignment in assignments)
             {
@@ -145,72 +222,18 @@ namespace Monkey.Games.Agricola.Farm
             }
 
             var temp = housings.ToImmutableDictionary();
-            foreach (var kvp in temp) 
+            foreach (var kvp in temp)
             {
                 housings[kvp.Key] = kvp.Value.Empty();
             }
 
-            ResetAnimalCounts();
             foreach (var assignment in assignments)
             {
                 housings[assignment.Id] = housings[assignment.Id].SetAnimals(assignment.Type, assignment.Count);
-                CountAnimal(assignment.Type, assignment.Count);
             }
         }
 
-        public void AssignAnimals(AnimalHousing[] housings) {
-            ResetAnimalCounts();
-            foreach (var housing in housings)
-            {
-                if (housing.AnimalCount > 0 && !this.housings.ContainsKey(housing.Id))
-                    throw new ArgumentException("Invalid animal assignments, housing id "+ housing.Id + " not found.");
-
-                this.housings[housing.Id] = this.housings[housing.Id].SetAnimals(housing.AnimalType.Value, housing.AnimalCount);
-
-
-                CountAnimal(housing.AnimalType.Value, housing.AnimalCount);
-            }
-        }
-
-
-        public void RemoveAnimals(AnimalResource type, int count)
-        {
-            var matches = housings.Values.Where(x => x.AnimalType == type).OrderBy(x => x.AnimalCount);
-            foreach (var m in matches)
-            {
-                var toRemove = m.AnimalCount < count ? m.AnimalCount : count;
-                housings[m.Id] = m.SetAnimals(type, m.AnimalCount - toRemove);
-                count -= toRemove;
-                CountAnimal(type, -toRemove);
-
-                if (count == 0)
-                    break;
-            }
-
-            
-        }
-
-
-        public int GetAnimalCount(AnimalResource type)
-        {
-            return animalCounts[type];
-        }
-
-        private void CountAnimal(AnimalResource type, int count)
-        {
-            animalCounts[type] += count;
-        }
-
-        private void ResetAnimalCounts()
-        {
-            animalCounts[AnimalResource.Sheep] = 0;
-            animalCounts[AnimalResource.Boar] = 0;
-            animalCounts[AnimalResource.Cattle] = 0;
-        }
-
-        private Dictionary<string, AnimalHousing> housings = new Dictionary<string, AnimalHousing>();
-        private Dictionary<AnimalResource, int> animalCounts = new Dictionary<AnimalResource, int>();
-    
+        private ImmutableDictionary<string, AnimalHousing> housings { get; }    
     }
 
 }

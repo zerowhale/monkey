@@ -42,12 +42,12 @@ namespace Monkey.Games.Agricola.Data
         /// The type of the resource
         /// </summary>
         [JsonConverter(typeof(StringEnumConverter))]
-        public readonly Resource Type;
+        public Resource Type { get; }
 
         /// <summary>
         /// The amount of the resource
         /// </summary>
-        public readonly int Count;
+        public int Count { get; }
 
     }
 }

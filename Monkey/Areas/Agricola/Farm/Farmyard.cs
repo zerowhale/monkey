@@ -90,7 +90,7 @@ namespace Monkey.Games.Agricola.Farm
         /// </summary>
         public void UpdateAnimalManager()
         {
-            animalManager.Update(this.grid, this.pastures);
+            animalManager = animalManager.Update(this.grid, this.pastures);
         }
 
         public int GetAnimalCount(AnimalResource Type)
@@ -100,7 +100,12 @@ namespace Monkey.Games.Agricola.Farm
 
         public void AssignAnimals(AnimalHousingData[] assignments)
         {
-            animalManager.AssignAnimals(assignments);
+            animalManager = animalManager.AssignAnimals(assignments);
+        }
+
+        public void RemoveAnimals(AnimalResource type, int count)
+        {
+            animalManager = animalManager.RemoveAnimals(type, count);
         }
 
         public void AddRoom(int index)
@@ -446,7 +451,7 @@ namespace Monkey.Games.Agricola.Farm
         /// <summary>
         /// Used by the front end to assign animals in the ui
         /// </summary>
-        public AnimalHousing[] AnimalLocations
+        public ImmutableArray<AnimalHousing> AnimalLocations
         {
            get { return animalManager.GetOccupiedHousings(); }
         }

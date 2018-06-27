@@ -543,7 +543,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 return false;
 
             var tempAnimalManager = new AnimalManager();
-            tempAnimalManager.Update(player.Farmyard.Grid, pastures.ToImmutableArray());
+            tempAnimalManager = tempAnimalManager.Update(player.Farmyard.Grid, pastures.ToImmutableArray());
             if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)fenceData.AnimalData, tempAnimalManager, null))
                 return false;
 
@@ -628,7 +628,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
                     if (resource.Type.IsAnimal())
                     {
-                        player.Farmyard.AnimalManager.RemoveAnimals((AnimalResource)resource.Type, resource.Count);
+                        player.Farmyard.RemoveAnimals((AnimalResource)resource.Type, resource.Count);
                     }
                     else
                     {

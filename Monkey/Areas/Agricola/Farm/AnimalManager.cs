@@ -10,9 +10,12 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Farm
 {
+    /// <summary>
+    /// The Animal Manager handles assigning animals to animal housings (stables, pastures, player house).
+    /// It verifies manual assignments or can automatically place animals.
+    /// </summary>
     public class AnimalManager
     {
-
         public AnimalManager()
         {
             this.housings = ImmutableDictionary<string, AnimalHousing>.Empty.SetItem("house", new AnimalHousing("house", 1));
@@ -23,12 +26,12 @@ namespace Monkey.Games.Agricola.Farm
             this.housings = housings;
         }
 
-        public AnimalManager Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures)
+        public AnimalManager Update(FarmyardEntity[] grid, ImmutableArray<int[]> pastures)
         {
             return this.Update(grid, pastures, null);
         }
 
-        public AnimalManager Update(FarmyardEntity[,] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
+        public AnimalManager Update(FarmyardEntity[] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
             var oldHousings = new Dictionary<String, AnimalHousing>();
             if (animalAssignments == null)
             {
@@ -59,7 +62,7 @@ namespace Monkey.Games.Agricola.Farm
 
                     var x = pid % Farmyard.WIDTH;
                     var y = (int)(pid / Farmyard.WIDTH);
-                    var plot = grid[x,y];
+                    var plot = grid[y * Farmyard.WIDTH + x];
 
                     count++;
                     if (plot is Empty && ((Empty)plot).HasStable)
@@ -79,7 +82,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < Farmyard.HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * Farmyard.WIDTH + x];
                     if (plot is Empty && !(plot is Pasture) && ((Empty)plot).HasStable)
                         stables.Add(new Point(x, y));
                 }
@@ -200,16 +203,14 @@ namespace Monkey.Games.Agricola.Farm
             return housings.Values.Where(x => x.AnimalType == type).Sum(y => y.AnimalCount);
         }
 
-
-
         private void assignAnimals(Dictionary<string, AnimalHousing> housings, AnimalHousing[] oldHousings)
         {
-            foreach (var housing in oldHousings)
+            foreach (var oldHousing in oldHousings)
             {
-                if (housing.AnimalCount > 0 && !this.housings.ContainsKey(housing.Id))
-                    throw new ArgumentException("Invalid animal assignments, housing id " + housing.Id + " not found.");
+                if (oldHousing.AnimalCount > 0 && !this.housings.ContainsKey(oldHousing.Id))
+                    throw new ArgumentException("Invalid animal assignments, housing id " + oldHousing.Id + " not found.");
 
-                housings[housing.Id] = this.housings[housing.Id].SetAnimals(housing.AnimalType.Value, housing.AnimalCount);
+                housings[oldHousing.Id] = housings[oldHousing.Id].SetAnimals(oldHousing.AnimalType.Value, oldHousing.AnimalCount);
             }
         }
 

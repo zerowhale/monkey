@@ -15,17 +15,9 @@ namespace Monkey.Games.Agricola.Farm
             Type = type;
         }
 
-        public Point Location
-        {
-            get;
-            protected set;
-        }
+        public Point Location { get; }
 
-        public String Type
-        {
-            get;
-            protected set;
-        }
+        public String Type { get; }
     }
     
 }

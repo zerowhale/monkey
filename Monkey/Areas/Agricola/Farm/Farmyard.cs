@@ -24,7 +24,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    grid[x, y] = new Empty();
+                    grid[y * WIDTH + x] = new Empty();
                 }
             }
         }
@@ -74,10 +74,10 @@ namespace Monkey.Games.Agricola.Farm
                     {
                         var x = plot % WIDTH;
                         var y = (int)(plot / WIDTH);
-                        if (!(grid[x, y] is Pasture))
+                        if (!(grid[y * WIDTH + x] is Pasture))
                         {
-                            var hasStable = ((Empty)grid[x, y]).HasStable;
-                            grid[x, y] = new Pasture(hasStable);
+                            var hasStable = ((Empty)grid[y * WIDTH + x]).HasStable;
+                            grid[y * WIDTH + x] = new Pasture(hasStable);
                         }
                     }
                 }
@@ -125,7 +125,7 @@ namespace Monkey.Games.Agricola.Farm
         /// <returns>True if the plot was able to be set to a room</returns>
         public void AddRoom(int x, int y)
         {
-            grid[x, y] = new Room();
+            grid[y * WIDTH + x] = new Room();
             RoomCount = RoomLocations.Count;
         }
 
@@ -138,7 +138,7 @@ namespace Monkey.Games.Agricola.Farm
 
         public void AddStable(int x, int y)
         {
-            grid[x, y] = ((Empty)grid[x, y]).AddStable();
+            grid[y * WIDTH + x] = ((Empty)grid[y * WIDTH + x]).AddStable();
         }
 
         public void PlowField(int index)
@@ -150,7 +150,7 @@ namespace Monkey.Games.Agricola.Farm
 
         public void PlowField(int x, int y)
         {
-            grid[x, y] = new Field();
+            grid[y * WIDTH + x] = new Field();
         }
 
         public int PlantedResourceCount(Resource type)
@@ -160,7 +160,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
                     if (plot is Field)
                     {
                         var field = (Field)plot;
@@ -181,10 +181,9 @@ namespace Monkey.Games.Agricola.Farm
 
         public Boolean SowField(int x, int y, Resource resource)
         {
-            if (grid[x, y] is Field)
+            if (grid[y * WIDTH + x] is Field)
             {
-                var field = (Field)grid[x, y];
-                field.Sow(player, resource);
+                grid[y * WIDTH + x] = ((Field)grid[y * WIDTH + x]).Sow(player, resource);
                 return true;
             }
             return false;
@@ -205,7 +204,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
 
                     if (plot is Pasture || plot is Empty)
                     {
@@ -249,7 +248,7 @@ namespace Monkey.Games.Agricola.Farm
 
             for(var x=0;x<WIDTH;x++){
                 for(var y=0;y<HEIGHT;y++){
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
 
                     if (plot is Field
                         || plot is Pasture
@@ -276,7 +275,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
                     if (plot is Field || plot is Room)
                         closed.Add(new Point(x, y));
 
@@ -300,7 +299,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
                     if (!(plot is Field)
                         && !(plot is Empty && ((Empty)plot).HasStable))
                         closed.Add(new Point(x, y));
@@ -329,7 +328,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
                     if (plot is Field
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))
@@ -348,7 +347,7 @@ namespace Monkey.Games.Agricola.Farm
                 var x = i % WIDTH;
                 var y = (int)(i / WIDTH);
 
-                if (!(grid[x, y] is Empty) && !(grid[x, y] is Pasture) || ((Empty)grid[x, y]).HasStable)
+                if (!(grid[y * WIDTH + x] is Empty) && !(grid[y * WIDTH + x] is Pasture) || ((Empty)grid[y * WIDTH + x]).HasStable)
                     return false;
             }
             return true;
@@ -371,7 +370,7 @@ namespace Monkey.Games.Agricola.Farm
                     if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
                         return false;
 
-                    var plot = grid[x, y];
+                    var plot = grid[y * WIDTH + x];
                     if (plot is Room
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))
@@ -405,7 +404,7 @@ namespace Monkey.Games.Agricola.Farm
 
                 if (fieldLocations.Contains(new Point(x, y)))
                 {
-                    if (((Field)grid[x, y]).Sown.Count > 0)
+                    if (((Field)grid[y * WIDTH + x]).Sown.Count > 0)
                         return false;
                 }
             }
@@ -431,7 +430,7 @@ namespace Monkey.Games.Agricola.Farm
                 if (!fieldLocations.Contains(new Point(x, y)))
                     return false;
 
-                if (((Field)grid[x, y]).Sown.Count > 0)
+                if (((Field)grid[y * WIDTH + x]).Sown.Count > 0)
                     return false;
             }
 
@@ -476,7 +475,7 @@ namespace Monkey.Games.Agricola.Farm
                 {
                     for (var y = 0; y < HEIGHT; y++)
                     {
-                        if (grid[x, y] is Empty && !(grid[x,y] is Pasture) && !((Empty)grid[x,y]).HasStable)
+                        if (grid[y * WIDTH + x] is Empty && !(grid[y * WIDTH + x] is Pasture) && !((Empty)grid[y * WIDTH + x]).HasStable)
                             locations.Add(new Point(x, y));
                     }
                 }
@@ -498,7 +497,7 @@ namespace Monkey.Games.Agricola.Farm
                 {
                     for (var y = 0; y < HEIGHT; y++)
                     {
-                        if (grid[x, y] is Room)
+                        if (grid[y * WIDTH + x] is Room)
                             locations.Add(new Point(x, y));
                     }
                 }
@@ -521,7 +520,7 @@ namespace Monkey.Games.Agricola.Farm
                 {
                     for (var y = 0; y < HEIGHT; y++)
                     {
-                        if (grid[x, y] is Field)
+                        if (grid[y * WIDTH + x] is Field)
                             locations.Add(new Point(x, y));
                     }
                 }
@@ -544,7 +543,7 @@ namespace Monkey.Games.Agricola.Farm
                 {
                     for (var y = 0; y < HEIGHT; y++)
                     {
-                        if (grid[x, y] is Empty && ((Empty)grid[x,y]).HasStable)
+                        if (grid[y * WIDTH + x] is Empty && ((Empty)grid[y * WIDTH + x]).HasStable)
                             locations.Add(new Point(x, y));
                     }
                 }
@@ -567,7 +566,7 @@ namespace Monkey.Games.Agricola.Farm
                 {
                     for (var y = 0; y < HEIGHT; y++)
                     {
-                        if (grid[x, y] is Pasture)
+                        if (grid[y * WIDTH + x] is Pasture)
                             locations.Add(new Point(x, y));
                     }
                 }
@@ -598,7 +597,7 @@ namespace Monkey.Games.Agricola.Farm
         /// The underlying grid that holds all the farmyard 
         /// layout information
         /// </summary>
-        public FarmyardEntity[,] Grid
+        public FarmyardEntity[] Grid
         {
             get { return grid; }
         }
@@ -640,7 +639,7 @@ namespace Monkey.Games.Agricola.Farm
         /// </summary>
         private ImmutableArray<int[]> pastures = ImmutableArray<int[]>.Empty;
 
-        private FarmyardEntity[,] grid = new FarmyardEntity[WIDTH, HEIGHT];
+        private FarmyardEntity[] grid = new FarmyardEntity[WIDTH * HEIGHT];
         private List<int> fences = new List<int>();
 
         private AnimalManager animalManager = new AnimalManager();

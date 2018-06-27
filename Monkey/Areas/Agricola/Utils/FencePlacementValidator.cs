@@ -63,7 +63,7 @@ namespace Monkey.Games.Agricola.Utils
                     var y = (int)(i / Farmyard.WIDTH);
                 
 
-                    if (!(grid[x,y] is Empty)) {
+                    if (!(grid[y * Farmyard.WIDTH + x] is Empty)) {
                         Valid = false;
                         return;
                     }

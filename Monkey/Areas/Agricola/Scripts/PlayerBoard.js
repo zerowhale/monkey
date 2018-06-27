@@ -102,7 +102,7 @@ PlayerBoard.prototype = {
 
         for (var f in this.fields) {
             var field = this.fields[f];
-            var o = this.grid[field.x][field.y];
+            var o = this.grid[field.y * 5 + field.x];
             for (var i = 0; i < o.Sown.Count; i++) {
                 var plot = $(this.plots[field.y * 5 + field.x]);
                 var p = Game.createResourcePiece(o.Sown.Type)
@@ -190,7 +190,7 @@ PlayerBoard.prototype = {
 
         for (var x = 0; x < this.PLOT_GRID_WIDTH; x++) {
             for (var y = 0; y < this.PLOT_GRID_HEIGHT; y++) {
-                var o = this.grid[x][y];
+                var o = this.grid[y * this.PLOT_GRID_WIDTH + x];
 
                 switch (o.Type) {
                     case "Room":
@@ -323,7 +323,7 @@ PlayerBoard.prototype = {
         for (var x = 0; x < this.PLOT_GRID_WIDTH; x++) {
             for (var y = 0; y < this.PLOT_GRID_HEIGHT; y++) {
                 var index = y * this.PLOT_GRID_WIDTH + x;
-                if ((((this.grid[x][y].Type == "Pasture" || this.grid[x][y].Type == "Empty") && !this.grid[x][y].HasStable
+                if ((((this.grid[index].Type == "Pasture" || this.grid[index].Type == "Empty") && !this.grid[index].HasStable
                     && numStables < this.MAX_STABLES && obj.canAfford(costs))
                     && this.addedStables.length < maxNewStables
                     || ($.inArray(index, this.addedStables) >= 0))
@@ -354,7 +354,7 @@ PlayerBoard.prototype = {
         function checkPlot(x, y) {
             var index = y * obj.PLOT_GRID_WIDTH + x;
             if (x >= 0 && y >= 0 && x < obj.PLOT_GRID_WIDTH && y < obj.PLOT_GRID_HEIGHT
-                && obj.grid[x][y].Type == "Empty"
+                && obj.grid[index].Type == "Empty"
                 && $.inArray(index, obj.addedStables) < 0) {
 
                 var plot = $(obj.plots[index]),
@@ -442,7 +442,7 @@ PlayerBoard.prototype = {
         function checkPlot(x, y) {
             var index = y * obj.PLOT_GRID_WIDTH + x;
             if (x >= 0 && y >= 0 && x < obj.PLOT_GRID_WIDTH && y < obj.PLOT_GRID_HEIGHT
-                && obj.grid[x][y].Type == "Empty" && !obj.grid[x][y].HasStable) {
+                && obj.grid[index].Type == "Empty" && !obj.grid[index].HasStable) {
                 var plot = $(obj.plots[index]),
                     cell = plot.find(".cell");
                 if (!cell.hasClass("highlight")) {
@@ -511,10 +511,8 @@ PlayerBoard.prototype = {
             this.plots.each(function () {
                 var plot = $(this),
                     cell = plot.find(".cell"),
-                    index = plot.index(),
-                    y = Math.floor(index / obj.PLOT_GRID_WIDTH),
-                    x = index % obj.PLOT_GRID_WIDTH;
-                if (obj.grid[x][y].Type == "Empty" && !obj.grid[x][y].HasStable) {
+                    index = plot.index();
+                if (obj.grid[index].Type == "Empty" && !obj.grid[index].HasStable) {
                     cell.addClass("highlight").click(ri(index, plot));
                 }
             });
@@ -706,7 +704,7 @@ PlayerBoard.prototype = {
                 y = Math.floor(index / obj.PLOT_GRID_WIDTH),
                 x = index % obj.PLOT_GRID_WIDTH;
 
-            if (obj.grid[x][y].Type == "Empty" || obj.grid[x][y].Type == "Pasture") {
+            if (obj.grid[index].Type == "Empty" || obj.grid[index].Type == "Pasture") {
                 var cell = plot.find(".cell");
                 cell.addClass("highlight").click(ri(plot, x, y, index));
             }
@@ -754,7 +752,7 @@ PlayerBoard.prototype = {
                 x1 = plot1 % obj.PLOT_GRID_WIDTH,
                 y1 = Math.floor(plot1 / obj.PLOT_GRID_WIDTH);
 
-            if (obj.grid[x1][y1].Type == "Empty" || obj.grid[x1][y1].Type == "Pasture")
+            if (obj.grid[y1 * 5 + x1].Type == "Empty" || obj.grid[y1 * 5 + x1].Type == "Pasture")
                 return true;
 
             if (plots[1] != undefined) {
@@ -762,7 +760,7 @@ PlayerBoard.prototype = {
                     x2 = plot2 % obj.PLOT_GRID_WIDTH,
                     y2 = Math.floor(plot2 / obj.PLOT_GRID_WIDTH);
 
-                if (obj.grid[x2][y2].Type == "Empty" || obj.grid[x1][y1].Type == "Pasture")
+                if (obj.grid[y2 * 5 + x2].Type == "Empty" || obj.grid[y2 * 5 + x2].Type == "Pasture")
                     return true;
             }
             return false;
@@ -798,6 +796,7 @@ PlayerBoard.prototype = {
             var animalsFit = obj.animalManager.reconfigure(obj.grid, pastures);
             if (popup && popup.updateSubmitButtonState) {
                 popup.animalStateChanged();
+                console.info(valid, pathable)
                 popup.updateSubmitButtonState({ fencesValid: valid && pathable });
             }
 
@@ -818,11 +817,9 @@ PlayerBoard.prototype = {
 
         this.plots.each(function () {
             var plot = $(this),
-                index = plot.index(),
-                y = Math.floor(index / obj.PLOT_GRID_WIDTH),
-                x = index % obj.PLOT_GRID_WIDTH;
+                index = plot.index();
 
-            if (obj.grid[x][y].Type == "Empty" || obj.grid[x][y].Type == "Pasture" ) {
+            if (obj.grid[index].Type == "Empty" || obj.grid[index].Type == "Pasture" ) {
                 var cell = plot.find(".cell");
                 cell.addClass("highlight");
             }
@@ -1023,7 +1020,7 @@ PlayerBoard.prototype = {
         else {
             for (var i in this.fields) {
                 var field = this.fields[i];
-                if (this.grid[field.x][field.y].Sown.Count == 0)
+                if (this.grid[field.y * 5 + field.x].Sown.Count == 0)
                     sowable.push(field.y * obj.PLOT_GRID_WIDTH  + field.x);
             }
             for (var i in this.addedFields) {
@@ -1066,7 +1063,7 @@ PlayerBoard.prototype = {
             && this.fields.length > 0) {
             for (var f in this.fields) {
                 var pos = this.fields[f];
-                var field = this.grid[pos.x][pos.y];
+                var field = this.grid[pos.y * 5 + pos.x];
                 if (field.Sown.Count == 0)
                     return true;
             }
@@ -1078,7 +1075,7 @@ PlayerBoard.prototype = {
         if (this.fields.length == 0) {
             for (var x = 0;x < this.PLOT_GRID_WIDTH ; x++) {
                 for (var y = 0; y < this.PLOT_GRID_HEIGHT; y++) {
-                    var o = this.grid[x][y];
+                    var o = this.grid[y * this.PLOT_GRID_WIDTH + x];
                     if (o.Type == "Empty" && o.HasStable == false)
                         return true;
                 }
@@ -1090,10 +1087,10 @@ PlayerBoard.prototype = {
             var field = this.fields[i],
                 x = field.x,
                 y = field.y;
-            if (x - 1 >= 0 && this.grid[x - 1][y].Type == "Empty") return true;
-            if (x + 1 < this.PLOT_GRID_WIDTH && this.grid[x + 1][y].Type == "Empty") return true;
-            if (y - 1 >= 0 && this.grid[x][y - 1].Type == "Empty") return true;
-            if (y + 1 < this.PLOT_GRID_HEIGHT && this.grid[x][y + 1].Type == "Empty") return true;
+            if (x - 1 >= 0 && this.grid[y * 5 + (x - 1)].Type == "Empty") return true;
+            if (x + 1 < this.PLOT_GRID_WIDTH && this.grid[y * 5 + (x + 1)].Type == "Empty") return true;
+            if (y - 1 >= 0 && this.grid[(y - 1) * 5 + x].Type == "Empty") return true;
+            if (y + 1 < this.PLOT_GRID_HEIGHT && this.grid[(y + 1) * 5 + x].Type == "Empty") return true;
         }
         return false;
     },
@@ -1103,10 +1100,10 @@ PlayerBoard.prototype = {
             var room = this.rooms[i],
                 x = room.x,
                 y = room.y;
-            if (x - 1 >= 0 && this.grid[x - 1][y].Type == "Empty") return true;
-            if (x + 1 < this.PLOT_GRID_WIDTH && this.grid[x + 1][y].Type == "Empty") return true;
-            if (y - 1 >= 0 && this.grid[x][y - 1].Type == "Empty") return true;
-            if (y + 1 < this.PLOT_GRID_HEIGHT && this.grid[x][y + 1].Type == "Empty") return true;
+            if (x - 1 >= 0 && this.grid[y*5 + (x - 1)].Type == "Empty") return true;
+            if (x + 1 < this.PLOT_GRID_WIDTH && this.grid[y * 5 + (x + 1)].Type == "Empty") return true;
+            if (y - 1 >= 0 && this.grid[(y - 1) * 5 + x].Type == "Empty") return true;
+            if (y + 1 < this.PLOT_GRID_HEIGHT && this.grid[(y + 1) * 5 + x].Type == "Empty") return true;
         }
         return false;
     },
@@ -1115,7 +1112,7 @@ PlayerBoard.prototype = {
         if (this.stables.length < this.MAX_STABLES) {
             for (var x = 0; x < this.PLOT_GRID_WIDTH ; x++) {
                 for (var y = 0; y < this.PLOT_GRID_HEIGHT; y++) {
-                    var o = this.grid[x][y];
+                    var o = this.grid[y * this.PLOT_GRID_WIDTH + x];
                     if ((o.Type == "Empty" || o.Type == "Pasture") && o.HasStable == false)
                         return true;
                 }
@@ -1192,7 +1189,6 @@ PlayerBoard.prototype = {
 
     },
 
-
     pathable: function (start, end, excluding, existing, added) {
         var obj = this;
         if (start.x === undefined)
@@ -1215,7 +1211,7 @@ PlayerBoard.prototype = {
                 var index = array[i],
                     x = index % obj.PLOT_GRID_WIDTH,
                     y = Math.floor(index / obj.PLOT_GRID_WIDTH);
-                if (index != excluding) 
+                if (index != excluding)
                     graphNodes[x][y] = 1;
             }
 
@@ -1223,7 +1219,7 @@ PlayerBoard.prototype = {
 
         prepGraph(existing);
         prepGraph(added);
-            
+
         for (var i in added) {
             var index = added[i],
                 x = index % this.PLOT_GRID_WIDTH,

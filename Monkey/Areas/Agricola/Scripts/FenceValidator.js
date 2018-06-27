@@ -170,13 +170,10 @@ FenceValidator.prototype = {
             var validPasture = true;
             for (var i in pastureIndices) {
                 i = pastureIndices[i];
-                var w = PlayerBoard.PLOT_GRID_WIDTH,
-                    x = i % w,
-                    y = Math.floor(i / w);
                 
-                if (this.playerBoard.grid[x][y].Type != "Empty"
-                    && this.playerBoard.grid[x][y].Type != "Pasture"
-                    && this.playerBoard.grid[x][y].Type != "Stable") {
+                if (this.playerBoard.grid[i].Type != "Empty"
+                    && this.playerBoard.grid[i].Type != "Pasture"
+                    && this.playerBoard.grid[i].Type != "Stable") {
                     this.invalidReasons.push("Fences may not surround rooms or fields.");
                     this.valid = false;
                     validPasture = false;

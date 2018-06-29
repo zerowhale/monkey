@@ -36,7 +36,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
                 animalData[(AnimalResource)animal.Type] = animal.Count;
             }
 
-            if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)data, player.Farmyard.AnimalManager, animalData))
+            if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)data, animalData))
                 return false;
 
             return true;

@@ -15,47 +15,41 @@ namespace Monkey.Games.Agricola.Farm
 {
     public class Farmyard
     {
-        public Farmyard(AgricolaPlayer player)
+        public Farmyard()
         {
-            this.player = player;
-
             HouseType = HouseType.Wood;
+            var gridBuilder = new List<FarmyardEntity>();
             for (var x = 0; x < WIDTH; x++)
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    grid[y * WIDTH + x] = new Empty(x, y);
+                    gridBuilder.Add(new Empty(x, y));
                 }
             }
+            Fences = ImmutableList<int>.Empty;
+            Pastures = ImmutableArray<int[]>.Empty;
+            AnimalManager = new AnimalManager();
+            Grid = gridBuilder.ToImmutableList();
         }
 
-        public int GetAnimalCount(AnimalResource Type)
+        private Farmyard(
+            ImmutableList<FarmyardEntity> grid,
+            ImmutableArray<int[]> pastures,
+            ImmutableList<int> fences,
+            AnimalManager animalManager,
+            HouseType houseType)
         {
-            return animalManager.GetAnimalCount(Type);
+            this.Pastures = pastures;
+            this.Grid = grid;
+            this.Fences = fences;
+            this.AnimalManager = animalManager;
+            this.HouseType = houseType;
         }
 
-        public int PlantedResourceCount(Resource type)
-        {
-            var planted = 0;
-            for (var x = 0; x < WIDTH; x++)
-            {
-                for (var y = 0; y < HEIGHT; y++)
-                {
-                    var plot = grid[y * WIDTH + x];
-                    if (plot is Field)
-                    {
-                        var field = (Field)plot;
-                        if (field.Sown.Type == type)
-                            planted += field.Sown.Count;
-                    }
-                }
-            }
-            return planted;
-        }
 
         public bool CanFencePasture()
         {
-            var fenceCount = fences.Count;
+            var fenceCount = Fences.Count;
             if (fenceCount == MAX_FENCES)
                 return false;
 
@@ -68,23 +62,23 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[y * WIDTH + x];
+                    var plot = Grid[y * WIDTH + x];
 
                     if (plot is Pasture || plot is Empty)
                     {
                         var fencesRequired = 0;
                         var plotData = FenceUtils.GetPlotBorderingFenceData(x, y);
 
-                        if (!fences.Contains(plotData.NorthFence.Index))
+                        if (!Fences.Contains(plotData.NorthFence.Index))
                             fencesRequired++;
 
-                        if (!fences.Contains(plotData.EastFence.Index))
+                        if (!Fences.Contains(plotData.EastFence.Index))
                             fencesRequired++;
 
-                        if (!fences.Contains(plotData.SouthFence.Index))
+                        if (!Fences.Contains(plotData.SouthFence.Index))
                             fencesRequired++;
 
-                        if (!fences.Contains(plotData.WestFence.Index))
+                        if (!Fences.Contains(plotData.WestFence.Index))
                             fencesRequired++;
 
                         if (fencesRequired != 0 && fencesRequired < minFencesRequired)
@@ -101,27 +95,27 @@ namespace Monkey.Games.Agricola.Farm
             return true;
         }
 
-        public Boolean RoomLocationsValid(int index)
+        public Boolean IsValidRoomLocations(int index)
         {
-            return RoomLocationsValid(ImmutableArray.Create<int>(index));
+            return IsValidRoomLocations(ImmutableArray.Create<int>(index));
         }
 
-        public Boolean RoomLocationsValid(ImmutableArray<int> indices)
+        public Boolean IsValidRoomLocations(ImmutableArray<int> indices)
         {
             var closed = new List<Point>();
 
-            for(var x=0;x<WIDTH;x++){
-                for(var y=0;y<HEIGHT;y++){
-                    var plot = grid[y * WIDTH + x];
+            for (var x = 0; x < WIDTH; x++) {
+                for (var y = 0; y < HEIGHT; y++) {
+                    var plot = Grid[y * WIDTH + x];
 
                     if (plot is Field
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))
-                        closed.Add(new Point(x,y));
+                        closed.Add(new Point(x, y));
 
                 }
             }
-            
+
             var proposed = new List<Point>();
             foreach (var i in indices)
             {
@@ -131,7 +125,7 @@ namespace Monkey.Games.Agricola.Farm
             return FarmyardPlacementValidator.AreValidPlots(WIDTH, HEIGHT, RoomLocations, closed, proposed);
         }
 
-        public Boolean PastureLocationsValid(List<int[]> pastures)
+        public Boolean IsValidPastureLocations(List<int[]> pastures)
         {
             var closed = new List<Point>();
 
@@ -139,7 +133,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[y * WIDTH + x];
+                    var plot = Grid[y * WIDTH + x];
                     if (plot is Field || plot is Room)
                         closed.Add(new Point(x, y));
 
@@ -147,8 +141,8 @@ namespace Monkey.Games.Agricola.Farm
             }
 
             var proposed = new List<Point>();
-            foreach(var list in pastures){
-                foreach(var index in list){
+            foreach (var list in pastures) {
+                foreach (var index in list) {
                     proposed.Add(IndexToCoords(index));
                 }
             }
@@ -156,31 +150,31 @@ namespace Monkey.Games.Agricola.Farm
             return FarmyardPlacementValidator.AreValidPlots(WIDTH, HEIGHT, null, closed, proposed);
         }
 
-        public Boolean FieldLocationsValid(int[] indices)
+        public Boolean IsValidFieldLocations(int[] indices)
         {
             var closed = new List<Point>();
             for (var x = 0; x < WIDTH; x++)
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[y * WIDTH + x];
+                    var plot = Grid[y * WIDTH + x];
                     if (!(plot is Field)
                         && !(plot is Empty && ((Empty)plot).HasStable))
                         closed.Add(new Point(x, y));
-                    
+
 
                 }
             }
 
             var proposed = new List<Point>();
-            foreach(var i in indices){
+            foreach (var i in indices) {
                 proposed.Add(IndexToCoords(i));
             }
 
             return FarmyardPlacementValidator.AreValidPlots(WIDTH, HEIGHT, FieldLocations, closed, proposed);
         }
 
-        public Boolean StablesLocationsValid(ImmutableArray<int> stablesIndices)
+        public Boolean IsValidStablesLocations(ImmutableArray<int> stablesIndices)
         {
             if (this.StableLocations.Count > MAX_STABLES)
                 return false;
@@ -190,7 +184,7 @@ namespace Monkey.Games.Agricola.Farm
             {
                 for (var y = 0; y < HEIGHT; y++)
                 {
-                    var plot = grid[y * WIDTH + x];
+                    var plot = Grid[y * WIDTH + x];
                     if (plot is Field
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))
@@ -200,7 +194,6 @@ namespace Monkey.Games.Agricola.Farm
                 }
             }
 
-
             foreach (var i in stablesIndices)
             {
                 if (i < 0 || i >= WIDTH * HEIGHT)
@@ -209,7 +202,7 @@ namespace Monkey.Games.Agricola.Farm
                 var x = i % WIDTH;
                 var y = (int)(i / WIDTH);
 
-                if (!(grid[y * WIDTH + x] is Empty) && !(grid[y * WIDTH + x] is Pasture) || ((Empty)grid[y * WIDTH + x]).HasStable)
+                if (!(Grid[y * WIDTH + x] is Empty) && !(Grid[y * WIDTH + x] is Pasture) || ((Empty)Grid[y * WIDTH + x]).HasStable)
                     return false;
             }
             return true;
@@ -222,7 +215,7 @@ namespace Monkey.Games.Agricola.Farm
         /// <param name="fieldIndices"></param>
         /// <param name="sowIndices"></param>
         /// <returns></returns>
-        public Boolean PlowAndSowLocationsValid(int[] fieldIndices, SowData[] sowIndices)
+        public Boolean IsValidPlowAndSowLocations(int[] fieldIndices, SowData[] sowIndices)
         {
             var closed = new List<Point>();
             for (var x = 0; x < WIDTH; x++)
@@ -232,7 +225,7 @@ namespace Monkey.Games.Agricola.Farm
                     if (x < 0 || y < 0 || x >= WIDTH || y >= HEIGHT)
                         return false;
 
-                    var plot = grid[y * WIDTH + x];
+                    var plot = Grid[y * WIDTH + x];
                     if (plot is Room
                         || plot is Pasture
                         || (plot is Empty && ((Empty)plot).HasStable))
@@ -266,7 +259,7 @@ namespace Monkey.Games.Agricola.Farm
 
                 if (fieldLocations.Contains(new Point(x, y)))
                 {
-                    if (((Field)grid[y * WIDTH + x]).Sown.Count > 0)
+                    if (((Field)Grid[y * WIDTH + x]).Sown.Count > 0)
                         return false;
                 }
             }
@@ -280,7 +273,7 @@ namespace Monkey.Games.Agricola.Farm
         /// </summary>
         /// <param name="sowIndices"></param>
         /// <returns></returns>
-        public Boolean SowLocationsValid(ImmutableArray<SowData> sowIndices)
+        public Boolean IsValidSowLocations(ImmutableArray<SowData> sowIndices)
         {
             var fieldLocations = FieldLocations;
             foreach (var sowData in sowIndices)
@@ -292,11 +285,35 @@ namespace Monkey.Games.Agricola.Farm
                 if (!fieldLocations.Contains(new Point(x, y)))
                     return false;
 
-                if (((Field)grid[y * WIDTH + x]).Sown.Count > 0)
+                if (((Field)Grid[y * WIDTH + x]).Sown.Count > 0)
                     return false;
             }
 
             return true;
+        }
+
+        public int AnimalCount(AnimalResource Type)
+        {
+            return AnimalManager.GetAnimalCount(Type);
+        }
+
+        public int PlantedResourceCount(Resource type)
+        {
+            var planted = 0;
+            for (var x = 0; x < WIDTH; x++)
+            {
+                for (var y = 0; y < HEIGHT; y++)
+                {
+                    var plot = Grid[y * WIDTH + x];
+                    if (plot is Field)
+                    {
+                        var field = (Field)plot;
+                        if (field.Sown.Type == type)
+                            planted += field.Sown.Count;
+                    }
+                }
+            }
+            return planted;
         }
 
         /// <summary>
@@ -305,7 +322,7 @@ namespace Monkey.Games.Agricola.Farm
         [JsonIgnore]
         public int RoomCount
         {
-            get { return grid.Count(x => x.GetType() == typeof(Room)); }
+            get { return Grid.Count(x => x.GetType() == typeof(Room)); }
         }
 
         /// <summary>
@@ -313,24 +330,21 @@ namespace Monkey.Games.Agricola.Farm
         /// </summary>
         public ImmutableArray<AnimalHousing> AnimalLocations
         {
-           get { return animalManager.GetOccupiedHousings(); }
+            get { return AnimalManager.GetOccupiedHousings(); }
         }
 
         /// <summary>
         /// The animal manager for this farmyard
         /// </summary>
         [JsonIgnore]
-        public AnimalManager AnimalManager
-        {
-            get { return animalManager; }
-        }
+        public AnimalManager AnimalManager { get; }
 
         [JsonIgnore]
         public List<Point> EmptyLocations
         {
             get
             {
-                return grid.Where(x => x.GetType() == typeof(Empty) && !((Empty)x).HasStable).Select(room => room.Location).ToList();
+                return Grid.Where(x => x.GetType() == typeof(Empty) && !((Empty)x).HasStable).Select(room => room.Location).ToList();
             }
         }
 
@@ -342,7 +356,7 @@ namespace Monkey.Games.Agricola.Farm
         {
             get
             {
-                return grid.Where(x => x.GetType() == typeof(Room)).Select(room => room.Location).ToList();
+                return Grid.Where(x => x.GetType() == typeof(Room)).Select(room => room.Location).ToList();
             }
         }
 
@@ -354,7 +368,7 @@ namespace Monkey.Games.Agricola.Farm
         {
             get
             {
-                return grid.OfType<Field>().Select(field => field.Location).ToList();
+                return Grid.OfType<Field>().Select(field => field.Location).ToList();
             }
         }
 
@@ -366,7 +380,7 @@ namespace Monkey.Games.Agricola.Farm
         {
             get
             {
-                return grid.Where(x => x.GetType() == typeof(Pasture) && ((Pasture)x).HasStable).Select(room => room.Location).ToList();
+                return Grid.Where(x => x.GetType() == typeof(Pasture) && ((Pasture)x).HasStable).Select(room => room.Location).ToList();
             }
         }
 
@@ -378,78 +392,103 @@ namespace Monkey.Games.Agricola.Farm
         {
             get
             { 
-                return grid.Where(x => x.GetType() == typeof(Pasture)).Select(room => room.Location).ToList();
+                return Grid.Where(x => x.GetType() == typeof(Pasture)).Select(room => room.Location).ToList();
             }
         }
 
         /// <summary>
         /// List of all pastures
         /// </summary>
-        public ImmutableArray<int[]> Pastures
-        {
-            get { return pastures; }
-        }
+        public ImmutableArray<int[]> Pastures { get; }
 
         /// <summary>
         /// The underlying grid that holds all the farmyard 
         /// layout information
         /// </summary>
-        public FarmyardEntity[] Grid
-        {
-            get { return grid; }
-        }
+        public ImmutableList<FarmyardEntity> Grid { get; }
 
         /// <summary>
         /// An array of all the fence locations (as indices);
         /// </summary>
-        public ImmutableList<int> Fences
+        public ImmutableList<int> Fences { get; }
+
+        /// <summary>
+        /// The type of house (wood, clay or stone).
+        /// </summary>
+        [JsonConverter(typeof(StringEnumConverter))]
+        public HouseType HouseType { get; }
+
+        /// <summary>
+        /// Renovates the house.
+        /// Logic for house renovations need to be moved into the Curator to deal with cards.
+        /// </summary>
+        /// <returns></returns>
+        public Farmyard Renovate()
         {
-            get { return fences; }
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public void Renovate()
-        {
+            HouseType houseType;
             if (this.HouseType == HouseType.Wood)
-                this.HouseType = HouseType.Clay;
+                houseType = HouseType.Clay;
             else
-                this.HouseType = HouseType.Stone;
+                houseType = HouseType.Stone;
+
+            return new Farmyard(Grid, Pastures, Fences, AnimalManager, houseType);
         }
 
-        public ResourceCache[] HarvestFields()
+        /// <summary>
+        /// Adds fences to the farmyard 
+        /// </summary>
+        /// <param name="indices"></param>
+        /// <returns></returns>
+        public Farmyard AddFences(int[] indices)
+        {
+            return new Farmyard(Grid,
+                Pastures,
+                Fences.AddRange(indices),
+                AnimalManager,
+                HouseType);            
+        }
+
+        /// <summary>
+        /// Sets the farmyards pastures
+        /// </summary>
+        /// <param name="pastures"></param>
+        /// <returns></returns>
+        public Farmyard SetPastures(ImmutableArray<int[]> pastures)
+        {
+            if (pastures != null)
+            {
+                var grid = this.Grid;
+                foreach (var pasture in pastures)
+                {
+                    foreach (var plot in pasture)
+                    {
+                        var x = plot % WIDTH;
+                        var y = (int)(plot / WIDTH);
+                        if (!(grid[y * WIDTH + x] is Pasture))
+                        {
+                            var hasStable = ((Empty)grid[y * WIDTH + x]).HasStable;
+                            grid = grid.SetItem(y * WIDTH + x, new Pasture(hasStable, x, y));
+                        }
+                    }
+                }
+
+                return new Farmyard(grid, pastures, Fences, AnimalManager, HouseType);
+            }
+            return this;
+        }
+
+        public Farmyard HarvestFields(out ResourceCache[] harvestedResources)
         {
             var yields = new Dictionary<Resource, ResourceCache>();
-            var currentGrid = grid.ToImmutableArray();
+            var currentGrid = Grid.ToImmutableArray();
+            var newGrid = Grid;
             foreach (var plot in currentGrid)
             {
                 if (plot is Field)
                 {
                     var field = (Field)plot;
                     ResourceCache yield;
-                    grid[field.LocationIndex] = field.Harvest(out yield);
+                    newGrid = newGrid.SetItem(field.LocationIndex, field.Harvest(out yield));
 
                     if (yield != null)
                     {
@@ -461,59 +500,33 @@ namespace Monkey.Games.Agricola.Farm
                 }
             }
 
-            return yields.Values.ToArray();
-        }
-
-        public Farmyard AddFences(int[] indices)
-        {
-            fences = fences.AddRange(indices);
-            return this;
-        }
-
-        public void SetPastures(ImmutableArray<int[]> pastures)
-        {
-            if (pastures != null)
-            {
-                this.pastures = pastures;
-                foreach (var pasture in pastures)
-                {
-                    foreach (var plot in pasture)
-                    {
-                        var x = plot % WIDTH;
-                        var y = (int)(plot / WIDTH);
-                        if (!(grid[y * WIDTH + x] is Pasture))
-                        {
-                            var hasStable = ((Empty)grid[y * WIDTH + x]).HasStable;
-                            grid[y * WIDTH + x] = new Pasture(hasStable, x, y);
-                        }
-                    }
-                }
-            }
+            harvestedResources = yields.Values.ToArray();
+            return new Farmyard(newGrid, Pastures, Fences, AnimalManager, HouseType);
         }
 
         /// <summary>
         /// Updates the animal manager.
         /// </summary>
-        public void UpdateAnimalManager()
+        public Farmyard UpdateAnimalManager()
         {
-            animalManager = animalManager.Update(this.grid, this.pastures);
+            return new Farmyard(Grid, Pastures, Fences, AnimalManager.Update(this.Grid, this.Pastures), HouseType);
         }
 
-        public void AssignAnimals(AnimalHousingData[] assignments)
+        public Farmyard AssignAnimals(AnimalHousingData[] assignments)
         {
-            animalManager = animalManager.AssignAnimals(assignments);
+            return new Farmyard(Grid, Pastures, Fences, AnimalManager.AssignAnimals(assignments), HouseType);
         }
 
-        public void RemoveAnimals(AnimalResource type, int count)
+        public Farmyard RemoveAnimals(AnimalResource type, int count)
         {
-            animalManager = animalManager.RemoveAnimals(type, count);
+            return new Farmyard(Grid, Pastures, Fences, AnimalManager.RemoveAnimals(type, count), HouseType);
         }
 
-        public void AddRoom(int index)
+        public Farmyard AddRoom(int index)
         {
             int x, y;
             IndexToCoords(index, out x, out y);
-            AddRoom(x, y);
+            return AddRoom(x, y);
         }
 
         /// <summary>
@@ -524,35 +537,35 @@ namespace Monkey.Games.Agricola.Farm
         /// <param name="x"></param>
         /// <param name="y"></param>
         /// <returns>True if the plot was able to be set to a room</returns>
-        public void AddRoom(int x, int y)
+        public Farmyard AddRoom(int x, int y)
         {
-            grid[y * WIDTH + x] = new Room(x, y);
+            return new Farmyard(Grid.SetItem(y * WIDTH + x, new Room(x, y)), Pastures, Fences, AnimalManager, HouseType);
         }
 
-        public void AddStable(int index)
-        {
-            int x, y;
-            IndexToCoords(index, out x, out y);
-            AddStable(x, y);
-        }
-
-        public void AddStable(int x, int y)
-        {
-            grid[y * WIDTH + x] = ((Empty)grid[y * WIDTH + x]).AddStable();
-        }
-
-        public void PlowField(int index)
+        public Farmyard AddStable(int index)
         {
             int x, y;
             IndexToCoords(index, out x, out y);
-            PlowField(x, y);
+            return AddStable(x, y);
         }
 
-        public void PlowField(int x, int y)
+        public Farmyard AddStable(int x, int y)
         {
-            grid[y * WIDTH + x] = new Field(x, y);
+            return new Farmyard(Grid.SetItem(y * WIDTH + x, ((Empty)Grid[y * WIDTH + x]).AddStable()), Pastures, Fences, AnimalManager, HouseType);
         }
 
+        public Farmyard PlowField(int index)
+        {
+            int x, y;
+            IndexToCoords(index, out x, out y);
+            return PlowField(x, y);
+        }
+
+        public Farmyard PlowField(int x, int y)
+        {
+            return new Farmyard(Grid.SetItem(y * WIDTH + x, new Field(x, y)), 
+                Pastures, Fences, AnimalManager, HouseType);
+        }
 
         public Farmyard SowField(int index, Resource resource)
         {
@@ -563,38 +576,13 @@ namespace Monkey.Games.Agricola.Farm
 
         public Farmyard SowField(int x, int y, Resource resource)
         {
-            if (!(grid[y * WIDTH + x] is Field))
+            if (!(Grid[y * WIDTH + x] is Field))
                 throw new InvalidOperationException("Attempted to sow non field");
 
-            grid[y * WIDTH + x] = ((Field)grid[y * WIDTH + x]).Sow(player, resource);
-            return this;
+            return new Farm.Farmyard(Grid.SetItem(y * WIDTH + x, ((Field)Grid[y * WIDTH + x]).Sow(resource)),
+                Pastures, Fences, AnimalManager, HouseType);
+            
         }
-
-        /// <summary>
-        /// The type of house (wood, clay or stone).
-        /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))]
-        public HouseType HouseType
-        {
-            get;
-            set;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public const int WIDTH = 5;
         public const int HEIGHT = 3;
@@ -617,15 +605,7 @@ namespace Monkey.Games.Agricola.Farm
             return new Point(x, y);
         }
 
-        /// <summary>
-        /// Listing of the Pastures, which can be comprised of
-        /// 1 or more plots.
-        /// </summary>
-        private ImmutableArray<int[]> pastures = ImmutableArray<int[]>.Empty;
-        private FarmyardEntity[] grid = new FarmyardEntity[WIDTH * HEIGHT];
-        private ImmutableList<int> fences = ImmutableList<int>.Empty;
-        private AnimalManager animalManager = new AnimalManager();
-        private AgricolaPlayer player { get; }
+
     }
 
 }

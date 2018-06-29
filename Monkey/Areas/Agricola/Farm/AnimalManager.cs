@@ -26,12 +26,12 @@ namespace Monkey.Games.Agricola.Farm
             this.housings = housings;
         }
 
-        public AnimalManager Update(FarmyardEntity[] grid, ImmutableArray<int[]> pastures)
+        public AnimalManager Update(ImmutableList<FarmyardEntity> grid, ImmutableArray<int[]> pastures)
         {
             return this.Update(grid, pastures, null);
         }
 
-        public AnimalManager Update(FarmyardEntity[] grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
+        public AnimalManager Update(ImmutableList<FarmyardEntity> grid, ImmutableArray<int[]> pastures, AnimalHousingData[] animalAssignments){
             var oldHousings = new Dictionary<String, AnimalHousing>();
             if (animalAssignments == null)
             {
@@ -210,7 +210,7 @@ namespace Monkey.Games.Agricola.Farm
                 if (oldHousing.AnimalCount > 0 && !this.housings.ContainsKey(oldHousing.Id))
                     throw new ArgumentException("Invalid animal assignments, housing id " + oldHousing.Id + " not found.");
 
-                housings[oldHousing.Id] = housings[oldHousing.Id].SetAnimals(oldHousing.AnimalType.Value, oldHousing.AnimalCount);
+                housings[oldHousing.Id] = oldHousing.SetAnimals(oldHousing.AnimalType.Value, oldHousing.AnimalCount);
             }
         }
 

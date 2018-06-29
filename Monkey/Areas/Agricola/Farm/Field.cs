@@ -21,7 +21,7 @@ namespace Monkey.Games.Agricola.Farm
             Sown = sownResource;
         }
 
-        public Field Sow(AgricolaPlayer player, Resource resource)
+        public Field Sow(Resource resource)
         {
             if (resource == Resource.Grain)
             {
@@ -33,11 +33,12 @@ namespace Monkey.Games.Agricola.Farm
 
                 // This needs to be moved into the Curator
                 // PotatoDibber
+                /*
                 if (player.OwnedCardIds.Contains(32))
                 {
                     count++;
                 }
-
+                */
                 return new Field(new ResourceCache(Resource.Vegetables, count), Location.X, Location.Y);
             }
             throw new ArgumentException("Attempting to sow a resource that can not be sown");

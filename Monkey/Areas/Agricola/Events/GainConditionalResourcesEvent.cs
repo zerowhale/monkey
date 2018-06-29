@@ -66,7 +66,7 @@ namespace Monkey.Games.Agricola.Events
                 int owned = 0;
                 if (this.RequiredType.IsAnimal())
                 {
-                    owned = player.Farmyard.GetAnimalCount((AnimalResource)this.RequiredType);
+                    owned = player.Farmyard.AnimalCount((AnimalResource)this.RequiredType);
                 }
                 else
                 {

@@ -28,7 +28,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             var animalData = new Dictionary<AnimalResource, int>();
             animalData[choiceData.Option] = 1;
 
-            return ActionService.CanAssignAnimals(player, choiceData.AnimalData, player.Farmyard.AnimalManager, animalData);
+            return ActionService.CanAssignAnimals(player, choiceData.AnimalData, animalData);
         }
 
         public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)

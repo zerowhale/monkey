@@ -53,8 +53,8 @@ namespace Monkey.Games.Agricola
                 player.AddResource(Resource.Food, i == StartingPlayerIndex ? 2 : 3);
                 player.AddFamilyMember();
                 player.AddFamilyMember();
-                player.Farmyard.AddRoom(0, 1);
-                player.Farmyard.AddRoom(0, 2);
+                player.AddRoom(0, 1);
+                player.AddRoom(0, 2);
                 player.UpdateScoreCard();
 
             }

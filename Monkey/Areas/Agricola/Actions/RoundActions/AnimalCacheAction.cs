@@ -24,7 +24,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             {
                 var animalData = new Dictionary<AnimalResource, int>();
                 animalData[(AnimalResource)Enum.Parse(typeof(Resource), cache.Type.ToString())] = cache.Count;
-                if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)data, player.Farmyard.AnimalManager, animalData))
+                if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)data, animalData))
                     return false;
             }
             return base.CanExecute(player, data);

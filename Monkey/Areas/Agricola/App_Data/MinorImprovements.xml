@@ -230,6 +230,7 @@
       </Text>
   </MinorImprovement>
 
+  <!--
   <MinorImprovement Id="32" Deck="Basic" 
       Image="/Areas/Agricola/Content/img/cards/minors/potato-dibber.jpg">
 
@@ -241,7 +242,6 @@
           </Option>
       </Costs>
 
-      <!-- Implemented in Field.Sow -->                
 
       <Text>
           <![CDATA[
@@ -249,6 +249,7 @@
           ]]>
       </Text>
   </MinorImprovement>
+  -->
 
   <MinorImprovement Id="49" Deck="Basic" Points="1"
       Image="/Areas/Agricola/Content/img/cards/minors/writing-desk.jpg">

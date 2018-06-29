@@ -10,7 +10,6 @@ namespace Monkey.Games.Agricola.Farm
         public Pasture(int x, int y)
             :this(false, x, y)
         {
-
         }
 
         public Pasture(bool hasStable, int x, int y)

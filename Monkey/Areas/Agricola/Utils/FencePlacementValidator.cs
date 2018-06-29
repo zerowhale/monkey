@@ -49,7 +49,7 @@ namespace Monkey.Games.Agricola.Utils
             foreach (var index in pastureIndices) {
                 
                 var group = new List<int>();
-                for (var i = 0; i < grid.Length; i++) {
+                for (var i = 0; i < grid.Count; i++) {
                     if (this.grid[i] == index) {
                         group.Add(i);
                     }

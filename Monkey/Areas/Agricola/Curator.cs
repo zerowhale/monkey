@@ -427,7 +427,7 @@ namespace Monkey.Games.Agricola
 
         public static bool HasFencesLeft(AgricolaPlayer player)
         {
-            return Farmyard.MAX_FENCES - player.Farmyard.Fences.Length > 0;
+            return Farmyard.MAX_FENCES - player.Farmyard.Fences.Count > 0;
         }
 
 

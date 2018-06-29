@@ -9,14 +9,14 @@ namespace Monkey.Games.Agricola.Farm
 {
     public class Field: FarmyardEntity
     {
-        public Field()
-            : base("Field")
+        public Field(int x, int y)
+            : base("Field", x, y)
         {
             Sown = new ResourceCache(Resource.Grain, 0);
         }
 
-        public Field(ResourceCache sownResource)
-            : base("Field")
+        public Field(ResourceCache sownResource, int x, int y)
+            : base("Field", x, y)
         {
             Sown = sownResource;
         }
@@ -25,7 +25,7 @@ namespace Monkey.Games.Agricola.Farm
         {
             if (resource == Resource.Grain)
             {
-                return new Field(new ResourceCache(Resource.Grain,3));
+                return new Field(new ResourceCache(Resource.Grain,3), Location.X, Location.Y);
             }
             else if (resource == Resource.Vegetables)
             {
@@ -38,22 +38,28 @@ namespace Monkey.Games.Agricola.Farm
                     count++;
                 }
 
-                return new Field(new ResourceCache(Resource.Vegetables, count));
+                return new Field(new ResourceCache(Resource.Vegetables, count), Location.X, Location.Y);
             }
             throw new ArgumentException("Attempting to sow a resource that can not be sown");
         }
 
-        public ResourceCache Harvest()
+        public Field Harvest(out ResourceCache harvestedResources)
         {
+            Field field;
             if (Sown.Count > 0)
             {
-                Sown = Sown.updateCount(-1);
-                return new ResourceCache(Sown.Type, 1);
+                field = new Field(Sown.updateCount(-1), Location.X, Location.Y);
+                harvestedResources = new ResourceCache(Sown.Type, 1);
             }
-            return null;
+            else
+            {
+                field = this;
+                harvestedResources = null;
+            }
+            return field;
         }
 
-        public ResourceCache Sown;
+        public ResourceCache Sown { get; }
 
 
     }

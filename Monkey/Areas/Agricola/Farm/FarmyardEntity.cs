@@ -9,11 +9,13 @@ namespace Monkey.Games.Agricola.Farm
 {
     public class FarmyardEntity
     {
-        public FarmyardEntity(String type)
+        public FarmyardEntity(String type, int x, int y)
         {
-            Location = new Point();
+            Location = new Point(x, y);
             Type = type;
         }
+
+        public int LocationIndex { get { return Location.Y * Farmyard.WIDTH + Location.X; } }
 
         public Point Location { get; }
 

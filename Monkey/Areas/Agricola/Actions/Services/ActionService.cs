@@ -560,10 +560,7 @@ namespace Monkey.Games.Agricola.Actions.Services
                 if (data.Fences != null)
                 {
 
-                    foreach (var fence in data.Fences)
-                    {
-                        player.Farmyard.AddFence(fence);
-                    }
+                    player.Farmyard.AddFences(data.Fences);
 
                     if (resultingNotices != null)
                     {

@@ -667,7 +667,6 @@ namespace Monkey.Games.Agricola
             }
         }
 
-
         public bool Harvesting
         {
             get
@@ -702,7 +701,6 @@ namespace Monkey.Games.Agricola
             get { return OwnedCards.Select(x => x.Id).ToArray(); }
         }
 
-
         private void InitializeState()
         {
             State = ImmutableDictionary<string, Object>.Empty;
@@ -731,7 +729,6 @@ namespace Monkey.Games.Agricola
             }
         }
 
-
         private const string StateKeyFamilySize = "FamilySize";
         private const string StateKeyNumBabies = "NumBabies";
         private const string StateKeyFamilyAtHome = "FamilyAtHome";
@@ -744,7 +741,6 @@ namespace Monkey.Games.Agricola
         private const string StateKeyScorecard = "Scorecard";
         private const string StateKeyIsHarvesting = "IsHarvesting";
         private const string StateKeyCardMetadata = "CardMetada";
-
 
     }
 }

@@ -12,7 +12,7 @@ namespace Monkey.Games.Agricola.Utils
         public FencePlacementValidator(int[] newFences, Farmyard farmyard, out List<int[]> pastures)
         {
             var existingFences = farmyard.Fences;
-            var totalFenceCount = existingFences.Length + newFences.Length;
+            var totalFenceCount = existingFences.Count + newFences.Length;
 
             if (totalFenceCount > Farmyard.MAX_FENCES)
             {
@@ -23,9 +23,8 @@ namespace Monkey.Games.Agricola.Utils
 
             fences = new int[totalFenceCount];
 
-            Array.Copy(existingFences, fences, existingFences.Length);
-            Array.Copy(newFences, 0, fences, existingFences.Length, newFences.Length);
-
+            Array.Copy(existingFences.ToArray(), fences, existingFences.Count);
+            Array.Copy(newFences, 0, fences, existingFences.Count, newFences.Length);
             
             Validate();
 

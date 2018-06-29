@@ -7,8 +7,8 @@ namespace Monkey.Games.Agricola.Farm
 {
     public class Room: FarmyardEntity
     {
-        public Room():
-            base("Room")
+        public Room(int x, int y)
+            : base("Room", x, y)
         {
 
         }

@@ -5,6 +5,9 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Data
 {
+    /// <summary>
+    /// This is a data tranfer object loaded from the client
+    /// </summary>
     public class AnimalHousingData
     {
         public string Id
@@ -25,6 +28,11 @@ namespace Monkey.Games.Agricola.Data
             set;
         }
 
+        /// <summary>
+        /// Given an array of assignments, this will tally of the totals of each animal.
+        /// </summary>
+        /// <param name="assignments"></param>
+        /// <returns></returns>
         public static Dictionary<AnimalResource, int> GetTotals(AnimalHousingData[] assignments)
         {
             var totals = new Dictionary<AnimalResource, int>();

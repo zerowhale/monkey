@@ -13,8 +13,9 @@ namespace Monkey.Games.Agricola.Data
     /// </summary>
     public class ResourceConversion
     {
-        public ResourceConversion(XElement definition)
+        public ResourceConversion(XElement definition, int id)
         {
+            Id = id;
             InAmount = (int)definition.Attribute("InAmount");
             InType = (Resource)Enum.Parse(typeof(Resource), (string)definition.Attribute("InType"));
             InLimit = definition.Attribute("InLimit") == null ? null : (int?)definition.Attribute("InLimit");
@@ -37,43 +38,43 @@ namespace Monkey.Games.Agricola.Data
         /// </summary>
         /// <param name="definition"></param>
         /// <returns></returns>
-        public static ResourceConversion Create(XElement definition)
+        public static ResourceConversion Create(XElement definition, int Id)
         {
-            return new ResourceConversion(definition);
+            return new ResourceConversion(definition, Id);
         }
         
         /// <summary>
         ///  An int that identifies this resource conversion in some way.  Often it will be the
         ///  card id that the resource conversion came from.
         /// </summary>
-        public int Id;
+        public int Id { get; }
 
         /// <summary>
         /// The type of input resource
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))] 
-        public readonly Resource InType;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Resource InType { get; }
 
         /// <summary>
         /// The amount of input resource
         /// </summary>
-        public readonly int InAmount;
+        public int InAmount { get; }
 
         /// <summary>
         /// A limit to how many resources can be input in a single transaction.
         /// Null for no limit.
         /// </summary>
-        public readonly int? InLimit;
+        public int? InLimit { get; }
 
         /// <summary>
         /// The type of output resource
         /// </summary>
-        [JsonConverter(typeof(StringEnumConverter))] 
-        public readonly Resource OutType;
+        [JsonConverter(typeof(StringEnumConverter))]
+        public Resource OutType { get; }
 
         /// <summary>
         /// The amount of output resource per input resource supplied
         /// </summary>
-        public readonly int OutAmount;
+        public int OutAmount { get; }
     }
 }

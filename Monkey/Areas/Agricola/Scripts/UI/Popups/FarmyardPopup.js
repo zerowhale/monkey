@@ -1084,7 +1084,6 @@ BuildFencesPopupModule.prototype = {
                 fencesAdded = true;
         }
 
-        
         return ManageAnimalsPopupModule.prototype.canSubmit.call(this)
             && (fencesAdded && params.fencesValid);
     },

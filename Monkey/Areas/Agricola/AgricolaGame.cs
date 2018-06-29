@@ -53,8 +53,8 @@ namespace Monkey.Games.Agricola
                 player.AddResource(Resource.Food, i == StartingPlayerIndex ? 2 : 3);
                 player.AddFamilyMember();
                 player.AddFamilyMember();
-                player.Farmyard.AddRoom(0, 1);
-                player.Farmyard.AddRoom(0, 2);
+                player.AddRoom(0, 1);
+                player.AddRoom(0, 2);
                 player.UpdateScoreCard();
 
             }
@@ -908,7 +908,7 @@ namespace Monkey.Games.Agricola
                     player.AddCardToHand(GetCard(191));  // Mason
                     player.AddCardToHand(GetCard(174));  // Tutor
                     player.AddCardToHand(GetCard(160));  // Farmer
-                    //player.AddCardToHandGetCard(2038));  // Field Watchman
+                    player.AddCardToHand(GetCard(2038));  // Field Watchman
                     //player.AddCardToHand(GetCard(62)); // Turnwrest Plow
                     //player.AddCardToHand(GetCard(119)); // Turnwrest Plow
                 }

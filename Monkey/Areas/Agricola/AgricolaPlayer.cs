@@ -23,7 +23,6 @@ namespace Monkey.Games.Agricola
             : base((IGame<GameHub>)game, player)
         {
             InitializeState();
-            Farmyard = new Farmyard(this);
         }
 
         [JsonIgnore]
@@ -176,7 +175,15 @@ namespace Monkey.Games.Agricola
             return State;
         }
 
-
+        /// <summary>
+        /// Recalculates the score card for the player
+        /// </summary>
+        /// <returns></returns>
+        public ImmutableDictionary<string, Object> UpdateScoreCard()
+        {
+            this.ScoreCard = new ScoreCard(this);
+            return State;
+        }
 
 
         /// <summary>
@@ -315,7 +322,8 @@ namespace Monkey.Games.Agricola
 
         public void HarvestFields(List<GameActionNotice> notices)
         {
-            var resources = this.Farmyard.HarvestFields();
+            ResourceCache[] resources;
+            Farmyard = Farmyard.HarvestFields(out resources);
             foreach (var cache in resources)
             {
                 this.PersonalSupply = this.PersonalSupply.AddResource(cache);
@@ -324,6 +332,61 @@ namespace Monkey.Games.Agricola
             Harvesting = true;
         }
 
+        public void AddRoom(int index)
+        {
+            Farmyard = Farmyard.AddRoom(index);
+        }
+
+        public void AddRoom(int x, int y)
+        {
+            Farmyard = Farmyard.AddRoom(x, y);
+        }
+
+        public void AddStable(int index)
+        {
+            Farmyard = Farmyard.AddStable(index);
+        }
+
+        public void PlowField(int index)
+        {
+            Farmyard = Farmyard.PlowField(index);
+        }
+
+        public void SowField(int index, Resource resource)
+        {
+            Farmyard = Farmyard.SowField(index, resource);
+        }
+
+
+        public void Renovate()
+        {
+            Farmyard = Farmyard.Renovate();
+        }
+
+        public void AddFences(int[] indices)
+        {
+            Farmyard = Farmyard.AddFences(indices);
+        }
+
+        public void SetPastures(ImmutableArray<int[]> pastures)
+        {
+            Farmyard = Farmyard.SetPastures(pastures);
+        }
+
+        public Farmyard UpdateAnimalManager()
+        {
+            return Farmyard = Farmyard.UpdateAnimalManager();
+        }
+
+        public Farmyard AssignAnimals(AnimalHousingData[] assignments)
+        {
+            return Farmyard = Farmyard.AssignAnimals(assignments);
+        }
+
+        public Farmyard RemoveAnimals(AnimalResource type, int count)
+        {
+            return Farmyard = Farmyard.RemoveAnimals(type, count);
+        }
         /// <summary>
         /// Checks if this player can afford all the costs in the cost
         /// list.  The cost list is assumed to not contain duplicate
@@ -342,8 +405,6 @@ namespace Monkey.Games.Agricola
             }
             return true;
         }
-
-
 
         /// <summary>
         /// Deducts the costs in the cost list from this players personal supply
@@ -376,7 +437,7 @@ namespace Monkey.Games.Agricola
 
                 if (Enum.IsDefined(typeof(AnimalResource), conversionDefinition.InType.ToString()))
                 {
-                    var owned = this.Farmyard.GetAnimalCount((AnimalResource)Enum.Parse(typeof(AnimalResource), conversionDefinition.InType.ToString()));
+                    var owned = this.Farmyard.AnimalCount((AnimalResource)Enum.Parse(typeof(AnimalResource), conversionDefinition.InType.ToString()));
                     if (owned < conversion.Count)
                         return false;
                 }
@@ -444,20 +505,14 @@ namespace Monkey.Games.Agricola
             return begTotal;
         }
 
+        /// <summary>
+        /// Returns true if the player owns the card with the specified id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public bool OwnsCard(int id)
         {
             return this.OwnedCardIds.Contains(id);
-        }
-
-        public void UpdateScoreCard()
-        {
-            this.ScoreCard = new ScoreCard(this);
-        }
-
-        public bool Harvesting
-        {
-            get;
-            private set;
         }
 
         /// <summary>
@@ -491,12 +546,6 @@ namespace Monkey.Games.Agricola
 
 
 
-
-        public Farmyard Farmyard
-        {
-            get;
-            private set;
-        }
 
 
 
@@ -665,12 +714,50 @@ namespace Monkey.Games.Agricola
             }
         }
 
+        public bool Harvesting
+        {
+            get
+            {
+                return ((bool)State[StateKeyIsHarvesting]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyIsHarvesting, value);
+            }
+        }
+
+        /// <summary>
+        /// Any cards requiring preservation of custom state data should store
+        /// it in the metadata
+        /// </summary>
+        public ImmutableDictionary<int, ImmutableDictionary<string, Object>> CardMetadata
+        {
+            get
+            {
+                return ((ImmutableDictionary<int, ImmutableDictionary<string, Object>>)State[StateKeyCardMetadata]);
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyCardMetadata, value);
+            }
+        }
+
+        public Farmyard Farmyard
+        {
+            get
+            {
+                return (Farmyard)State[StateKeyFarmyard];
+            }
+            private set
+            {
+                State = State.SetItem(StateKeyFarmyard, value);
+            }
+        }
 
         public int[] OwnedCardIds
         {
             get { return OwnedCards.Select(x => x.Id).ToArray(); }
         }
-
 
         private void InitializeState()
         {
@@ -684,6 +771,9 @@ namespace Monkey.Games.Agricola
             State = State.SetItem(StateKeyOwnedCards, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyHandMinors, ImmutableList<Card>.Empty);
             State = State.SetItem(StateKeyHandOccupations, ImmutableList<Card>.Empty);
+            State = State.SetItem(StateKeyIsHarvesting, false);
+            State = State.SetItem(StateKeyCardMetadata, ImmutableDictionary<int, ImmutableDictionary<string, Object>>.Empty);
+            State = State.SetItem(StateKeyFarmyard, new Farmyard());
         }
 
         private PersonalSupply PersonalSupply
@@ -698,7 +788,6 @@ namespace Monkey.Games.Agricola
             }
         }
 
-
         private const string StateKeyFamilySize = "FamilySize";
         private const string StateKeyNumBabies = "NumBabies";
         private const string StateKeyFamilyAtHome = "FamilyAtHome";
@@ -709,12 +798,9 @@ namespace Monkey.Games.Agricola
         private const string StateKeyHandMinors = "HandMinors";
         private const string StateKeyHandOccupations = "HandOccupations";
         private const string StateKeyScorecard = "Scorecard";
-
-        /// <summary>
-        /// Any cards requiring preservation of custom state data should store
-        /// it in the metadata
-        /// </summary>
-        public ImmutableDictionary<int, ImmutableDictionary<string, Object>> CardMetadata = ImmutableDictionary<int, ImmutableDictionary<string, Object>>.Empty;
+        private const string StateKeyIsHarvesting = "IsHarvesting";
+        private const string StateKeyCardMetadata = "CardMetada";
+        private const string StateKeyFarmyard = "Farmyard";
 
     }
 }

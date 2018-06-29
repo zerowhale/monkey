@@ -120,9 +120,7 @@ AnimalManager.prototype = {
                 if (compiledId != "") compiledId += "_";
                 compiledId += pid
 
-                var x = pid % PlayerBoard.prototype.PLOT_GRID_WIDTH,
-                    y = Math.floor(pid / PlayerBoard.prototype.PLOT_GRID_WIDTH),
-                    plot = farmyardGrid[x][y];
+                var plot = farmyardGrid[pid];
 
                 count++;
 
@@ -141,7 +139,7 @@ AnimalManager.prototype = {
 
         for (var x = 0; x < PlayerBoard.prototype.PLOT_GRID_WIDTH; x++) {
             for (var y = 0; y < PlayerBoard.prototype.PLOT_GRID_HEIGHT; y++) {
-                var plot = farmyardGrid[x][y];
+                var plot = farmyardGrid[y * PlayerBoard.prototype.PLOT_GRID_WIDTH + x];
                 if (plot.Type != "Pasture" && plot.HasStable) {
                     stables.push({ x: x, y: y });
                 }

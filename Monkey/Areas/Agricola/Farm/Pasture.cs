@@ -7,16 +7,20 @@ namespace Monkey.Games.Agricola.Farm
 {
     public class Pasture: Empty
     {
-        public Pasture()
-            :this(false)
+        public Pasture(int x, int y)
+            :this(false, x, y)
         {
-
         }
 
-        public Pasture(bool hasStable)
+        public Pasture(bool hasStable, int x, int y)
+            : base ("Pasture", hasStable, x, y)
         {
-            this.Type = "Pasture";
-            this.HasStable = hasStable;
         }
+
+        public override Empty AddStable()
+        {
+            return new Pasture(true, Location.X, Location.Y);
+        }
+
     }
 }

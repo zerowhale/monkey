@@ -5,6 +5,7 @@ using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -12,14 +13,28 @@ namespace Monkey.Games.Agricola.Actions
 {
     public abstract class GameAction
     {
-        public GameAction(AgricolaGame game, int id) : this(game, id, new List<GameActionNotice>()) { }
+        public GameAction(AgricolaGame game, int id) 
+            : this(game, id, new List<GameActionNotice>()) { }
 
         public GameAction(AgricolaGame game, int id, List<GameActionNotice>resultingNotices)
+            : this(game, id, resultingNotices, new GameEventTrigger[] { }) { }
+
+        public GameAction(AgricolaGame game, int id, List<GameActionNotice> resultingNotices, GameEventTrigger eventTrigger)
         {
             Game = game;
             Id = id;
             ResultingNotices = resultingNotices;
+            this.eventTriggers = ImmutableList<GameEventTrigger>.Empty.Add(eventTrigger);
         }
+
+        public GameAction(AgricolaGame game, int id, List<GameActionNotice> resultingNotices, GameEventTrigger[] eventTriggers)
+        {
+            Game = game;
+            Id = id;
+            ResultingNotices = resultingNotices;
+            this.eventTriggers = eventTriggers != null ? ImmutableList.Create(eventTriggers) : ImmutableList<GameEventTrigger>.Empty;
+        }
+
 
         /// <summary>
         /// Called when a player attempts to use this action.
@@ -60,20 +75,20 @@ namespace Monkey.Games.Agricola.Actions
         /// Listing of notices that have resulted from using this action.
         /// </summary>
         [JsonIgnore]
-        public readonly List<GameActionNotice> ResultingNotices;
+        public List<GameActionNotice> ResultingNotices { get; }
 
         /// <summary>
         /// The game this action belongs to
         /// </summary>
         [JsonIgnore]
-        public readonly AgricolaGame Game;
+        public AgricolaGame Game { get; }
 
         /// <summary>
         /// The action id.
         /// </summary>
-        public readonly Int32 Id;
+        public Int32 Id { get; }
 
-        protected List<GameEventTrigger> eventTriggers = new List<GameEventTrigger>();
+        protected ImmutableList<GameEventTrigger> eventTriggers { get; }
 
     }
 }

@@ -113,7 +113,7 @@ namespace Monkey.Games.Agricola
         /// <returns></returns>
         public static bool CanGrowFamily(AgricolaPlayer player, bool withoutSpace = false)
         {
-            if(player.FamilySize >= AgricolaGame.MAX_FAMILY_SIZE)
+            if(player.FamilySize >= AgricolaGame.MaxFamilySize)
                 return false;
                 
             return player.FamilySize < player.Farmyard.RoomCount || withoutSpace;

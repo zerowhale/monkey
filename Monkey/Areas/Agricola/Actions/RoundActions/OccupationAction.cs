@@ -7,6 +7,7 @@ using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -61,7 +62,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 var triggers = new List<GameEventTrigger>();
                 triggers.AddRange(eventTriggers);
                 triggers.Add(new TakeOccupationActionTrigger());
-                ActionService.PlayOccupation(player, triggers, ResultingNotices, occupationData);
+                ActionService.PlayOccupation(player, ImmutableList.Create<GameEventTrigger>(triggers.ToArray()), ResultingNotices, occupationData);
             }
         }
 

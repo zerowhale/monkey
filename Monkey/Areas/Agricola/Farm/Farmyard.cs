@@ -512,6 +512,11 @@ namespace Monkey.Games.Agricola.Farm
             return new Farmyard(Grid, Pastures, Fences, AnimalManager.Update(this.Grid, this.Pastures), HouseType);
         }
 
+        public Farmyard UpdateAnimalManager(AnimalHousingData[] animalAssignments)
+        {
+            return new Farmyard(Grid, Pastures, Fences, AnimalManager.Update(this.Grid, this.Pastures, animalAssignments), HouseType);
+        }
+
         public Farmyard AssignAnimals(AnimalHousingData[] assignments)
         {
             return new Farmyard(Grid, Pastures, Fences, AnimalManager.AssignAnimals(assignments), HouseType);

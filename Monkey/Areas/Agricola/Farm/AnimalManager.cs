@@ -210,7 +210,7 @@ namespace Monkey.Games.Agricola.Farm
                 if (oldHousing.AnimalCount > 0 && !this.housings.ContainsKey(oldHousing.Id))
                     throw new ArgumentException("Invalid animal assignments, housing id " + oldHousing.Id + " not found.");
 
-                housings[oldHousing.Id] = oldHousing.SetAnimals(oldHousing.AnimalType.Value, oldHousing.AnimalCount);
+                housings[oldHousing.Id] = housings[oldHousing.Id].SetAnimals(oldHousing.AnimalType.Value, oldHousing.AnimalCount);
             }
         }
 

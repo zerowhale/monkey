@@ -26,7 +26,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="eventTriggers"></param>
         /// <param name="resultingNotices"></param>
-        public static void CheckTriggers(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices)
+        public static void CheckTriggers(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices)
         {
             if (eventTriggers != null)
             {
@@ -136,7 +136,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="caches"></param>
         /// <param name="eventTriggers">Triggers attached to the calling actions.</param>
         /// <param name="resultingNotices"></param>
-        public static void AssignCacheResources(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache[] caches)
+        public static void AssignCacheResources(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache[] caches)
         {
             var animals = new List<ResourceCache>();
             foreach (var cache in caches)
@@ -169,7 +169,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="eventTriggers">Triggers attached to the calling actions.</param>
         /// <param name="resultingNotices"></param>
         /// <param name="partOfMultiCache"></param>
-        public static void AssignCacheResource(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache cache, bool partOfMultiCache = false)
+        public static void AssignCacheResource(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache cache, bool partOfMultiCache = false)
         {
 
             if (cache.Type.IsAnimal())
@@ -196,13 +196,13 @@ namespace Monkey.Games.Agricola.Actions.Services
         }
 
 
-        public static void AssignTakeResource(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache cache)
+        public static void AssignTakeResource(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache cache)
         {
             ActionService.AssignResource(player, cache, resultingNotices);
             CheckTriggers(player, eventTriggers, resultingNotices);
         }
 
-        public static void AssignTakeResources(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache[] caches)
+        public static void AssignTakeResources(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache[] caches)
         {
             ActionService.AssignResources(player, caches, resultingNotices);
             CheckTriggers(player, eventTriggers, resultingNotices);
@@ -415,7 +415,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             return true;
         }
 
-        public static void Cook(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, ResourceConversionData[] data, List<GameActionNotice> resultingNotices)
+        public static void Cook(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, ResourceConversionData[] data, List<GameActionNotice> resultingNotices)
         {
             var availableConversions = Curator.GetAnytimeResourceConversions(player);
 
@@ -494,7 +494,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// </summary>
         /// <param name="player"></param>
         /// <param name="data"></param>
-        public static void Bake(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ImmutableArray<ResourceConversionData> data)
+        public static void Bake(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ImmutableArray<ResourceConversionData> data)
         {
             if (data != null && data.Length > 0)
             {
@@ -543,14 +543,14 @@ namespace Monkey.Games.Agricola.Actions.Services
                 return false;
 
             var tempAnimalManager = new AnimalManager();
-            tempAnimalManager = tempAnimalManager.Update(player.Farmyard.Grid, pastures.ToImmutableArray());
+            tempAnimalManager = tempAnimalManager.Update(player.Farmyard.Grid, pastures.ToImmutableArray(), data.AnimalData.Assignments);
             if (!ActionService.CanAssignAnimals(player, (AnimalCacheActionData)fenceData.AnimalData, tempAnimalManager, null))
                 return false;
 
             return true;
         }
 
-        public static void BuildFences(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, BuildFencesActionData data, ImmutableArray<int[]> pastures)
+        public static void BuildFences(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, BuildFencesActionData data, ImmutableArray<int[]> pastures)
         {
             var oldPastureCount = player.Farmyard.Pastures.Length;
 
@@ -579,7 +579,7 @@ namespace Monkey.Games.Agricola.Actions.Services
 
                 if (data.AnimalData != null)
                 {
-                    player.UpdateAnimalManager();
+                    player.UpdateAnimalManager(data.AnimalData.Assignments);
                     if (data.AnimalData != null)
                         ActionService.AssignAnimals(player, data.AnimalData, resultingNotices);
                 }
@@ -888,7 +888,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="eventTriggers">Any triggers that should be fired when this occupation is played</param>
         /// <param name="resultingNotices">A list of notices that should be sent to players</param>
         /// <param name="data">The data for the occupation being played</param>
-        public static void PlayOccupation(AgricolaPlayer player, List<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, OccupationActionData data)
+        public static void PlayOccupation(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, OccupationActionData data)
         {
             var card = ((AgricolaGame)player.Game).GetCard(data.Id.Value);
             var cost = Curator.GetOccupationCost(player, data.ActionId, data.Id.Value);

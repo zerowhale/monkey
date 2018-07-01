@@ -1,8 +1,10 @@
 ﻿using BoardgamePlatform.Game.Notification;
+using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -15,6 +17,18 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
     {
         public InterruptAction(AgricolaPlayer player, int id, List<GameActionNotice> resultingNotices)
             : base((AgricolaGame)player.Game, id, resultingNotices)
+        {
+            Player = player;
+        }
+
+        public InterruptAction(AgricolaPlayer player, int id, List<GameActionNotice> resultingNotices, GameEventTrigger[] eventTriggers)
+            : base((AgricolaGame)player.Game, id, resultingNotices, eventTriggers)
+        {
+            Player = player;
+        }
+
+        public InterruptAction(AgricolaPlayer player, int id, List<GameActionNotice> resultingNotices, GameEventTrigger eventTrigger)
+            : base((AgricolaGame)player.Game, id, resultingNotices, eventTrigger)
         {
             Player = player;
         }

@@ -11,12 +11,12 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Dynamic;
 using System.Linq;
+using State = System.Collections.Immutable.ImmutableDictionary<string, object>;
 
 namespace Monkey.Games.Agricola
 {
-    public class AgricolaPlayer : GamePlayer
+    public sealed class AgricolaPlayer : GamePlayer
     {
 
         public AgricolaPlayer(AgricolaGame game, Player player)
@@ -26,39 +26,38 @@ namespace Monkey.Games.Agricola
         }
 
         [JsonIgnore]
-        public ImmutableDictionary<string, Object> State
+        public State State
         {
             get;
             private set;
         }
 
-        public ImmutableDictionary<string, Object> AddFamilyMember()
+        public State AddFamilyMember()
         {
             State = State.SetItem(StateKeyFamilySize, FamilySize + 1);
             State = State.SetItem(StateKeyNumBabies, NumBabies + 1);
             return State;
         }
 
-        public ImmutableDictionary<string, Object> ReturnFamilyHome()
+        public State ReturnFamilyHome()
         {
             State = State.SetItem(StateKeyFamilyAtHome, FamilySize);
             State = State.SetItem(StateKeyNumBabies, 0);
             return State;
         }
 
-        public ImmutableDictionary<string, Object> UseFamilyMember()
+        public State UseFamilyMember()
         {
             if (!HasFamilyMemberAvailable())
                 throw new InvalidOperationException("No family members available");
             return State = State.SetItem(StateKeyFamilyAtHome, FamilyAtHome - 1);
         }
 
-
         /// <summary>
         ///  Adds the cache to the personal supply
         /// </summary>
         /// <param name="cache"></param>
-        public ImmutableDictionary<string, Object> AddResource(ResourceCache cache)
+        public State AddResource(ResourceCache cache)
         {
             return State = this.AddResource(cache.Type, cache.Count);
         }
@@ -67,7 +66,7 @@ namespace Monkey.Games.Agricola
         /// Subtracts the cache from the personal supply
         /// </summary>
         /// <param name="cache"></param>
-        public ImmutableDictionary<string, Object> RemoveResource(ResourceCache cache)
+        public State RemoveResource(ResourceCache cache)
         {
             return State = AddResource(cache.Type, -cache.Count);
         }
@@ -76,9 +75,8 @@ namespace Monkey.Games.Agricola
         /// Removes one of the resource from the personal supply
         /// </summary>
         /// <param name="resource"></param>
-        public ImmutableDictionary<string, Object> RemoveResource(Resource resource)
+        public State RemoveResource(Resource resource)
         {
-
             PersonalSupply = PersonalSupply.AddResource(resource, -1);
             return State;
         }
@@ -88,7 +86,7 @@ namespace Monkey.Games.Agricola
         /// </summary>
         /// <param name="resource"></param>
         /// <param name="count"></param>
-        public ImmutableDictionary<string, Object> RemoveResource(Resource resource, Int32 count)
+        public State RemoveResource(Resource resource, Int32 count)
         {
             PersonalSupply = PersonalSupply.AddResource(resource, -count);
             return State;
@@ -98,7 +96,7 @@ namespace Monkey.Games.Agricola
         /// Adds one of a resource to the cache
         /// </summary>
         /// <param name="resource"></param>
-        public ImmutableDictionary<string, Object> AddResource(Resource resource)
+        public State AddResource(Resource resource)
         {
             PersonalSupply = PersonalSupply.AddResource(resource, 1);
             return State;
@@ -109,27 +107,27 @@ namespace Monkey.Games.Agricola
         /// </summary>
         /// <param name="resource"></param>
         /// <param name="count"></param>
-        public ImmutableDictionary<string, Object> AddResource(Resource resource, Int32 count)
+        public State AddResource(Resource resource, Int32 count)
         {
             PersonalSupply = PersonalSupply.AddResource(resource, count);
             return State;
         }
 
-        public ImmutableDictionary<string, Object> AddMajorImprovement(int id)
+        public State AddMajorImprovement(int id)
         {
             MajorImprovements = MajorImprovements.Add(id);
             OwnedCards = OwnedCards.Add(Curator.GetMajorImprovement(id));
             return State;
         }
 
-        public ImmutableDictionary<string, Object> RemoveMajorImprovement(int id)
+        public State RemoveMajorImprovement(int id)
         {
             MajorImprovements = MajorImprovements.Remove(id);
             OwnedCards = OwnedCards.Remove(Curator.GetMajorImprovement(id));
             return State;
         }
 
-        public ImmutableDictionary<string, Object> PlayCard(Card card)
+        public State PlayCard(Card card)
         {
             if (HandOccupations.Contains(card))
                 HandOccupations = HandOccupations.Remove(card);
@@ -141,7 +139,7 @@ namespace Monkey.Games.Agricola
             return State;
         }
 
-        public ImmutableDictionary<string, Object> AddCardToHand(Card card)
+        public State AddCardToHand(Card card)
         {
             if(card is Occupation)
             {
@@ -158,7 +156,7 @@ namespace Monkey.Games.Agricola
             return State;
         }
 
-        public ImmutableDictionary<string, Object> RemoveCardFromHand(Card card)
+        public State RemoveCardFromHand(Card card)
         {
             if (card is Occupation)
             {
@@ -179,12 +177,11 @@ namespace Monkey.Games.Agricola
         /// Recalculates the score card for the player
         /// </summary>
         /// <returns></returns>
-        public ImmutableDictionary<string, Object> UpdateScoreCard()
+        public State UpdateScoreCard()
         {
             this.ScoreCard = new ScoreCard(this);
             return State;
         }
-
 
         /// <summary>
         /// Returns true if there are any family members at home
@@ -200,8 +197,6 @@ namespace Monkey.Games.Agricola
             var card = ((AgricolaGame)Game).GetCard(id);
             PlayCard(card);
         }
-
-
 
         public void ReturnCard(Card card)
         {
@@ -292,7 +287,6 @@ namespace Monkey.Games.Agricola
             return false;
         }
 
-
         /// <summary>
         /// 
         /// </summary>
@@ -357,7 +351,6 @@ namespace Monkey.Games.Agricola
             Farmyard = Farmyard.SowField(index, resource);
         }
 
-
         public void Renovate()
         {
             Farmyard = Farmyard.Renovate();
@@ -376,6 +369,11 @@ namespace Monkey.Games.Agricola
         public Farmyard UpdateAnimalManager()
         {
             return Farmyard = Farmyard.UpdateAnimalManager();
+        }
+
+        public Farmyard UpdateAnimalManager(AnimalHousingData[] animalAssignments)
+        {
+            return Farmyard = Farmyard.UpdateAnimalManager(animalAssignments);
         }
 
         public Farmyard AssignAnimals(AnimalHousingData[] assignments)
@@ -459,13 +457,12 @@ namespace Monkey.Games.Agricola
         /// </summary>
         /// <param name="data">The list of resources with which to feed your family.</param>
         /// <returns>The number of new begger cards</returns>
-        public int FeedFamily(ResourceConversionData[] data, List<INoticePredicate> notices)
+        public State FeedFamily(ResourceConversionData[] data, List<INoticePredicate> notices, out int begTotal)
         {
             var availableConversions = Curator.GetHarvestFoodValues(this);
             var foodValue = 0;
-            var begTotal = 0;
             var foodNeeded = FamilySize * 2 - NumBabies;
-
+            begTotal = 0;
             foreach (var conversion in data)
             {
                 var conversionDefinition = availableConversions.FirstOrDefault(x => x.Id == conversion.Id
@@ -502,7 +499,7 @@ namespace Monkey.Games.Agricola
                 this.PersonalSupply = this.PersonalSupply.AddResource(Resource.Food, remainder);
 
             Harvesting = false;
-            return begTotal;
+            return State;
         }
 
         /// <summary>
@@ -541,18 +538,6 @@ namespace Monkey.Games.Agricola
                 return (int)State[StateKeyNumBabies];
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Used by partial updates to retrieve the players whole hand
@@ -761,7 +746,7 @@ namespace Monkey.Games.Agricola
 
         private void InitializeState()
         {
-            State = ImmutableDictionary<string, Object>.Empty;
+            State = State.Empty;
             State = State.SetItem(StateKeyFamilySize, 0);
             State = State.SetItem(StateKeyNumBabies, 0);
             State = State.SetItem(StateKeyFamilyAtHome, 0);

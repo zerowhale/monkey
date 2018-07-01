@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Collections.Immutable;
+using State = System.Collections.Immutable.ImmutableDictionary<string, object>;
 
 namespace Monkey.Games.Agricola
 {
@@ -33,10 +34,10 @@ namespace Monkey.Games.Agricola
         public AgricolaGame(string name, string viewPath, int maxPlayers, Player[] players, Dictionary<string, object> props)
             :base(name, viewPath, maxPlayers, players, props)
         {
-            
+
             if (players.Length > maxPlayers)
                 throw new ArgumentException("Agricola supports no more than 5 players.");
-
+            InitializeState();
             this.players = new AgricolaPlayer[players.Length];
             for (var i = 0; i < players.Length; i++)
             {
@@ -65,16 +66,21 @@ namespace Monkey.Games.Agricola
 
             Mode = GameMode.Work;
 
-            ShuffleRoundsDeck();
+            roundsDeck = ShuffleRoundsDeck().ToImmutableArray();
             BuildActionList();
 
-            LoadDecks();
+            if (!FamilyMode)
+            {
+                minorImprovementsDeck = Curator.MinorImprovementsDeck;
+                occupationsDeck = Curator.OccupationsDeck;
+            }
+            masterDeck = LoadDecks().ToImmutableDictionary();
 
             if (!FamilyMode)
             {
                 DealPlayerHands();
-
             }
+
             StartNextRound(new List < GameActionNotice >());
 
         }
@@ -125,7 +131,7 @@ namespace Monkey.Games.Agricola
             if (Interrupt != null)
                 return TakeInterruptAction(player, actionId, param, out update, out notices);
 
-            var action = roundActionsById[actionId];
+            var action = roundActions.FirstOrDefault(x => x.Id == actionId);
             if (action != null)
             {
                 if (Mode == GameMode.Work
@@ -272,9 +278,9 @@ namespace Monkey.Games.Agricola
             // Figure out which animals will breed
             var newAnimals = new Dictionary<AnimalResource, int>();
             newAnimals[AnimalResource.Sheep] = sheepAfterFeeding >= 2 ? 1 : 0;
-            newAnimals[AnimalResource.Boar] = boarAfterFeeding >= 2 ? 1 : 0; ;
-            newAnimals[AnimalResource.Cattle] = cattleAfterFeeding >= 2 ? 1 : 0; ;
-            
+            newAnimals[AnimalResource.Boar] = boarAfterFeeding >= 2 ? 1 : 0;
+            newAnimals[AnimalResource.Cattle] = cattleAfterFeeding >= 2 ? 1 : 0;
+           
             if (!ActionService.CanAssignAnimals(player, data.AnimalData, newAnimals))
                 return false;
 
@@ -288,7 +294,8 @@ namespace Monkey.Games.Agricola
             {
                 var conversions = data.FeedResources;
                 var feedNotice = new List<INoticePredicate>();
-                var begAmount = player.FeedFamily(data.FeedResources, feedNotice);
+                int begAmount;
+                player.FeedFamily(data.FeedResources, feedNotice, out begAmount);
 
                 notices = new List<GameActionNotice>();
                 ActionService.AssignAnimals(player, data.AnimalData, notices);
@@ -384,20 +391,26 @@ namespace Monkey.Games.Agricola
         public void AssignMajorImprovement(int id, AgricolaPlayer player)
         {
 
-            if (!majorImprovements.Keys.Contains(id))
+            if (!majorImprovementOwners.Keys.Contains(id))
                 throw new ArgumentException("Invalid major improvement id:" + id);
 
-            var oldPlayer = majorImprovements[id];
+            var oldPlayer = majorImprovementOwners[id];
             if (oldPlayer != null)
             {
                 oldPlayer.RemoveMajorImprovement(id);
             }
 
-            majorImprovements[id] = player;
+            majorImprovementOwners = majorImprovementOwners.SetItem(id, player);
             if(player != null)
                 player.AddMajorImprovement(id);
         }
 
+        /// <summary>
+        /// Returns a card to its original source.  Major Improvements return to the major improvement deck,
+        /// minor improvements and occupations are returned to their owners hand.
+        /// </summary>
+        /// <param name="player"></param>
+        /// <param name="id"></param>
         public void ReturnCard(AgricolaPlayer player, int id)
         {
             if (!player.OwnsCard(id))
@@ -459,7 +472,7 @@ namespace Monkey.Games.Agricola
         /// <param name="interrupt"></param>
         public void AddInterrupt(InterruptAction interrupt)
         { 
-            interrupts.Push(interrupt);
+            interrupts = interrupts.Push(interrupt);
         }
 
         /// <summary>
@@ -469,7 +482,10 @@ namespace Monkey.Games.Agricola
         public bool CheckForInterrupt()
         {
             if (this.Interrupt != null) return true;
-            this.Interrupt = interrupts.Count() > 0 ? interrupts.Pop() : null;
+            InterruptAction interrupt = null;
+            if(!interrupts.IsEmpty)
+                interrupts = interrupts.Pop(out interrupt);
+            this.Interrupt = interrupt;
             return this.Interrupt != null;
         }
 
@@ -620,12 +636,12 @@ namespace Monkey.Games.Agricola
         [JsonIgnore]
         public int RoundsRemaining
         {
-            get { return TOTAL_ROUNDS - CurrentRound; }
+            get { return TotalRounds - CurrentRound; }
         }
 
         public GameAction[] Actions
         {
-            get { return actions.ToArray(); }
+            get { return roundActions.ToArray(); }
         }
 
         
@@ -633,7 +649,7 @@ namespace Monkey.Games.Agricola
         {
             get
             {
-                return majorImprovements.ToDictionary(x => x.Key, y => (y.Value == null ? null : y.Value.Name));
+                return majorImprovementOwners.ToDictionary(x => x.Key, y => (y.Value == null ? null : y.Value.Name));
             }
         }
 
@@ -644,7 +660,7 @@ namespace Monkey.Games.Agricola
         {
             get
             {
-                return majorImprovements.Where(x => x.Value != null).Select(x => x.Key).ToArray();
+                return majorImprovementOwners.Where(x => x.Value != null).Select(x => x.Key).ToArray();
             }
         }
 
@@ -714,21 +730,21 @@ namespace Monkey.Games.Agricola
         /// </summary>
         private void UpdateActions()
         {
-            foreach (var action in actions)
-                action.RoundStart();
+            foreach (var roundAction in roundActions)
+                roundAction.RoundStart();
         }
 
-        private void ShuffleRoundsDeck()
+        private RoundAction[] ShuffleRoundsDeck()
         {
-            BuildRoundsDeck();
+            var roundsDeck = BuildRoundsDeck();
 
             var deck = new RoundAction[14];
             var startI = 0;
             var actionDeckIndex = 0;
             var rng = new Random();
-            for (var stage = 0; stage < ROUNDS_IN_STAGES.Length; stage++)
+            for (var stage = 0; stage < RoundsInStages.Length; stage++)
             {
-                var roundsInCurrentStage = ROUNDS_IN_STAGES[stage];
+                var roundsInCurrentStage = RoundsInStages[stage];
                 var actions = new List<RoundAction>();
                 for (var i = 0; i < roundsInCurrentStage; i++)
                 {
@@ -746,29 +762,28 @@ namespace Monkey.Games.Agricola
 
                 startI += roundsInCurrentStage;
             }
-            roundsDeck = deck;
+            return deck;
         }
 
-        private void BuildMajorImprovements()
+        private void BuildMajorImprovements(Dictionary<int, Card> masterDeck)
         {
             var majors = Curator.MajorImprovementsDeck;
             foreach (var major in majors)
             {
-                majorImprovements[major.Id] = null;
+                majorImprovementOwners = majorImprovementOwners.SetItem(major.Id, null);
                 masterDeck[major.Id] = major;
             }
 
         }
 
 
-        private void LoadDecks()
+        private Dictionary<int, Card> LoadDecks()
         {
-            BuildMajorImprovements();
+            var masterDeck = new Dictionary<int, Card>();
+            BuildMajorImprovements(masterDeck);
 
             if (!FamilyMode)
             {
-                minorImprovementsDeck = Curator.MinorImprovementsDeck;
-                occupationsDeck = Curator.OccupationsDeck;
 
                 foreach (var card in minorImprovementsDeck)
                     masterDeck[card.Id] = card;
@@ -776,7 +791,7 @@ namespace Monkey.Games.Agricola
                 foreach (var card in occupationsDeck)
                     masterDeck[card.Id] = card;
             }
-
+            return masterDeck;
         }
 
 
@@ -855,22 +870,24 @@ namespace Monkey.Games.Agricola
             }));
         }
 
-        private void BuildRoundsDeck()
+        private RoundAction[] BuildRoundsDeck()
         {
-            this.roundsDeck[0] = new BuildFencesAction(this, 100);
-            this.roundsDeck[1] = new AnimalCacheAction(this, 101, Resource.Sheep, new GameEventTrigger[]{ new TakeAnimalActionTrigger( AnimalResource.Sheep) });
-            this.roundsDeck[2] = new ImprovementAction(this, 102, true, true);
-            this.roundsDeck[3] = new SowAndBakeAction(this, 103);
-            this.roundsDeck[4] = new FamilyGrowthAction(this, 104, FamilyGrowthActionMode.Improvement);
-            this.roundsDeck[5] = new BasicCacheAction(this, 105, Resource.Stone, 1, new GameEventTrigger[] { new TakeStoneActionTrigger() } );
-            this.roundsDeck[6] = new RenovationAction(this, 106, RenovationActionMode.Improvement);
-            this.roundsDeck[7] = new AnimalCacheAction(this, 107, Resource.Boar, new GameEventTrigger[] { new TakeAnimalActionTrigger(AnimalResource.Boar) });
-            this.roundsDeck[8] = new BasicTakeAction(this, 108, Resource.Vegetables, 1, new GameEventTrigger[] { new TakeVegetablesActionTrigger() });
-            this.roundsDeck[9] = new AnimalCacheAction(this, 109, Resource.Cattle, new GameEventTrigger[] { new TakeAnimalActionTrigger(AnimalResource.Cattle) });
-            this.roundsDeck[10] = new BasicCacheAction(this, 110, Resource.Stone, 1, new GameEventTrigger[] { new TakeStoneActionTrigger() });
-            this.roundsDeck[11] = new FamilyGrowthAction(this, 111, FamilyGrowthActionMode.WithoutSpace);
-            this.roundsDeck[12] = new PlowAndSowAction(this, 112, true);
-            this.roundsDeck[13] = new RenovationAction(this, 113, RenovationActionMode.Fences);
+            var roundsDeck = new RoundAction[14];
+            roundsDeck[0] = new BuildFencesAction(this, 100);
+            roundsDeck[1] = new AnimalCacheAction(this, 101, Resource.Sheep, new GameEventTrigger[]{ new TakeAnimalActionTrigger( AnimalResource.Sheep) });
+            roundsDeck[2] = new ImprovementAction(this, 102, true, true);
+            roundsDeck[3] = new SowAndBakeAction(this, 103);
+            roundsDeck[4] = new FamilyGrowthAction(this, 104, FamilyGrowthActionMode.Improvement);
+            roundsDeck[5] = new BasicCacheAction(this, 105, Resource.Stone, 1, new GameEventTrigger[] { new TakeStoneActionTrigger() } );
+            roundsDeck[6] = new RenovationAction(this, 106, RenovationActionMode.Improvement);
+            roundsDeck[7] = new AnimalCacheAction(this, 107, Resource.Boar, new GameEventTrigger[] { new TakeAnimalActionTrigger(AnimalResource.Boar) });
+            roundsDeck[8] = new BasicTakeAction(this, 108, Resource.Vegetables, 1, new GameEventTrigger[] { new TakeVegetablesActionTrigger() });
+            roundsDeck[9] = new AnimalCacheAction(this, 109, Resource.Cattle, new GameEventTrigger[] { new TakeAnimalActionTrigger(AnimalResource.Cattle) });
+            roundsDeck[10] = new BasicCacheAction(this, 110, Resource.Stone, 1, new GameEventTrigger[] { new TakeStoneActionTrigger() });
+            roundsDeck[11] = new FamilyGrowthAction(this, 111, FamilyGrowthActionMode.WithoutSpace);
+            roundsDeck[12] = new PlowAndSowAction(this, 112, true);
+            roundsDeck[13] = new RenovationAction(this, 113, RenovationActionMode.Fences);
+            return roundsDeck;
         }
 
 
@@ -914,7 +931,7 @@ namespace Monkey.Games.Agricola
                 }
 
 
-                for (var i=0;i<STARTING_HAND_SIZE; i++){
+                for (var i=0;i<StartingHandSize; i++){
                     if (minors.Count > 0)
                     {
                         var index = rng.Next(0,minors.Count);
@@ -949,11 +966,10 @@ namespace Monkey.Games.Agricola
 
 
         private void AddAction(RoundAction action){
-            if (roundActionsById.ContainsKey(action.Id))
+            if (roundActions.FirstOrDefault(x => x.Id == action.Id) != null)
                 throw new InvalidOperationException("An action with id " + action.Id + " has already been registered with game " + this.Id);
 
-            actions.Add(action);
-            roundActionsById[action.Id] = action;
+            roundActions = roundActions.Add(action);
         }
 
         /// <summary>
@@ -968,34 +984,121 @@ namespace Monkey.Games.Agricola
             }
         }
 
-        public const int TOTAL_ROUNDS = 14;
+        public const int TotalRounds = 14;
 
-        public const int MAX_FAMILY_SIZE = 5;
+        public const int MaxFamilySize = 5;
 
-        public const int STARTING_HAND_SIZE = 7;
+        public const int StartingHandSize = 7;
 
+        private void InitializeState()
+        {
+            State = State.SetItem(StateKeyInterrupts, ImmutableStack<InterruptAction>.Empty);
+            State = State.SetItem(StateKeyMajorImprovementOwners, ImmutableDictionary<int, AgricolaPlayer>.Empty);
+            State = State.SetItem(StateKeyRoundActions, ImmutableList<RoundAction>.Empty);
+        }
 
-        public static readonly Int32[] ROUNDS_IN_STAGES = { 4, 3, 2, 2, 2, 1 };
+        private State State = State.Empty;
+
+        private const string StateKeyInterrupts = "StateKeyInterrupts";
+        private const string StateKeyMajorImprovementOwners = "StateKeyMajorImprovementOwners";
+        private const string StateKeyRoundActions = "StateKeyRoundActions";
+        private const string StateKeyPlayerStates = "StateKeyPlayerStates";
+
+        /// <summary>
+        /// Player states
+        /// </summary>
+        private ImmutableDictionary<AgricolaPlayer, Dictionary<string, object>> playerStates
+        {
+            get
+            {
+                return (ImmutableDictionary<AgricolaPlayer, Dictionary<string, object>>)State[StateKeyPlayerStates];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyPlayerStates, value);
+            }
+        }
+
+        /// <summary>
+        /// The list of round actions
+        /// </summary>
+        private ImmutableList<RoundAction> roundActions
+        {
+            get
+            {
+                return (ImmutableList<RoundAction>)State[StateKeyRoundActions];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyRoundActions, value);
+            }
+        }
+
+        /// <summary>
+        /// Mapping of major improvements to the players that own them
+        /// </summary>
+        private ImmutableDictionary<int, AgricolaPlayer> majorImprovementOwners
+        {
+            get
+            {
+                return (ImmutableDictionary<int, AgricolaPlayer>)State[StateKeyMajorImprovementOwners];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyMajorImprovementOwners, value);
+            }
+        }
+
+        /// <summary>
+        /// The interrupt stack
+        /// </summary>
+        private ImmutableStack<InterruptAction> interrupts
+        {
+            get
+            {
+                return (ImmutableStack<InterruptAction>)State[StateKeyInterrupts];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyInterrupts, value);
+            }
+        }
+
+        /// <summary>
+        /// Indicates reserved resources have been updated and need to be sent to the client
+        /// </summary>
+        private bool newReservedResourcesAdded = false;
+
+        /// <summary>
+        /// Definition of cards per Stage
+        /// </summary>
+        private static readonly ImmutableArray<int> RoundsInStages = ImmutableArray.Create<int>(new int[] { 4, 3, 2, 2, 2, 1 });
 
         /// <summary>
         /// Players taking part in this game
         /// </summary>
-        private AgricolaPlayer[] players;
+        private AgricolaPlayer[] players { get; }
 
-        private RoundAction[] roundsDeck = new RoundAction[TOTAL_ROUNDS];
+        /// <summary>
+        /// A list of all cards involved in this game (major improvements, and all cards in players hands)
+        /// </summary>
+        private ImmutableDictionary<int, Card> masterDeck { get; }
 
-        private List<RoundAction> actions = new List<RoundAction>();
+        /// <summary>
+        ///  The deck of rounds 
+        /// </summary>
+        private ImmutableArray<RoundAction> roundsDeck { get; }
 
-        private Dictionary<Int32, RoundAction> roundActionsById = new Dictionary<int, RoundAction>();
+        /// <summary>
+        /// Deck of Minor Improvements being used
+        /// </summary>
+        private ImmutableArray<MinorImprovement> minorImprovementsDeck { get; }
 
-        private Dictionary<int, AgricolaPlayer> majorImprovements = new Dictionary<int, AgricolaPlayer>();
-        private Stack<InterruptAction> interrupts = new Stack<InterruptAction>();
+        /// <summary>
+        /// Deck of Occupations being used
+        /// </summary>
+        private ImmutableArray<Occupation> occupationsDeck { get; }
 
-        private Dictionary<int, Card> masterDeck = new Dictionary<int, Card>();
-        private ImmutableArray<MinorImprovement> minorImprovementsDeck;
-        private ImmutableArray<Occupation> occupationsDeck;
-
-        private bool newReservedResourcesAdded = false;
 
     }
 }

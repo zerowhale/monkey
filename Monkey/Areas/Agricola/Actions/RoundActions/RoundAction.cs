@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -23,13 +24,11 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
     public abstract class RoundAction : GameAction
     {
         public RoundAction(AgricolaGame game, int id, AgricolaPlayer Owner, GameEventTrigger[] eventTriggers = null)
-            :base (game, id)
+            :base (game, id, new List<GameActionNotice>(), eventTriggers)
         {
             this.Owner = Owner;
             this.Users = new List<AgricolaPlayer>();
-            
-            if(eventTriggers != null)
-                this.eventTriggers.AddRange(eventTriggers);
+
             CacheResources = new Dictionary<Resource, ResourceCache>();
         }
 
@@ -37,6 +36,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             : this(game, id, null)
         {
         }
+
         public RoundAction(AgricolaGame game, int id, GameEventTrigger[] eventTriggers)
             : this(game, id, null, eventTriggers)
         {
@@ -131,12 +131,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         /// by a player.
         /// </summary>
         [JsonIgnore]
-        public AgricolaPlayer Owner
-        {
-            get;
-            protected set;
-        }
-
+        public AgricolaPlayer Owner { get; }
 
         /// <summary>
         /// Get's the list of delayed resources to be sent to the front end
@@ -166,8 +161,6 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                     taking[cache.Value.Type] += cache.Value.Count;
             }
 
-            
-
             if (leaveBehind != null)
             {
                 foreach (var cache in leaveBehind)
@@ -179,7 +172,6 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             }
 
             var takingCaches = taking.Select(x => new ResourceCache(x.Key, x.Value));
-
 
             if (eventTriggers != null)
             {
@@ -247,7 +239,6 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             else
                 CacheResources[cache.Type] = new ResourceCache(cache.Type, cache.Count);
         }
-
 
         /// <summary>
         /// Client visibile array of chache resources

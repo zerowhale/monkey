@@ -15,9 +15,8 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
     public class BakeAction: InterruptAction
     {
         public BakeAction(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
-            : base(player, (int)InterruptActionId.Bake, resultingNotices)
+            : base(player, (int)InterruptActionId.Bake, resultingNotices, new BakeTrigger())
         {
-            eventTriggers.Add(new BakeTrigger());
         }
         
         /// <summary>

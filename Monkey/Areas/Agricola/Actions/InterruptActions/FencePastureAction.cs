@@ -20,9 +20,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return ActionService.CanBuildFences(player, Id, (BuildFencesActionData)data, out pastures, out costs);
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures.ToImmutableArray());
+            return this;
         }
 
         private List<int[]> pastures;

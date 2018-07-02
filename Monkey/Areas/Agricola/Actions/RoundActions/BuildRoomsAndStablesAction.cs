@@ -44,7 +44,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         }
 
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -56,6 +56,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             if (stables.Length > 0)
                 ActionService.BuildStables(player, stables, Id, ResultingNotices);
+            return this;
         }
 
     }

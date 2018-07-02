@@ -16,11 +16,7 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Actions.RoundActions
 {
-    /// <summary>
-    /// GameAction is the base class for all actions in the game.
-    /// An action is any place (primary action, round action, or card arction) that
-    /// a player can place a family member to cause some effect
-    /// </summary>
+
     public abstract class RoundAction : GameAction
     {
         public RoundAction(AgricolaGame game, int id, AgricolaPlayer Owner, GameEventTrigger[] eventTriggers = null)
@@ -33,14 +29,10 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         }
 
         public RoundAction(AgricolaGame game, int id)
-            : this(game, id, null)
-        {
-        }
+            : this(game, id, null) { }
 
         public RoundAction(AgricolaGame game, int id, GameEventTrigger[] eventTriggers)
-            : this(game, id, null, eventTriggers)
-        {
-        }
+            : this(game, id, null, eventTriggers) { }
 
         /// <summary>
         /// Called at the start of each round.  Any cumulative round effects
@@ -56,10 +48,11 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return (this.Users.Count == 0 && player.HasFamilyMemberAvailable());
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
-            this.Users.Add(player);
+            AddUser(player);
             player.UseFamilyMember();
+            return this;
         }
 
         public void AddUser(AgricolaPlayer player)

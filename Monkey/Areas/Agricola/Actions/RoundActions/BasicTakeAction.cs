@@ -42,10 +42,11 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
             ActionService.AssignTakeResources(player, eventTriggers, ResultingNotices, Caches);
+            return this;
         }
 
         public ResourceCache[] Caches

@@ -11,6 +11,11 @@ using System.Web;
 
 namespace Monkey.Games.Agricola.Actions
 {
+    /// <summary>
+    /// GameAction is the base class for all actions in the game.
+    /// An action is any place (primary action, round action, or card arction) that
+    /// a player can place a family member to cause some effect
+    /// </summary>
     public abstract class GameAction
     {
         public GameAction(AgricolaGame game, int id) 
@@ -43,14 +48,15 @@ namespace Monkey.Games.Agricola.Actions
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Boolean TryExecute(AgricolaPlayer player, GameActionData data)
+        public Boolean TryExecute(AgricolaPlayer player, GameActionData data, out GameAction updatedAction)
         {
             if (CanExecute(player, data)) {
                 if(ResultingNotices != null)
                     ResultingNotices.Clear();
-                OnExecute(player, data);
+                updatedAction = OnExecute(player, data);
                 return true;
             }
+            updatedAction = this;
             return false;
         }
 
@@ -59,7 +65,7 @@ namespace Monkey.Games.Agricola.Actions
         /// </summary>
         /// <param name="player"></param>
         /// <param name="data"></param>
-        public abstract void OnExecute(AgricolaPlayer player, GameActionData data);
+        public abstract GameAction OnExecute(AgricolaPlayer player, GameActionData data);
 
         /// <summary>
         /// Called before an action executes to verify that the action

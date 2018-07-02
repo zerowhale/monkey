@@ -24,13 +24,14 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return ActionService.CanBuildFences(player, Id, (BuildFencesActionData)data, out pastures, out costs);
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
             player.PayCosts(costs);
 
             ActionService.BuildFences(player, eventTriggers, ResultingNotices, (BuildFencesActionData)data, pastures.ToImmutableArray());
+            return this;
         }
 
         private List<int[]> pastures;

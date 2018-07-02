@@ -22,11 +22,13 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
             this.ResultingNotices.Add(new GameActionNotice(player.Name, Notification.NoticeVerb.Debug.ToString()));
+
+            return this;
         }
     }
 }

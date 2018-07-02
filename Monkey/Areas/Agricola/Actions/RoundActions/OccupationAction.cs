@@ -46,7 +46,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -64,6 +64,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 triggers.Add(new TakeOccupationActionTrigger());
                 ActionService.PlayOccupation(player, ImmutableList.Create<GameEventTrigger>(triggers.ToArray()), ResultingNotices, occupationData);
             }
+            return this;
         }
 
         private bool familyGrowth = false;

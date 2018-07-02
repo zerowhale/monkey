@@ -9,12 +9,11 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
-    public class BuildRoomAction: AnytimeAction
+    public sealed class BuildRoomAction: AnytimeAction
     {
         public BuildRoomAction(XElement definition, int cardId)
             : base(definition, (int)AnytimeActionId.BuildRoom, cardId)
         {
-
         }
 
         public override bool CanExecute(AgricolaPlayer player, Data.GameActionData data)
@@ -30,12 +29,14 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
             var room = ((BuildRoomData)data).RoomData;
             ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create<int>(room), ResultingNotices);
+
+            return this;
         }
 
     }

@@ -40,7 +40,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return ActionService.CanPlowAndSow(player, Id, fields, sow, ((PlowAndSowActionData)data).PlowUsed);
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -52,6 +52,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 var toSow = ImmutableArray.Create(((PlowAndSowActionData)data).Sow);
                 ActionService.Sow(player, toSow, ResultingNotices);
             }
+
+            return this;
 
         }
 

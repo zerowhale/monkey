@@ -31,11 +31,13 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
 
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
             ActionService.BuyImprovement(player, (ImprovementActionData)data, ResultingNotices);
+
+            return this;
         }
         
         private bool major;

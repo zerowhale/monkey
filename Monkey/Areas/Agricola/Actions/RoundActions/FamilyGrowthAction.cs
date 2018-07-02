@@ -39,7 +39,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         }
 
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -50,6 +50,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             if (mode == FamilyGrowthActionMode.Improvement && ((FamilyGrowthActionData)data).ImprovementData != null)
                 ActionService.BuyImprovement(player, ((FamilyGrowthActionData)data).ImprovementData, ResultingNotices);
+
+            return this;
         }
 
         private FamilyGrowthActionMode mode;

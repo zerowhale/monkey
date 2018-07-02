@@ -10,6 +10,9 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Actions.AnytimeActions
 {
+    /// <summary>
+    /// Anytime Actions are stateless actions. 
+    /// </summary>
     public abstract class AnytimeAction : GameAction
     {
         /*
@@ -53,7 +56,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             return meetsPrerequisites(player);
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             if(MaxUses > 0)
             {
@@ -64,6 +67,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
                 cardData = cardData.SetItem("usedCount", count);
                 player.SetCardMetadata(CardId, cardData);
             }
+            return this;
         }
 
         public int CardId { get; }

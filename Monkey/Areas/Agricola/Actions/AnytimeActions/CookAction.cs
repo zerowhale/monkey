@@ -23,12 +23,14 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
                 && ActionService.CanAssignAnimals(player, ((CookActionData)data).AnimalData, null);
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
             ActionService.Cook(player, eventTriggers, ((CookActionData)data).Resources, ResultingNotices);
             ActionService.AssignAnimals(player, ((CookActionData)data).AnimalData, ResultingNotices);
+
+            return this;
         }
 
         

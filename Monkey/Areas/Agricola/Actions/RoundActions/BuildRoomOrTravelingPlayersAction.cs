@@ -31,7 +31,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -45,6 +45,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 // Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
                 ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create(roomData.Value), ResultingNotices);
             }
+            return this;
         }
     }
 }

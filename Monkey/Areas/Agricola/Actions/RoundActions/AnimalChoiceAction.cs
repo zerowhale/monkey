@@ -31,7 +31,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return ActionService.CanAssignAnimals(player, choiceData.AnimalData, animalData);
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -42,6 +42,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 player.RemoveResource(Resource.Food);
 
             ActionService.AssignAnimals(player, choiceData.AnimalData, ResultingNotices);
+            return this;
         }
     }
 }

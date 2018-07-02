@@ -33,11 +33,12 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             var rsData = (SelectResourcesActionData)data;
             var list = rsData.Resources.Select(x => new ResourceCache(x, 1)).ToArray();
             ActionService.AssignResources(player, list, ResultingNotices);
+            return this;
         }
 
         public ImmutableArray<ResourceCache> Options { get; }

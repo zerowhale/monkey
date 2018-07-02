@@ -28,9 +28,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return ActionService.CanPlowAndSow(player, Id, fields, new SowData[] { });
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             ActionService.Plow(player, ((PlowAndSowActionData)data).Fields, ResultingNotices);
+            return this;
         }
 
         public bool Optional { get; }

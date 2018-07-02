@@ -109,8 +109,8 @@ namespace Monkey.Games.Agricola
                 if (card.AnytimeAction?.Id == actionId)
                 {
                     var action = card.AnytimeAction;
-
-                    if (action.TryExecute(player, param))
+                    GameAction outAction;
+                    if (action.TryExecute(player, param, out outAction))
                     {
                         UpdateScorecards();
                         notices = action.ResultingNotices;
@@ -131,14 +131,14 @@ namespace Monkey.Games.Agricola
             if (Interrupt != null)
                 return TakeInterruptAction(player, actionId, param, out update, out notices);
 
-            var action = roundActions.FirstOrDefault(x => x.Id == actionId);
+            var action = roundActions[roundActionIndices[actionId]];
             if (action != null)
             {
                 if (Mode == GameMode.Work
                     && players[ActivePlayerIndex] == player)
                 {
-
-                    if (action.TryExecute(player, param))
+                    GameAction updatedAction;
+                    if (action.TryExecute(player, param, out updatedAction))
                     {
                         UpdateScorecards();
                         if (!CheckForInterrupt())
@@ -199,7 +199,8 @@ namespace Monkey.Games.Agricola
                 GameAction action = interrupt;
                 if (action != null)
                 {
-                    if (action.TryExecute(player, param))
+                    GameAction updatedAction;
+                    if (action.TryExecute(player, param, out updatedAction))
                     {
                         this.Interrupt = null;
                         if (!CheckForInterrupt() && this.Mode == GameMode.Work )
@@ -970,6 +971,7 @@ namespace Monkey.Games.Agricola
                 throw new InvalidOperationException("An action with id " + action.Id + " has already been registered with game " + this.Id);
 
             roundActions = roundActions.Add(action);
+            roundActionIndices[action.Id] = roundActions.Count-1;
         }
 
         /// <summary>
@@ -1099,6 +1101,11 @@ namespace Monkey.Games.Agricola
         /// </summary>
         private ImmutableArray<Occupation> occupationsDeck { get; }
 
+
+        /// <summary>
+        /// ID to index mapping for round actions
+        /// </summary>
+        private Dictionary<int, int> roundActionIndices = new Dictionary<int, int>();
 
     }
 }

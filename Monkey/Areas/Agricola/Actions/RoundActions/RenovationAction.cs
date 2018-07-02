@@ -68,7 +68,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return Curator.CanAfford(player, totalCosts.Values.ToArray());
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -87,6 +87,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                         ActionService.BuyImprovement(player, ((RenovationActionData)data).ImprovementData, ResultingNotices);
                     break;
             }
+
+            return this;
         }
 
         private RenovationActionMode mode;

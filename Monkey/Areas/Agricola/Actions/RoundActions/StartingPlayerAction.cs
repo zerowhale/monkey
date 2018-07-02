@@ -43,7 +43,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -60,6 +60,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             }
             Game.StartingPlayer = player;
             this.ResultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Starts.ToString()));
+
+            return this;
         }
 
         private readonly ResourceCache resourcesPerRound;

@@ -29,9 +29,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return false;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             selected.Event.Execute(player, null, null, ResultingNotices);
+            return this;
         }
 
         public ImmutableArray<PlayerChoiceOption> Options { get; }

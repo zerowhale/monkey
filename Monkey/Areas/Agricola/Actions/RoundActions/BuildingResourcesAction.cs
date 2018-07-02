@@ -45,7 +45,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -83,10 +83,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                             });
                         break;
                 }
-
-            
             }
 
+            return this;
         }
 
         public BuildingResourcesActionMode Mode

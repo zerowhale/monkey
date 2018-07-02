@@ -33,7 +33,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
 
@@ -42,7 +42,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             ActionService.Sow(player, sowData, ResultingNotices);
             ActionService.Bake(player, eventTriggers, ResultingNotices, bakeData);
-            
+
+            return this;
         }
     }
 }

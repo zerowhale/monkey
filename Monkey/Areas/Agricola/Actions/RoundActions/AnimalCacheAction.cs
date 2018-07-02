@@ -30,10 +30,11 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return base.CanExecute(player, data);
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             base.OnExecute(player, data);
             ActionService.AssignAnimals(player, (AnimalCacheActionData)data, ResultingNotices);
+            return this;
         }
 
     }

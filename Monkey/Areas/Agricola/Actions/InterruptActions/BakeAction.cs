@@ -39,12 +39,12 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
         /// </summary>
         /// <param name="player"></param>
         /// <param name="data"></param>
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             var bakeData = ImmutableArray.Create(((BakeActionData)data).BakeData);
-                
             if(bakeData != null && bakeData.Length > 0)
                 ActionService.Bake(player, eventTriggers, ResultingNotices, bakeData);
+            return this;
         }
 
 

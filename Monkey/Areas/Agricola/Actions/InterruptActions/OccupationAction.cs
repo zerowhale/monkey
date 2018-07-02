@@ -31,13 +31,14 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
 
             var occupationData = (OccupationActionData)data;
             if(occupationData.Id.HasValue)
                 ActionService.PlayOccupation(player, eventTriggers, ResultingNotices, occupationData);
-            
+
+            return this;
         }
     
     }

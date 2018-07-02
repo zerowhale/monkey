@@ -42,9 +42,10 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
             return true;
         }
 
-        public override void OnExecute(AgricolaPlayer player, Data.GameActionData data)
+        public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
             ActionService.AssignAnimals(player, (AnimalCacheActionData)data, ResultingNotices);
+            return this;
         }
 
         public ImmutableArray<ResourceCache> Animals { get; }

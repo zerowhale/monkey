@@ -39,7 +39,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             var foodData = ((BuildRoomOrTravelingPlayersActionData)data).TakeFood;
 
             if (foodData)
-                TakeCaches(player);
+                TakeCaches(State, player);
             else
             {
                 // Make sure to omit the traveling players trigger if triggers ever get passed to build rooms

@@ -34,7 +34,14 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
 
+        /// <summary>
+        /// Non-state 
+        /// </summary>
         private List<int[]> pastures;
+
+        /// <summary>
+        /// Non-state
+        /// </summary>
         private ResourceCache[] costs;
     }
 }

@@ -6,6 +6,7 @@ using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Web;
 
@@ -24,14 +25,13 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         public BasicTakeAction(AgricolaGame game, Int32 id, ResourceCache[] caches, GameEventTrigger[] eventTriggers = null)
             : base(game, id, eventTriggers)
         {
-            this.Caches = caches;
+            this.Caches = caches.ToImmutableArray();
         }
 
         public BasicTakeAction(AgricolaGame game, Int32 id, Resource resource, Int32 count, GameEventTrigger[] eventTriggers = null)
             :base(game, id, eventTriggers)
         {
-            this.Caches = new ResourceCache[1];
-            this.Caches[0] = new ResourceCache(resource, count);
+            this.Caches = ImmutableArray.Create(new ResourceCache(resource, count));
         }
 
         public override bool CanExecute(AgricolaPlayer player, GameActionData data)
@@ -49,10 +49,20 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
 
-        public ResourceCache[] Caches
+        protected ImmutableArray<ResourceCache> Caches
         {
-            get;
-            protected set;
+            get
+            {
+                return (ImmutableArray<ResourceCache>)State[StateKeyCaches];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyCaches, value);
+            }
         }
+
+       
+
+        private const string StateKeyCaches = "Caches";
     }
 }

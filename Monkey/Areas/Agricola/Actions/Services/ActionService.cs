@@ -68,11 +68,6 @@ namespace Monkey.Games.Agricola.Actions.Services
             }
         }
 
-
-
-
-
-
         /// <summary>
         /// Assigns multiple resources to a player. 
         /// This method triggers no events.
@@ -80,7 +75,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="resources"></param>
         /// <param name="resultingNotices"></param>
-        public static void AssignResources(AgricolaPlayer player, ResourceCache[] resources, List<GameActionNotice> resultingNotices){
+        public static void AssignResources(AgricolaPlayer player, ImmutableArray<ResourceCache> resources, List<GameActionNotice> resultingNotices){
             foreach(var resource in resources)
                 ActionService.AssignResource(player, resource, resultingNotices);
         }
@@ -202,7 +197,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             CheckTriggers(player, eventTriggers, resultingNotices);
         }
 
-        public static void AssignTakeResources(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ResourceCache[] caches)
+        public static void AssignTakeResources(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices, ImmutableArray<ResourceCache> caches)
         {
             ActionService.AssignResources(player, caches, resultingNotices);
             CheckTriggers(player, eventTriggers, resultingNotices);

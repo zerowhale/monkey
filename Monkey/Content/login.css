@@ -4,10 +4,10 @@ body {  background-color:#efefa3;  font-size:24px; color:#3e3e3e; height:100%; }
 a { color:#000; }
 h2 { font-family: 'Homenaje', sans-serif; font-size:1.6em; margin-bottom:30px; }
 
-input { font-family: 'Roboto Condensed', sans-serif; font-size:24px; border:1px solid #3e3e3e;}
+input { font-family: 'Roboto Condensed', sans-serif; font-size:24px; border:1px solid #3e3e3e; padding:0 8px; }
 input[type=submit] { cursor:pointer; width:140px; }
 input[type=checkbox] { width:18px; height:18px; }
 
 .body-content { width:1000px; min-height:100%; margin:0 auto; background-color:#efefdf; box-shadow: 0px 0 4vh .25vh rgba(0,0,0,0.35);  }
-.body-content .form { width:600px; min-height:100%; background-color:#eaeaea; border:1px solid #000; margin:0 auto; padding:40px; top:100px; position:relative; }
+.body-content .form { width:600px; min-height:100%; background-color:#fffffa; border:1px solid #cccc8b; margin:0 auto; padding:40px; top:100px; position:relative; }
 .body-content .form div { margin-bottom:20px; }

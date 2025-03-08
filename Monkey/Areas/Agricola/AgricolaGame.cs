@@ -1,30 +1,23 @@
-﻿using Microsoft.AspNet.SignalR;
-using Microsoft.AspNet.SignalR.Hubs;
-using BoardgamePlatform.Game;
+﻿using BoardgamePlatform.Game;
 using BoardgamePlatform.Game.Notification;
 using Monkey.Games.Agricola.Actions;
-using Monkey.Games.Agricola.Actions.AnytimeActions;
 using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Actions.InterruptActions;
 using Monkey.Games.Agricola.Actions.RoundActions;
 using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
-using Monkey.Games.Agricola.Events;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
-using Monkey.Games.Agricola.Utils;
-using MySql.Data.MySqlClient;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Web;
 using System.Collections.Immutable;
 using State = System.Collections.Immutable.ImmutableDictionary<string, object>;
+using RoundActionState = System.Collections.Immutable.ImmutableDictionary<string, object>;
+using WebGrease.Css.Extensions;
 
 namespace Monkey.Games.Agricola
 {
@@ -57,7 +50,6 @@ namespace Monkey.Games.Agricola
                 player.AddRoom(0, 1);
                 player.AddRoom(0, 2);
                 player.UpdateScoreCard();
-
             }
 
             bool familyMode;
@@ -126,7 +118,7 @@ namespace Monkey.Games.Agricola
             return false;
         }
 
-        public bool TakeAction(AgricolaPlayer player, Int32 actionId, GameActionData param, out IClientGameUpdate update, out List<GameActionNotice> notices)
+        public bool TakeRoundAction(AgricolaPlayer player, Int32 actionId, GameActionData param, out IClientGameUpdate update, out List<GameActionNotice> notices)
         {
             if (Interrupt != null)
                 return TakeInterruptAction(player, actionId, param, out update, out notices);
@@ -138,8 +130,13 @@ namespace Monkey.Games.Agricola
                     && players[ActivePlayerIndex] == player)
                 {
                     GameAction updatedAction;
+                    action.SetState(RoundActionStates[action.Id]);
                     if (action.TryExecute(player, param, out updatedAction))
                     {
+                        SetRoundActionState(updatedAction as RoundAction);
+                        // This should no longer be necessary
+                        roundActions = roundActions.SetItem(roundActionIndices[actionId], (RoundAction)updatedAction);
+
                         UpdateScorecards();
                         if (!CheckForInterrupt())
                         {
@@ -172,6 +169,12 @@ namespace Monkey.Games.Agricola
         {
             var update = new PartialGameUpdate();
             ((PartialGameUpdate)update).ActivePlayerName = players[ActivePlayerIndex].Name;
+
+            if(action is RoundAction)
+            {
+
+            }
+
             ((PartialGameUpdate)update).AddAction(action);
             ((PartialGameUpdate)update).AddPlayer(player);
             ((PartialGameUpdate)update).Interrupt = Interrupt;
@@ -179,9 +182,9 @@ namespace Monkey.Games.Agricola
             if (action is ImprovementAction || action is RenovationAction)
                 ((PartialGameUpdate)update).AddMajorImprovementOwners(MajorImprovementOwners);
 
-            if (newReservedResourcesAdded)
+            if (newDelayedResourcesAdded)
             {
-                newReservedResourcesAdded = false;
+                newDelayedResourcesAdded = false;
                 ((PartialGameUpdate)update).ReservedResources = ReservedResources;
             }
 
@@ -359,6 +362,8 @@ namespace Monkey.Games.Agricola
             {
                 if (CurrentRound != 14)
                 {
+                    familyOnRounds = ImmutableDictionary<int, ImmutableList<AgricolaPlayer>>.Empty;
+
                     this.Mode = GameMode.Work;
                     CurrentRound++;
 
@@ -368,7 +373,6 @@ namespace Monkey.Games.Agricola
                     {
                         player.ReturnFamilyHome();
                     }
-
 
                     AddRoundAction(resultingNotices);
                     UpdateActions();
@@ -383,6 +387,7 @@ namespace Monkey.Games.Agricola
             CheckForInterrupt();
             return this;
         }
+
 
         /// <summary>
         /// Assigns a major improvement to a player
@@ -434,9 +439,9 @@ namespace Monkey.Games.Agricola
             return masterDeck[id];
         }
 
-        public void StoreFutureResources(AgricolaPlayer player, ImmutableArray<DelayedResourceCache> delayedCaches)
+        public void StoreDelayedResources(AgricolaPlayer player, ImmutableArray<DelayedResourceCache> delayedCaches)
         {
-            newReservedResourcesAdded = true;
+            newDelayedResourcesAdded = true;
             foreach(var cache in delayedCaches){
                 var index = cache.OnRound 
                     ? cache.Delay - 1
@@ -444,7 +449,9 @@ namespace Monkey.Games.Agricola
                 if (index < roundsDeck.Length && index >= CurrentRound)
                 {
                     var action = roundsDeck[index];
+                    //var state = GetRoundActionState(action);
                     action.AddDelayedResource(player, new ResourceCache(cache.Type, cache.Count));
+                    SetRoundActionState(action);
                 }
             }
         }
@@ -574,7 +581,12 @@ namespace Monkey.Games.Agricola
 
         public Dictionary<String, ResourceCache[]>[] ReservedResources
         {
+            /**
+             * TODO
+             * This needs to pull from round action state 
+             */ 
             get{
+
                 var reserved = new Dictionary<String, ResourceCache[]>[roundsDeck.Length - CurrentRound];
                 for(int i = CurrentRound, j=0;i<roundsDeck.Length;i++, j++){
                     var action = roundsDeck[i];
@@ -645,7 +657,6 @@ namespace Monkey.Games.Agricola
             get { return roundActions.ToArray(); }
         }
 
-        
         public Dictionary<int, string> MajorImprovementOwners
         {
             get
@@ -653,8 +664,6 @@ namespace Monkey.Games.Agricola
                 return majorImprovementOwners.ToDictionary(x => x.Key, y => (y.Value == null ? null : y.Value.Name));
             }
         }
-
-
 
         [JsonIgnore]
         public int[] OwnedMajorImprovements
@@ -732,7 +741,10 @@ namespace Monkey.Games.Agricola
         private void UpdateActions()
         {
             foreach (var roundAction in roundActions)
-                roundAction.RoundStart();
+            {
+                var newState = roundAction.RoundStart(GetRoundActionState(roundAction));
+                SetRoundActionState(roundAction);
+            }
         }
 
         private RoundAction[] ShuffleRoundsDeck()
@@ -952,7 +964,7 @@ namespace Monkey.Games.Agricola
 
         private void UpdateScorecards()
         {
-
+            //players.ForEach(p => p.UpdateScoreCard());
             foreach(var player in players){
                 player.UpdateScoreCard();
             }
@@ -962,9 +974,10 @@ namespace Monkey.Games.Agricola
         {
             var action = roundsDeck[CurrentRound - 1];
             AddAction(action);
+            var roundActionState = RoundActionStates[action.Id];
             action.DistributeDelayedResources(resultingNotices);
+            SetRoundActionState(action);
         }
-
 
         private void AddAction(RoundAction action){
             if (roundActions.FirstOrDefault(x => x.Id == action.Id) != null)
@@ -972,6 +985,7 @@ namespace Monkey.Games.Agricola
 
             roundActions = roundActions.Add(action);
             roundActionIndices[action.Id] = roundActions.Count-1;
+            SetRoundActionState(action);
         }
 
         /// <summary>
@@ -997,7 +1011,51 @@ namespace Monkey.Games.Agricola
             State = State.SetItem(StateKeyInterrupts, ImmutableStack<InterruptAction>.Empty);
             State = State.SetItem(StateKeyMajorImprovementOwners, ImmutableDictionary<int, AgricolaPlayer>.Empty);
             State = State.SetItem(StateKeyRoundActions, ImmutableList<RoundAction>.Empty);
+            State = State.SetItem(StateKeyRoundActionStates, ImmutableDictionary<int, RoundActionState>.Empty);
         }
+
+        private void addFamilyOnRound(RoundAction action, AgricolaPlayer player)
+        {
+            ImmutableList<AgricolaPlayer> familyMembers;
+            if(!familyOnRounds.TryGetValue(action.Id, out familyMembers))
+            {
+                familyMembers = ImmutableList<AgricolaPlayer>.Empty;
+            }
+            familyMembers = familyMembers.Add(player);
+            familyOnRounds = familyOnRounds.SetItem(action.Id, familyMembers);
+        }
+
+        private ImmutableDictionary<int, RoundActionState> RoundActionStates
+        {
+            get
+            {
+                return (ImmutableDictionary<int, RoundActionState>)State[StateKeyRoundActionStates];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyRoundActionStates, value);
+            }
+        }
+
+        private RoundActionState GetRoundActionState(RoundAction roundAction)
+        {
+            var stateKeyRoundActionStates = ((ImmutableDictionary<int, RoundActionState>)State[StateKeyRoundActionStates]);
+            if (stateKeyRoundActionStates.Keys.Contains(roundAction.Id))
+                return stateKeyRoundActionStates[roundAction.Id];
+            else
+                return null;
+        }
+
+        private void SetRoundActionState(RoundAction roundAction)
+        {
+            SetRoundActionState(roundAction.Id, roundAction.State);
+        }
+
+        private void SetRoundActionState(int roundActionId, State state)
+        {
+            RoundActionStates = RoundActionStates.SetItem(roundActionId, state);
+        }
+        
 
         private State State = State.Empty;
 
@@ -1005,15 +1063,32 @@ namespace Monkey.Games.Agricola
         private const string StateKeyMajorImprovementOwners = "StateKeyMajorImprovementOwners";
         private const string StateKeyRoundActions = "StateKeyRoundActions";
         private const string StateKeyPlayerStates = "StateKeyPlayerStates";
+        private const string StateKeyFamilyOnRounds = "StateKeyFamilyOnRounds";
+        private const string StateKeyRoundActionStates = "stateKeyRoundActionStates";
+
+        /// <summary>
+        /// Family pieces on rounds
+        /// </summary>
+        private ImmutableDictionary<int, ImmutableList<AgricolaPlayer>> familyOnRounds
+        {
+            get
+            {
+                return (ImmutableDictionary<int, ImmutableList<AgricolaPlayer>>) State[StateKeyFamilyOnRounds];
+            }
+            set
+            {
+                State = State.SetItem(StateKeyFamilyOnRounds, value);
+            }
+        }
 
         /// <summary>
         /// Player states
         /// </summary>
-        private ImmutableDictionary<AgricolaPlayer, Dictionary<string, object>> playerStates
+        private ImmutableDictionary<AgricolaPlayer, State> playerStates
         {
             get
             {
-                return (ImmutableDictionary<AgricolaPlayer, Dictionary<string, object>>)State[StateKeyPlayerStates];
+                return (ImmutableDictionary<AgricolaPlayer, State>)State[StateKeyPlayerStates];
             }
             set
             {
@@ -1069,7 +1144,7 @@ namespace Monkey.Games.Agricola
         /// <summary>
         /// Indicates reserved resources have been updated and need to be sent to the client
         /// </summary>
-        private bool newReservedResourcesAdded = false;
+        private bool newDelayedResourcesAdded = false;
 
         /// <summary>
         /// Definition of cards per Stage

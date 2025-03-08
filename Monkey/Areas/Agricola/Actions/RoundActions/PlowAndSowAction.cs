@@ -57,7 +57,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
         }
 
-        private Boolean sowEnabled;
+        private Boolean sowEnabled { get; }
 
 
     }

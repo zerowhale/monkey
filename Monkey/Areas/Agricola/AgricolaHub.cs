@@ -24,16 +24,15 @@ namespace Monkey.Games.Agricola
             return Context.User.Identity.GetUserId();
         }
 
-
         public void CompleteHarvest(HarvestData data)
         {
-            IClientGameUpdate update;
-            List<GameActionNotice> notices;
-
-            AgricolaGame game;
             AgricolaPlayer player = GetPlayer();
             if (player != null)
             {
+                IClientGameUpdate update;
+                List<GameActionNotice> notices;
+                AgricolaGame game;
+
                 try
                 {
                     game = player.Game as AgricolaGame;
@@ -67,13 +66,13 @@ namespace Monkey.Games.Agricola
 
         public void TakeAction(int actionId, GameActionData data, int cardId = -1)
         {
-            IClientGameUpdate update;
-            List<GameActionNotice> notices;
-
-            AgricolaGame game;
             AgricolaPlayer player = GetPlayer();
             if (player != null)
             {
+                IClientGameUpdate update;
+                List<GameActionNotice> notices;
+                AgricolaGame game;
+
                 try
                 {
                     if (data == null)
@@ -82,7 +81,7 @@ namespace Monkey.Games.Agricola
                     game = (AgricolaGame)player.Game;
                     var result = cardId > -1
                         ? game.TakeAnytimeAction(player, actionId, cardId, data, out update, out notices)
-                        : game.TakeAction(player, actionId, data, out update, out notices);
+                        : game.TakeRoundAction(player, actionId, data, out update, out notices);
 
                     if (result)
                     {
@@ -232,8 +231,6 @@ namespace Monkey.Games.Agricola
         }
 
 
-
-
         private void UpdateGameState(AgricolaGame game, IClientGameUpdate update)
         {
             foreach (var player in game.AgricolaPlayers)
@@ -255,6 +252,7 @@ namespace Monkey.Games.Agricola
         {
             return (AgricolaPlayer)gameManager.GetPlayer(Context.ConnectionId).GamePlayer;
         }
+
 
     }
 }

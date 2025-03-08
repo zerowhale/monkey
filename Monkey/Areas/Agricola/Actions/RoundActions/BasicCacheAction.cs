@@ -4,13 +4,10 @@ using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Events;
 using Monkey.Games.Agricola.Events.Triggers;
-using Monkey.Games.Agricola.Notification;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using State = System.Collections.Immutable.ImmutableDictionary<string, object>;
 
 namespace Monkey.Games.Agricola.Actions.RoundActions
 {
@@ -22,10 +19,10 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             resourcesPerRound = new ResourceCache(type, count);
         }
 
-        public override void RoundStart()
+        public override State RoundStart(State state)
         {
-            AddCacheResources(resourcesPerRound);
-            base.RoundStart();
+            State = AddCacheResources(state, resourcesPerRound);
+            return State = base.RoundStart(State);
         }
 
         public override bool CanExecute(AgricolaPlayer player, GameActionData data)
@@ -67,10 +64,10 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
                     foreach (var kvp in total)
                     {
-                        if (!this.CacheResources.ContainsKey(kvp.Key))
+                        if (!GetCacheResources(State).ContainsKey(kvp.Key))
                             return false;
 
-                        if (this.CacheResources[kvp.Key].Count < kvp.Value)
+                        if (GetCacheResources(State)[kvp.Key].Count < kvp.Value)
                             return false;
                     }
 
@@ -121,19 +118,18 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                     }
                 }
 
-                TakeCaches(player, leave, gains);
+                State = TakeCaches(State, player, leave, gains);
             }
             else
             {
-                TakeCaches(player);
+                State = TakeCaches(State, player);
             }
             return this;
         }
 
-
-
-        protected ResourceCache resourcesPerRound;
-
+        /// <summary>
+        /// Non-state
+        /// </summary>
         private IEnumerable<ResourceConversion> availableConversions;
     }
 

@@ -51,9 +51,9 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             base.OnExecute(player, data);
 
             var occupationData = (OccupationActionData)data;
-            if(occupationData.FamilyGrowth){
+            if (occupationData.FamilyGrowth) {
                 player.AddFamilyMember();
-                AddUser(player);    // Add the baby to the action display
+                AddUser(State, player);    // Add the baby to the action display
 
                 ResultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.GrowFamily.ToString()));
             }
@@ -67,7 +67,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
 
-        private bool familyGrowth = false;
+        private bool familyGrowth { get; }
 
     }
 }

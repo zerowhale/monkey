@@ -17,7 +17,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         public BuildingResourcesAction(AgricolaGame game, Int32 id, BuildingResourcesActionMode mode, GameEventTrigger[] eventTriggers = null)
             : base(game, id, eventTriggers)
         {
-            Mode = mode;
+            this.mode = mode;
         }
 
         public override bool CanExecute(AgricolaPlayer player, GameActionData data)
@@ -25,7 +25,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             if (!base.CanExecute(player, data))
                 return false;
 
-            if (Mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth && ((BuildingResourcesActionData)data).Growth == true)
+            if (mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth && ((BuildingResourcesActionData)data).Growth == true)
             {
                 if (Game.CurrentRound < 5 || !Curator.CanGrowFamily(player))
                     return false;
@@ -34,7 +34,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 if (!((BuildingResourcesActionData)data).Resource1.HasValue)
                     return false;
 
-                if (Mode == BuildingResourcesActionMode.DoubleResource || Mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth)
+                if (mode == BuildingResourcesActionMode.DoubleResource || mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth)
                 {
                     if(!((BuildingResourcesActionData)data).Resource2.HasValue)
                         return false;
@@ -49,10 +49,10 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         {
             base.OnExecute(player, data);
 
-            if (Mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth && ((BuildingResourcesActionData)data).Growth == true)
+            if (mode == BuildingResourcesActionMode.DoubleResourceOrFamilyGrowth && ((BuildingResourcesActionData)data).Growth == true)
             {
                 player.AddFamilyMember();
-                AddUser(player);    // Add the baby to the action display
+                AddUser(State, player);    // Add the baby to the action display
 
                 this.ResultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.GrowFamily.ToString()));
             }
@@ -61,7 +61,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 var resource1 = ((BuildingResourcesActionData)data).Resource1;
                 var resource2 = ((BuildingResourcesActionData)data).Resource2;
 
-                switch (Mode)
+                switch (mode)
                 {
                     case BuildingResourcesActionMode.SingleResource:
                         ActionService.AssignCacheResource(player, eventTriggers, ResultingNotices, new ResourceCache(resource1.Value, 1));
@@ -88,11 +88,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
 
-        public BuildingResourcesActionMode Mode
-        {
-            get;
-            private set;
-        }
+        private BuildingResourcesActionMode mode { get; }
 
 
     }

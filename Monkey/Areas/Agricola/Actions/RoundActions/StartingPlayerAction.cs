@@ -3,11 +3,8 @@ using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Actions.Services;
 using Monkey.Games.Agricola.Data;
 using Monkey.Games.Agricola.Notification;
-using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using State = System.Collections.Immutable.ImmutableDictionary<string, object>;
 
 namespace Monkey.Games.Agricola.Actions.RoundActions
 {
@@ -21,11 +18,12 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 resourcesPerRound = new ResourceCache(Resource.Food, 1);
         }
 
-        public override void RoundStart()
+        public override State RoundStart(State state)
         {
+            State = state;
             if(familyMode)
-                AddCacheResources(resourcesPerRound);
-            base.RoundStart();
+                State = AddCacheResources(State, resourcesPerRound);
+            return State = base.RoundStart(State);
         }
 
         public override bool CanExecute(AgricolaPlayer player, GameActionData data)
@@ -49,7 +47,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
 
             if (familyMode)
             {
-                this.TakeCaches(player);
+                State = TakeCaches(State, player);
             }
             else
             {
@@ -58,15 +56,13 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                     ActionService.BuyImprovement(player, improvementData, ResultingNotices);
                     
             }
+
             Game.StartingPlayer = player;
             this.ResultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Starts.ToString()));
 
             return this;
         }
 
-        private readonly ResourceCache resourcesPerRound;
-
-        private readonly Boolean familyMode;
-
+        private Boolean familyMode { get; }
     }
 }

@@ -91,8 +91,16 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
 
-        private RenovationActionMode mode;
+        private RenovationActionMode mode { get; }
+
+        /// <summary>
+        /// Non-state 
+        /// </summary>
         private List<int[]> pastures;
+
+        /// <summary>
+        /// Non-state 
+        /// </summary>
         private ResourceCache[] additionalCosts;
     }
 }

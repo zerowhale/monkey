@@ -34,7 +34,7 @@ namespace Monkey.Games.Agricola.Events
 
         protected override void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-            ((AgricolaGame)player.Game).StoreFutureResources(player, Resources);
+            ((AgricolaGame)player.Game).StoreDelayedResources(player, Resources);
         }
 
         private ImmutableArray<DelayedResourceCache> Resources { get; }

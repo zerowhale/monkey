@@ -68,7 +68,7 @@ namespace Monkey.Games.Agricola.Events
             }
 
             if (nonAnimals.Count > 0)
-                ActionService.AssignResources(player, nonAnimals.ToArray(), resultingNotices);
+                ActionService.AssignResources(player, nonAnimals.ToImmutableArray(), resultingNotices);
 
             if (animals.Count > 0)
                 ((AgricolaGame)player.Game).AddInterrupt(new AssignAnimalsAction(player, animals.ToArray(), resultingNotices));

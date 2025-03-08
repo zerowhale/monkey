@@ -40,8 +40,8 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             return this;
         }
         
-        private bool major;
-        private bool minor;
+        private bool major { get; }
+        private bool minor { get; }
 
 
     }

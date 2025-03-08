@@ -9,6 +9,7 @@ namespace Monkey.Games.Agricola.Notification
     {
         Debug,
         Take,
+        TakeDelayed,
         Starts,
         Build,
         GrowFamily,

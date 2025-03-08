@@ -48,7 +48,7 @@ namespace Monkey.Games.Agricola.Actions
         /// </summary>
         /// <param name="player"></param>
         /// <returns></returns>
-        public Boolean TryExecute(AgricolaPlayer player, GameActionData data, out GameAction updatedAction)
+        public virtual Boolean TryExecute(AgricolaPlayer player, GameActionData data, out GameAction updatedAction)
         {
             if (CanExecute(player, data)) {
                 if(ResultingNotices != null)

@@ -1562,6 +1562,7 @@
       to the round board.
      */
     updateRoundsBoard: function (actions, reserved) {
+        console.info("reserved:", reserved);
         if (actions) {
             var roundActions = [];
             for (var i = 0; i < actions.length; i++) {
@@ -1973,7 +1974,7 @@
                     useVh(p);
 
                     if (stackSize == 0)
-                        p.addClass("stack-base bb bg").addClass(color);;
+                        p.addClass("stack-base bb bg").addClass(color);
                     
                     stackSize++;
                 }

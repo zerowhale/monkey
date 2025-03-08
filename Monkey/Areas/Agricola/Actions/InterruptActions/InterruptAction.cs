@@ -12,6 +12,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 {
     /// <summary>
     /// Interrupt actions are created as needed and discarded after execution.
+    /// Interrupt actions should be stateless.
     /// </summary>
     public abstract class InterruptAction: GameAction
     {

@@ -16,7 +16,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Monkey</RootNamespace>
     <AssemblyName>Monkey</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
     <IISExpressSSLPort />
@@ -500,6 +500,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="App_Data\Catan\BoardDefinitions.xml" />
+    <Content Include="Areas\Agricola\Content\img\cards\occs\wood-deliveryman.jpg" />
     <Content Include="Areas\Catan\Content\game.css" />
     <Content Include="Areas\Catan\Content\img\bg\fff.8.png" />
     <Content Include="Areas\Catan\Content\img\bg\fff.9.png" />

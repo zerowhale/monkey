@@ -2039,6 +2039,18 @@
                     }
                 });
                 break;
+            case "TakeDelayed":
+                console.info("In take delayed");
+                s += " takes ";
+                processPredicates(function (predicate, current, last) {
+                    if (predicate.PredicateType == "ResourcePredicate") {
+                        s += delimit(current, last);
+                        s += predicate.Count + " ";
+                        s += "<span class='icon medium " + predicate.Type.toLowerCase() + "'></span>";
+                    }
+                });
+                " from delayed resources.";
+                break;
             case "Starts":
                 s += " goes first next round.";
                 break;

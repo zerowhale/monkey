@@ -16,7 +16,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
 
         public override int GetPoints(AgricolaPlayer player, out string title)
         {
-            title = "Rooms in ";
+            title = "Chief <span>(Rooms in ";
             switch (HouseType)
             {
                 case HouseType.Wood:
@@ -35,6 +35,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             if (player.Farmyard.HouseType == HouseType)
                 points = player.Farmyard.RoomCount;
 
+            title += ")</span>";
             return points;
         }
 

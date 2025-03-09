@@ -295,8 +295,9 @@ PlowPopupModule.prototype = {
                     controls.find(".plow-row").remove();
                     var rowTemplate = controls.find(".template");
                     for (var index = 0; index < this.availablePlows.length; index++) {
-                        var plow = this.availablePlows[index];
-                        var row = rowTemplate.clone();
+                        let plow = this.availablePlows[index],
+                            row = rowTemplate.clone();
+
                         row.removeClass("template");
                         row.addClass("plow-row");
                         row.find(".name").text(getCdataAsText(plow.name));

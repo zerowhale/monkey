@@ -623,20 +623,19 @@
     </Text>
   </Occupation>
 
-  <Occupation Id="174" Deck="Basic" MinPlayers="1"
-          Image="/Areas/Agricola/Content/img/cards/occs/tutor.jpg" >
+  <Occupation Id="174" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/tutor.jpg" >
     <Name>Tutor</Name>
 
     <Event Class="Monkey.Games.Agricola.Events.TutorEvent">
       <Trigger Class="Monkey.Games.Agricola.Events.Triggers.PlayOccupationTrigger" />
     </Event>
 
-    <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.TutorVictoryPoints" Title="tutored occupations" />
+    <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.TutorVictoryPoints">
+      <Title><![CDATA[Tutor <span>(tutored occupations)</span>]]></Title>
+    </VictoryPointCalculator>
 
     <Text>
-      <![CDATA[
-            <div>At the end of the game, you receive 1 bonus point for each occupation you play after this one.</div>
-        ]]>
+      <![CDATA[<div>At the end of the game, you receive 1 bonus point for each occupation you play after this one.</div>]]>
     </Text>
   </Occupation>
 

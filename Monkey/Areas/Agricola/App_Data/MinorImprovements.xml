@@ -1285,7 +1285,7 @@
         </Text>
     </MinorImprovement>    
             
-    <MinorImprovement Id="1048" Deck="Expert" Passes="true"
+    <MinorImprovement Id="143" Deck="Expert" Passes="true"
         Image="/Areas/Agricola/Content/img/cards/minors/stone-exchange.jpg" >
         
         <Name><![CDATA[Stone<br/>Exchange]]></Name>
@@ -1333,7 +1333,7 @@
         </Text>
     </MinorImprovement>
 
-    <MinorImprovement Id="1051" Deck="Expert"
+    <MinorImprovement Id="115" Deck="Expert"
         Image="/Areas/Agricola/Content/img/cards/minors/swing-plow.jpg" >
         <Name><![CDATA[Swing<br/>Plow]]></Name>
         <Costs>
@@ -1342,15 +1342,12 @@
             </Option>
         </Costs>
 
-        <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
-                Count="3"/>
+        <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite" Count="3"/>
 
         <Plow OnActions="3" MaxUses="2" Fields="3"/>
 
         <Text>
-            <![CDATA[
-            <div>Twice during the game, when you use the "Plow 1 field" action, you can Plow 3 fields instead of 1. The Swing Plow cannot be used with the "Plow 1 field and/or Sow" action.</div>
-        ]]>
+            <![CDATA[<div>Twice during the game, when you use the "Plow 1 field" action, you can Plow 3 fields instead of 1. The Swing Plow cannot be used with the "Plow 1 field and/or Sow" action.</div>]]>
         </Text>
     </MinorImprovement>
 

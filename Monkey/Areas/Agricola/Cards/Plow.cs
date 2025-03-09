@@ -20,7 +20,7 @@ namespace Monkey.Games.Agricola.Cards
         {
             this.OnActions = onActions;
             this.MaxUses = maxUses;
-            this.Used = maxUses;
+            this.Used = numUses;
             this.Fields = fields;
         }
 

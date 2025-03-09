@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Monkey.Games.Agricola.Events.Conditionals;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,7 +12,12 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         public PointCalculator(XElement definition, Card owningCard)
         {
             AllPlayers = definition.Attribute("AllPlayers") != null ? (bool)definition.Attribute("AllPlayers") : false;
-            Title = (string)definition.Attribute("Title");
+
+            Title = definition.Element("Title")?.Value;
+
+            if (string.IsNullOrEmpty(Title))
+                Title = (string)definition.Attribute("Title");
+
             OwningCard = owningCard;
         }
 

@@ -261,14 +261,16 @@
         for (var c in cards) {
             var card = cards[c],
                 plow;
-            console.info(player, card);
             if (!card.Plow)
                 continue;
 
+            console.info(player, card);
             if (player.CardMetadata[card.Id])
                 plow = player.CardMetadata[card.Id]
             else
                 plow = card.Plow;
+
+            console.info(player.CardMetadata[card.Id]);
 
             if (plow && plow.Used < plow.MaxUses) {
                 for (var i in plow.OnActions) {
@@ -732,22 +734,37 @@ const InterruptActionId = {
 const IdLookup = [];
 
 const CardId = {
+    // Major Improvements
+    Fireplace: 1,
+
     // Basic Improvements
     HalfTimberedHouse: 21,
-    Basket:34,
+    Basket: 34,
+    Spindle: 51,
 
     // Intermediate Improvements
     HolidayHouse: 71,
     ChickenCoop: 84,
     CornStorehouse: 86,
     WaterMill: 103,
+    SwingPlow: 115,
+    CrookedPlow: 119,
 
     // Advanced Improvements
+    StoneExchange: 143,
     Mansion: 144,
 
 
     // Basic Occupations
-    Thatcher: 157
+    Mendicant: 153,
+    MasterBrewer: 154,
+    Thatcher: 157,
+    DockWorker: 171,
+    Tutor: 174,
+    ClayDeliveryman: 187,
+
+    // Advanced Occupations
+    SchnapsDistiller: 300
 }
 
 const ThatcherReedReductions = [CardId.Basket, CardId.WaterMill, CardId.HalfTimberedHouse, CardId.ChickenCoop, CardId.HolidayHouse, CardId.Mansion, CardId.CornStorehouse];

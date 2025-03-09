@@ -52,15 +52,19 @@
     },
 
     canRenovate: function (player) {
-        var board = this.game.playerBoards[player.Name];
-        var roomCount = board.rooms.length;
+        let board = this.game.playerBoards[player.Name],
+            roomCount = board.rooms.length,
+            reedCost = 1;
+
+        if (player.OwnedCardIds.includes(CardId.Thatcher))
+            reedCost--;
 
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
-                return player.Clay >= roomCount && player.Reed >= 1;
+                return player.Clay >= roomCount && player.Reed >= reedCost;
                 break;
             case HouseType.Clay:
-                return player.Stone >= roomCount && player.Reed >= 1;
+                return player.Stone >= roomCount && player.Reed >= reedCost;
                 break;
         }
         return false;
@@ -135,19 +139,19 @@
         Checks that the player can plow.
     */
     canPlow: function (player) {
-        var board = this.game.playerBoards[player.Name];
+        let board = this.game.playerBoards[player.Name];
         return board.canPlowField();
     },
 
     canBuildRoom: function(player){
-        var board = this.game.playerBoards[player.Name];
+        let board = this.game.playerBoards[player.Name];
         return this.canAffordRoom(player) && board.canBuildRoom();
     },
 
     canAffordRoom: function (player) {
-        var costs = this.getRoomCost(player);
-        for (var c in costs) {
-            var cost = costs[c];
+        let costs = this.getRoomCost(player);
+        for (let c in costs) {
+            let cost = costs[c];
             if (player[cost.type] < parseInt(cost.amount))
                 return false;
         }
@@ -367,11 +371,11 @@
 
 
     getRenovationCost: function (player) {
-        var board = this.game.playerBoards[player.Name];
-        var roomCount = board.rooms.length;
+        let board = this.game.playerBoards[player.Name],
+            roomCount = board.rooms.length,
+            reedCost = 1,
+            costs = [];
 
-
-        var costs = [];
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
                 costs.push(this._buildCost(Resource.Clay, roomCount));
@@ -380,13 +384,20 @@
                 costs.push(this._buildCost(Resource.Stone, roomCount));
                 break;
         }
-        costs.push(this._buildCost(Resource.Reed, 1));
+
+        if (player.OwnedCardIds.includes(CardId.Thatcher))
+            reedCost--;
+
+        if(reedCost > 0)
+            costs.push(this._buildCost(Resource.Reed, reedCost));
+
         return costs;
 
     },
 
     getRoomCost: function (player, actionId) {
-        var costs = [];
+        let costs = [],
+            reedCost = 2;
 
         if (actionId == 505 || actionId == 601)
             return costs;
@@ -402,7 +413,13 @@
                 costs.push(this._buildCost(Resource.Stone, 5))
                 break;
         }
-        costs.push(this._buildCost(Resource.Reed, 2))
+
+        if (player.OwnedCardIds.includes(CardId.Thatcher)) 
+            reedCost--;
+
+        if (reedCost > 0)
+            costs.push(this._buildCost(Resource.Reed, reedCost));
+
         return costs;
     },
 
@@ -478,35 +495,41 @@
         if (!isNaN(id = parseInt(item))) {
             item = IdLookup[id];
             if (!this.meetsCardPrereqs(player, item))
-                return []
+                return [];
 
             var costs = item.Costs;
             for (var c in costs) {
-                if (checkCosts(costs[c])) {
+                if (checkCosts(player, costs[c], id)) {
                     costs[c]["costIndex"] = c;
                     affordableCostOptions.push(costs[c]);
                 }
             }
         }
 
-        function checkCosts(cost) {
-            var type = cost.Type;
+        function checkCosts(player, cost, id) {
+            let type = cost.Type;
             switch (type) {
                 case CardCostType.Resources:
-                    for (var c in cost.Resources) {
-                        var cache = cost.Resources[c];
-                        if (player.farmyard.personalSupply[cache.Type.toLowerCase()] < parseInt(cache.Count))
+                    for (let c in cost.Resources) {
+                        let cache = cost.Resources[c],
+                            count = cache.Count;
+
+                        if (cache.Type == Resource.Reed && player.OwnedCardIds.includes(CardId.Thatcher) && ThatcherReedReductions.includes(id)) {
+                            count--;
+                        }
+                        
+                        if (player.farmyard.personalSupply[cache.Type.toLowerCase()] < parseInt(count))
                             return false;
                     }
                     break;
 
                 case CardCostType.ReturnCard:
                     for (var c in costs) {
-                        var major = costs[c];
-                        var ids = major.Ids;
-                        for (var i in ids) {
-                            var id = ids[i];
-                            var ownedCards = Curator.getOwnedCards(player);
+                        let major = costs[c],
+                            ids = major.Ids;
+                        for (let i in ids) {
+                            let id = ids[i],
+                                ownedCards = Curator.getOwnedCards(player);
                             for (var c in ownedCards) {
                                 var card = ownedCards[c];
                                 if (card.Id == id) {
@@ -650,20 +673,20 @@ ResourceConversion.fromServer = function (item) {
 };
 
 
-var CardCostType = {
+const CardCostType = {
     ReturnCard: "ReturnCardCardCost",
     Resources: "ResourceCardCost",
     Free: "FreeCardCost"
 }
 
-var CardType = {
+const CardType = {
     Major: "Major",
     Minor: "Minor",
     Occupation: "Occupation"
 }
 
 
-var Resource = {
+const Resource = {
     Food: "Food",
     Wood: "Wood",
     Clay: "Clay",
@@ -676,25 +699,25 @@ var Resource = {
     Cattle: "Cattle"
 }
 
-var AnimalResource = {
+const AnimalResource = {
     Sheep: Resource.Sheep,
     Boar: Resource.Boar,
     Cattle: Resource.Cattle
 }
 
-var GameMode = {
+const GameMode = {
     Work: "Work",
     Harvest: "Harvest",
     Over: "Over"
 }
 
-var HouseType = {
+const HouseType = {
     Wood: "Wood",
     Clay: "Clay",
     Stone: "Stone"
 }
 
-var InterruptActionId = {
+const InterruptActionId = {
     Bake: 500,
     Plow: 501,
     BuildStable: 502,
@@ -706,6 +729,25 @@ var InterruptActionId = {
     FencePasture: 508
 }
 
-var IdLookup = [];
+const IdLookup = [];
+
+const CardId = {
+    // Basic Improvements
+    HalfTimberedHouse: 21,
+    Basket:34,
+
+    // Intermediate Improvements
+    HolidayHouse: 71,
+    ChickenCoop: 84,
+    CornStorehouse: 86,
+    WaterMill: 103,
+
+    // Advanced Improvements
+    Mansion: 144,
 
 
+    // Basic Occupations
+    Thatcher: 157
+}
+
+const ThatcherReedReductions = [CardId.Basket, CardId.WaterMill, CardId.HalfTimberedHouse, CardId.ChickenCoop, CardId.HolidayHouse, CardId.Mansion, CardId.CornStorehouse];

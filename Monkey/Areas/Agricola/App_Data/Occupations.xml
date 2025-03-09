@@ -72,6 +72,17 @@
     </Text>
   </Occupation>
 
+  
+  <Occupation Id="157" Deck="Basic" MinPlayers="3" Image="/Areas/Agricola/Content/img/cards/occs/thatcher.jpg" >
+    <Name>Thatcher</Name>
+
+    <!-- Implemented in Curator.GetRenovationCost, Curator.GetRoomsCost and Curator.GetCardCost -->
+    
+    <Text>
+      <![CDATA[<div>Pay 1 Reed less to Build each room, for each Renovation, and for each of the Water Mill, Half-timbered House, Chicken Coop, Holiday House, Mansion, and Corn Storehouse.</div>]]>
+    </Text>
+  </Occupation>
+
 
   <!--Occupation Id="162" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/meat-seller.jpg" >
       <Name>Meat-seller</Name>
@@ -141,6 +152,32 @@
 
     <Text>
       <![CDATA[<div>At the end of a 3/4/5 player game, if no player has more animals of any type than you, you receive 2/3/4 Bonus points.</div>]]>
+    </Text>
+  </Occupation>
+
+
+  <Occupation Id="171" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/Dock-Worker.jpg" >
+    <Name>Dock Worker</Name>
+
+    <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
+
+    <ResourceConversions>
+      <ResourceConversion InType="Wood" InAmount="3" OutType="Reed" OutAmount="1"/>
+      <ResourceConversion InType="Wood" InAmount="3" OutType="Stone" OutAmount="1"/>
+      <ResourceConversion InType="Wood" InAmount="3" OutType="Clay" OutAmount="1"/>
+      <ResourceConversion InType="Clay" InAmount="2" OutType="Reed" OutAmount="1"/>
+      <ResourceConversion InType="Clay" InAmount="2" OutType="Stone" OutAmount="1"/>
+      <ResourceConversion InType="Clay" InAmount="2" OutType="Wood" OutAmount="1"/>
+      <ResourceConversion InType="Stone" InAmount="2" OutType="Reed" OutAmount="1"/>
+      <ResourceConversion InType="Stone" InAmount="2" OutType="Clay" OutAmount="1"/>
+      <ResourceConversion InType="Stone" InAmount="2" OutType="Wood" OutAmount="1"/>
+      <ResourceConversion InType="Reed" InAmount="2" OutType="Clay" OutAmount="1"/>
+      <ResourceConversion InType="Reed" InAmount="2" OutType="Stone" OutAmount="1"/>
+      <ResourceConversion InType="Reed" InAmount="2" OutType="Wood" OutAmount="1"/>
+    </ResourceConversions>
+
+    <Text>
+      <![CDATA[<div>At any time, you can use the Dock Worker to convert 3 Wood to either 1 Clay, 1 Reed, or 1 Stone, or to convert 2 Clay, 2 Reed, or 2 Stone to 1 other building resource.</div>]]>
     </Text>
   </Occupation>
   
@@ -514,33 +551,7 @@
     </Text>
   </Occupation>
 
-  <Occupation Id="171" Deck="Basic" MinPlayers="1"
-      Image="/Areas/Agricola/Content/img/cards/occs/Dock-Worker.jpg" >
-    <Name>Dock Worker</Name>
 
-    <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.CookAction" />
-
-    <ResourceConversions>
-      <ResourceConversion InType="Wood" InAmount="3" OutType="Reed" OutAmount="1"/>
-      <ResourceConversion InType="Wood" InAmount="3" OutType="Stone" OutAmount="1"/>
-      <ResourceConversion InType="Wood" InAmount="3" OutType="Clay" OutAmount="1"/>
-      <ResourceConversion InType="Clay" InAmount="2" OutType="Reed" OutAmount="1"/>
-      <ResourceConversion InType="Clay" InAmount="2" OutType="Stone" OutAmount="1"/>
-      <ResourceConversion InType="Clay" InAmount="2" OutType="Wood" OutAmount="1"/>
-      <ResourceConversion InType="Stone" InAmount="2" OutType="Reed" OutAmount="1"/>
-      <ResourceConversion InType="Stone" InAmount="2" OutType="Clay" OutAmount="1"/>
-      <ResourceConversion InType="Stone" InAmount="2" OutType="Wood" OutAmount="1"/>
-      <ResourceConversion InType="Reed" InAmount="2" OutType="Clay" OutAmount="1"/>
-      <ResourceConversion InType="Reed" InAmount="2" OutType="Stone" OutAmount="1"/>
-      <ResourceConversion InType="Reed" InAmount="2" OutType="Wood" OutAmount="1"/>
-    </ResourceConversions>
-
-    <Text>
-      <![CDATA[
-            <div>At any time, you can use the Dock Worker to convert 3 Wood to either 1 Clay, 1 Reed, or 1 Stone, or to convert 2 Clay, 2 Reed, or 2 Stone to 1 other building resource.</div>
-        ]]>
-    </Text>
-  </Occupation>
 
   <Occupation Id="201" Deck="Basic" MinPlayers="4"
           Image="/Areas/Agricola/Content/img/cards/occs/cattle-whisperer.jpg" >

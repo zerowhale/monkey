@@ -744,6 +744,10 @@ namespace Monkey.Games.Agricola
             get { return OwnedCards.Select(x => x.Id).ToArray(); }
         }
 
+        public bool OwnsCard(CardId cardId)
+        {
+            return OwnedCards.Any(x => x.Id == (int)cardId);
+        }
         private void InitializeState()
         {
             State = State.Empty;

@@ -824,8 +824,9 @@
                             moduleButtonText: ["Minor <span>Improvement</span>"],
                             submit: function () {
                                 var data = popup.getSubmitData();
-
+                                
                                 var improvement = data.cardId != null ? new ImprovementActionData(data.cardId, data.paymentOption) : null;
+                                console.info(improvement);
                                 gameConn.server.takeStartingPlayerAction(actionId, new StartingPlayerActionData(improvement));
                                 close();
                             }

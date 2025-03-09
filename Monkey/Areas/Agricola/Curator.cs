@@ -19,6 +19,7 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 using System.Collections.Immutable;
+using WebGrease.Css.Extensions;
 
 namespace Monkey.Games.Agricola
 {
@@ -395,19 +396,29 @@ namespace Monkey.Games.Agricola
         {
             var costs = new List<ResourceCache>();
             var numRooms = player.Farmyard.RoomLocations.Count;
+            var reedCost = 1;
+
+            if (player.OwnsCard(CardId.Thatcher))
+                reedCost--;
 
             switch (player.Farmyard.HouseType)
             {
                 case HouseType.Wood:
                     costs.Add(new ResourceCache(Resource.Clay, numRooms));
-                    costs.Add(new ResourceCache(Resource.Reed, 1));
+                    if(reedCost > 0)
+                        costs.Add(new ResourceCache(Resource.Reed, reedCost));
                     break;
 
                 case HouseType.Clay:
                     costs.Add(new ResourceCache(Resource.Stone, numRooms));
-                    costs.Add(new ResourceCache(Resource.Reed, 1));
+                    if (reedCost > 0)
+                        costs.Add(new ResourceCache(Resource.Reed, reedCost));
                     break;
             }
+
+
+
+
             return costs.ToArray();
         }
 
@@ -502,8 +513,15 @@ namespace Monkey.Games.Agricola
                     costs.Add(new ResourceCache(Resource.Stone, 5 * numRooms));
                     break;
             }
-            costs.Add(new ResourceCache(Resource.Reed, 2 * numRooms));
-            
+
+            var reedReduction = 0;
+            if (player.OwnsCard(CardId.Thatcher))
+            {
+                reedReduction++;
+            }
+            costs.Add(new ResourceCache(Resource.Reed, (2 - reedReduction) * numRooms));
+
+
             return costs.ToArray();
         }
 
@@ -537,7 +555,13 @@ namespace Monkey.Games.Agricola
                             return false;
                     }
                     else{
-                        if (resource.Count > player.GetResource(resource.Type))
+                        var resourceCount = resource.Count;
+                        if (resource.Type == Resource.Reed && player.OwnsCard(CardId.Thatcher) && ThatcherReedReductions.Contains(cardId))
+                        {
+                            resourceCount = resource.updateCount(-1).Count;
+                        }
+
+                        if (resourceCount > player.GetResource(resource.Type))
                             return false;
                     }
                 }
@@ -560,7 +584,28 @@ namespace Monkey.Games.Agricola
             if (paymentIndex < 0 || card.Costs.Length <= paymentIndex)
                 throw new ArgumentOutOfRangeException("paymentIndex");
 
-            return card.Costs[paymentIndex];
+            var basePayment = card.Costs[paymentIndex];
+
+            if (basePayment is ResourceCardCost 
+                && player.OwnsCard(CardId.Thatcher)
+                && ThatcherReedReductions.Contains(cardId))
+            {
+                var originalCardCost = (ResourceCardCost)basePayment;
+                var costs = new List<ResourceCache>();
+                foreach (var cost in originalCardCost.Resources)
+                {
+                    if (cost.Type != Resource.Reed)
+                        costs.Add(cost);
+                    else if (cost.Count > 1)
+                        costs.Add(new ResourceCache(Resource.Reed, cost.Count - 1));
+                }
+
+                var newPayment = new ResourceCardCost(costs);
+                return newPayment;
+            }
+
+
+            return basePayment;
         }
 
 
@@ -688,6 +733,9 @@ namespace Monkey.Games.Agricola
         {
             return -player.BeggingCards * 3;
         }
+
+        public static readonly int[] ThatcherReedReductions = new int[] { (int)CardId.Basket, (int)CardId.WaterMill, (int)CardId.HalfTimberedHouse, (int)CardId.ChickenCoop, (int)CardId.HolidayHouse, (int)CardId.Mansion, (int)CardId.CornStorehouse };
+
 
         private static Dictionary<int, MajorImprovement> majorImprovements;
         private static Dictionary<int, MinorImprovement> minorImprovements;

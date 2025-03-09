@@ -602,9 +602,10 @@ namespace Monkey.Games.Agricola.Actions.Services
         {
             costs = null;
             var card = ((AgricolaGame)player.Game).GetCard(data.Id);
-            if (!Curator.IsImprovementAvailable(player, data.Id) 
-                || !Curator.CanAffordCard(player, data.Id, data.PaymentOption, out costs)
-                || (card is MinorImprovement && !card.PrerequisitesMet(player)))
+            var available = Curator.IsImprovementAvailable(player, data.Id);
+            var affordable = Curator.CanAffordCard(player, data.Id, data.PaymentOption, out costs);
+            var unplayable = (card is MinorImprovement && !card.PrerequisitesMet(player));
+            if (! available || !affordable || unplayable)
                 return false;
             return true;
         }
@@ -811,8 +812,9 @@ namespace Monkey.Games.Agricola.Actions.Services
                     Plow plow = minor.Plow;
                     if (player.TryGetCardMetadata(minor, out metadata))
                         plow = metadata["plow"] as Plow;
-
-                    player.SetCardMetadata(minor, metadata.SetItem("plow", plow.Use()));
+                    else
+                        metadata = ImmutableDictionary.Create<string, object>().Add("plow", plow.Use());
+                    player.SetCardMetadata(minor, metadata);
 
                     predicates.Add(new StringPredicate(minor.Name));
                 }

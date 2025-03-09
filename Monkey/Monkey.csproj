@@ -237,6 +237,7 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.SignalR.cs" />
     <Compile Include="Areas\Agricola\AgricolaState.cs" />
+    <Compile Include="Areas\Agricola\Cards\CardId.cs" />
     <Compile Include="Areas\Agricola\Events\Conditionals\GameEventConditional.cs" />
     <Compile Include="Areas\Agricola\Events\Conditionals\OnlyPlayerRoomCountConditional.cs" />
     <Compile Include="Areas\Agricola\Events\EventData.cs" />

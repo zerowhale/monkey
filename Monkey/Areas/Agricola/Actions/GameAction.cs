@@ -37,7 +37,9 @@ namespace Monkey.Games.Agricola.Actions
             Game = game;
             Id = id;
             ResultingNotices = resultingNotices;
-            this.eventTriggers = eventTriggers != null ? ImmutableList.Create(eventTriggers) : ImmutableList<GameEventTrigger>.Empty;
+            this.eventTriggers = eventTriggers != null 
+                ? ImmutableList.Create(eventTriggers) 
+                : ImmutableList<GameEventTrigger>.Empty;
         }
 
 

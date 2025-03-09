@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using WebGrease.Css.Extensions;
 
 namespace Monkey.Games.Agricola.Actions.Services
 {
@@ -31,9 +32,7 @@ namespace Monkey.Games.Agricola.Actions.Services
             if (eventTriggers != null)
             {
                 foreach (var trigger in eventTriggers)
-                {
                     ProcessEventTrigger(player, trigger, resultingNotices);
-                }
             }
         }
 
@@ -62,9 +61,7 @@ namespace Monkey.Games.Agricola.Actions.Services
         public static void ExecuteEvents(AgricolaPlayer player, List<EventData> events, List<GameActionNotice> resultingNotices)
         {
             foreach (var eventData in events)
-            {
                 eventData.TriggeredEvent.Execute(player, eventData.Trigger, eventData.Card, resultingNotices);
-            }
         }
 
         /// <summary>
@@ -256,8 +253,6 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="resultingNotices"></param>
         public static void BuildRooms(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, int actionId, ImmutableArray<int> rooms, List<GameActionNotice> resultingNotices)
         {
-            // TODO: Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
-
             BuildRoomsTrigger trigger = null;
             var costs = Curator.GetRoomsCosts(player, actionId, rooms.Length);
             player.PayCosts(costs);

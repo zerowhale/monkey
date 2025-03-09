@@ -176,7 +176,8 @@ namespace Monkey.Games.Agricola
             }
 
             ((PartialGameUpdate)update).AddAction(action);
-            ((PartialGameUpdate)update).AddPlayer(player);
+            foreach(var otherPlayers in player.Game.Players) 
+                ((PartialGameUpdate)update).AddPlayer((AgricolaPlayer)otherPlayers);
             ((PartialGameUpdate)update).Interrupt = Interrupt;
 
             if (action is ImprovementAction || action is RenovationAction)

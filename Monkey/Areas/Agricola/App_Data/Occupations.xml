@@ -248,11 +248,20 @@
   <Occupation Id="193" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
     <Name>Pastor</Name>
 
+    <OnPlay Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+      <ResourceData Type="Wood" Count="3" UntilExecution="2"/>
+      <ResourceData Type="Clay" Count="2" UntilExecution="2"/>
+      <ResourceData Type="Reed" Count="1" UntilExecution="2"/>
+      <ResourceData Type="Stone" Count="1" UntilExecution="2"/>
+
+      <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.OnlyPlayerRoomCountConditional" RoomCount="2"/>
+    </OnPlay>
+    
     <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
-      <ResourceData Type="Wood" Count="3"/>
-      <ResourceData Type="Clay" Count="2"/>
-      <ResourceData Type="Reed" Count="1"/>
-      <ResourceData Type="Stone" Count="1"/>
+      <ResourceData Type="Wood" Count="3" UntilExecution="2"/>
+      <ResourceData Type="Clay" Count="2" UntilExecution="2"/>
+      <ResourceData Type="Reed" Count="1" UntilExecution="2"/>
+      <ResourceData Type="Stone" Count="1" UntilExecution="2"/>
       <Trigger Class="Monkey.Games.Agricola.Events.Triggers.BuildRoomsTrigger" TriggerType="Any" >
         <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.OnlyPlayerRoomCountConditional" RoomCount="2"/>
       </Trigger>

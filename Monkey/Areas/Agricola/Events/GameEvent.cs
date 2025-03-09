@@ -1,5 +1,6 @@
 ﻿using BoardgamePlatform.Game.Notification;
 using Monkey.Games.Agricola.Cards;
+using Monkey.Games.Agricola.Events.Conditionals;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
@@ -33,6 +34,7 @@ namespace Monkey.Games.Agricola.Events
         /// <param name="definition"></param>
         public GameEvent(XElement definition)
         {
+            Conditionals = definition.Descendants("Conditional").Select(GameEventConditional.Create).ToArray();
 
         }
 
@@ -56,24 +58,39 @@ namespace Monkey.Games.Agricola.Events
         /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
         public void Execute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
-            if(card != null)
+            var shouldExecute = true;
+            if(Conditionals.Count() > 0)
             {
-                int executionCount = 0;
-                ImmutableDictionary<string, Object> metadata;
-                if(player.TryGetCardMetadata(card, out metadata))
+                foreach (var condition in Conditionals)
                 {
-                    if (metadata.ContainsKey(MetadataKeyExecutionCount))
-                        executionCount = (int)metadata[MetadataKeyExecutionCount];
+                    if (!condition.IsMet(player, null))
+                    {
+                        shouldExecute = false;
+                        break;
+                    }
                 }
-                else
-                {
-                    metadata = ImmutableDictionary<string, Object>.Empty;
-                }
-                executionCount++;
-                player.SetCardMetadata(card, metadata.SetItem(MetadataKeyExecutionCount, executionCount));
             }
+            if (shouldExecute)
+            {
+                if (card != null)
+                {
+                    int executionCount = 0;
+                    ImmutableDictionary<string, Object> metadata;
+                    if (player.TryGetCardMetadata(card, out metadata))
+                    {
+                        if (metadata.ContainsKey(MetadataKeyExecutionCount))
+                            executionCount = (int)metadata[MetadataKeyExecutionCount];
+                    }
+                    else
+                    {
+                        metadata = ImmutableDictionary<string, Object>.Empty;
+                    }
+                    executionCount++;
+                    player.SetCardMetadata(card, metadata.SetItem(MetadataKeyExecutionCount, executionCount));
+                }
 
-            OnExecute(player, trigger, card, resultingNotices);
+                OnExecute(player, trigger, card, resultingNotices);
+            }
         }
 
         /// <summary>
@@ -87,12 +104,16 @@ namespace Monkey.Games.Agricola.Events
 
         public const string MetadataKeyExecutionCount = "ExecutionCount";
 
+        [JsonIgnore]
+        public readonly GameEventConditional[] Conditionals;
+
         /// <summary>
         /// Event execution code goes here.
         /// </summary>
         /// <param name="player">The player to execute the event for.</param>
         /// <param name="resultingNotices">Outgoing informational notices caused by this event.</param>
         protected abstract void OnExecute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices);
+
 
     }
 }

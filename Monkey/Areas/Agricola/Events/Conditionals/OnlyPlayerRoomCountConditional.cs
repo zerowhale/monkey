@@ -22,7 +22,7 @@ namespace Monkey.Games.Agricola.Events.Conditionals
 
         public override bool IsMet(AgricolaPlayer resolvingPlayer, AgricolaPlayer triggeringPlayer)
         {
-            var game = (AgricolaGame)triggeringPlayer.Game;
+            var game = (AgricolaGame)resolvingPlayer.Game;
             var resolvingPlayerMatchesRoomCount = false;
             foreach (var player in game.AgricolaPlayers )
             {

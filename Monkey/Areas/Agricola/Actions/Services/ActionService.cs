@@ -812,8 +812,8 @@ namespace Monkey.Games.Agricola.Actions.Services
                     Plow plow = minor.Plow;
                     if (player.TryGetCardMetadata(minor, out metadata))
                         plow = metadata["plow"] as Plow;
-                    else
-                        metadata = ImmutableDictionary.Create<string, object>().Add("plow", plow.Use());
+                        
+                    metadata = ImmutableDictionary.Create<string, object>().Add("plow", plow.Use());
                     player.SetCardMetadata(minor, metadata);
 
                     predicates.Add(new StringPredicate(minor.Name));

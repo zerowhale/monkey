@@ -266,13 +266,13 @@
 
             console.info(player, card);
             if (player.CardMetadata[card.Id])
-                plow = player.CardMetadata[card.Id]
+                plow = player.CardMetadata[card.Id].plow
             else
                 plow = card.Plow;
 
-            console.info(player.CardMetadata[card.Id]);
+            console.info(plow, plow.Used, plow.MaxUses);
 
-            if (plow && plow.Used < plow.MaxUses) {
+            if (plow && parseInt(plow.Used) < parseInt(plow.MaxUses)) {
                 for (var i in plow.OnActions) {
                     var id = plow.OnActions[i];
                     if (id == actionId) {

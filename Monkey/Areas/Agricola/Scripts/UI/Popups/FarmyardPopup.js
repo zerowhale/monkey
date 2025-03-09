@@ -288,7 +288,6 @@ PlowPopupModule.prototype = {
                 this.availablePlows = params.plowInfo.plows;
 
                 if (this.availablePlows && this.availablePlows.length > 0) {
-                    console.info(this.availablePlows);
                     this.popup.display.addClass("plow-controls");
                     var controls = this.popup.display.find(".plow-controls");
                     

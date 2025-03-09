@@ -50,8 +50,7 @@ namespace Monkey
             bundles.Add(new StyleBundle("~/Login/css").Include(
                         "~/Content/login.css"));
 
-
-
+           
         }
     }
 }

@@ -237,7 +237,10 @@
   <ItemGroup>
     <Compile Include="App_Start\Startup.SignalR.cs" />
     <Compile Include="Areas\Agricola\AgricolaState.cs" />
+    <Compile Include="Areas\Agricola\Events\Conditionals\GameEventConditional.cs" />
+    <Compile Include="Areas\Agricola\Events\Conditionals\OnlyPlayerRoomCountConditional.cs" />
     <Compile Include="Areas\Agricola\Events\EventData.cs" />
+    <Compile Include="Areas\Agricola\Events\Triggers\BuildRoomsTrigger.cs" />
     <Compile Include="Areas\Agricola\PlatformSetup.cs" />
     <Compile Include="Areas\Agricola\AgricolaAreaRegistration.cs" />
     <Compile Include="Areas\Catan\Board\Board.cs" />

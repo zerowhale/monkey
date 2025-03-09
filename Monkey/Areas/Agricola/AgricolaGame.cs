@@ -935,10 +935,10 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
                     
-                    player.AddCardToHand(GetCard(191));  // Mason
-                    player.AddCardToHand(GetCard(174));  // Tutor
-                    player.AddCardToHand(GetCard(160));  // Farmer
-                    player.AddCardToHand(GetCard(2038));  // Field Watchman
+                    player.AddCardToHand(GetCard(193));  // Pastor
+                    //player.AddCardToHand(GetCard(174));  // Tutor
+                    //player.AddCardToHand(GetCard(160));  // Farmer
+                    //player.AddCardToHand(GetCard(2038));  // Field Watchman
                     //player.AddCardToHand(GetCard(62)); // Turnwrest Plow
                     //player.AddCardToHand(GetCard(119)); // Turnwrest Plow
                 }

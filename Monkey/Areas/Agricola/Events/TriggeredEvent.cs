@@ -1,4 +1,5 @@
-﻿using Monkey.Games.Agricola.Cards;
+﻿using Monkey.Areas.Agricola.Events.Conditionals;
+using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using Newtonsoft.Json;
@@ -22,6 +23,7 @@ namespace Monkey.Games.Agricola.Events
                 UntilExecution = (int)definition.Attribute("UntilExecution");
             if (definition.Attribute("FromExecution") != null)
                 FromExecution = (int)definition.Attribute("FromExecution");
+
         }
 
         public TriggeredEvent(GameEventTrigger[] triggers)
@@ -47,9 +49,15 @@ namespace Monkey.Games.Agricola.Events
         [JsonIgnore]
         public readonly GameEventTrigger[] Triggers;
 
+        /// <summary>
+        /// Starting after execution # (inclusive)
+        /// </summary>
         [JsonIgnore]
         public readonly int FromExecution;
 
+        /// <summary>
+        /// Until execution # (non inclusive)
+        /// </summary>
         [JsonIgnore]
         public readonly int UntilExecution;
 

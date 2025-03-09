@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Monkey.Areas.Agricola.Events.Conditionals;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -17,7 +19,9 @@ namespace Monkey.Games.Agricola.Events.Triggers
         public GameEventTrigger(XElement definition)
             : this()
         {
-            if(definition.Attribute("TriggerType") != null)
+
+            Conditionals = definition.Descendants("Conditional").Select(GameEventConditional.Create).ToArray();
+            if (definition.Attribute("TriggerType") != null)
                 TriggerType = (GameEventTriggerType)Enum.Parse(typeof(GameEventTriggerType), (string)definition.Attribute("TriggerType"));
         }
 
@@ -25,7 +29,7 @@ namespace Monkey.Games.Agricola.Events.Triggers
         {
             var cls = (string)definition.Attribute("Class");
             var type = Type.GetType(cls);
-
+            
             var obj = (GameEventTrigger)Activator.CreateInstance(type, definition);
             return obj;
         }
@@ -47,5 +51,8 @@ namespace Monkey.Games.Agricola.Events.Triggers
         /// Type of trigger
         /// </summary>
         public GameEventTriggerType TriggerType { get; }
+
+        [JsonIgnore]
+        public readonly GameEventConditional[] Conditionals;
     }
 }

@@ -355,8 +355,12 @@
 #game .player-info .player.starting-player{   }
 
 #game .chat { height:100%; width:100%; background-color:#efefdf; }
-#game .chat .system { width:100%; float:right; font-size:2vh; height:100%; max-height:100%; overflow-y:scroll; padding:.2vh;}
-#game .chat .system .fg { font-weight:bold; }
+#game .chat .system { width:100%; float:right; font-size:2vh; height:100%; max-height:100vh; overflow-y:scroll; padding:.2vh;}
+#game .players2 .chat .system { max-height: 80vh; }
+#game .players3 .chat .system { max-height: 60vh; }
+#game .players4 .chat .system { max-height: 40vh; }
+#game .players5 .chat .system { max-height: 20vh; }
+#game .chat .system .fg { font-weight: bold; }
 #game .chat [data-image]{ background-color:#cdcdcd; padding:0 1vh; border-radius:1vh; }
 
 

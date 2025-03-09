@@ -243,7 +243,24 @@
       <![CDATA[<div>At the end of the game, you receive 1 bonus point for each scoring category where you have scored the maximum 4 points. (The bonus point is also awarded for 4 fenced stables.)</div>]]>
     </Text>
   </Occupation>
-  
+
+
+  <Occupation Id="193" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
+    <Name>Pastor</Name>
+
+    <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+      <ResourceData Type="Wood" Count="3"/>
+      <ResourceData Type="Clay" Count="2"/>
+      <ResourceData Type="Reed" Count="1"/>
+      <ResourceData Type="Stone" Count="1"/>
+      <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeCachedResourceTrigger" ResourceType="Wood"/>
+    </Event>
+
+    <Text>
+      <![CDATA[<div>If, when you play this card or later in the game, you are the last player to have only 2 rooms ijn your home, you receive 3 Wood, 2 Clay, 1 Reed and 1 Stone.</div>]]>
+    </Text>
+  </Occupation>
+
 
   <Occupation Id="197" Deck="Basic" MinPlayers="3" Image="/Areas/Agricola/Content/img/cards/occs/braggart.jpg" >
     <Name>Braggart</Name>

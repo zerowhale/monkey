@@ -304,6 +304,9 @@
         var myBoardAdded = false;
         var delayAddedBoards = [];
 
+        console.info("in players setup");
+        playerInfo.addClass("players" + players.length);
+
         function attachBoard(pb) {
             playerInfo.find(".players").append(pb);
             pb.tabs();
@@ -2049,7 +2052,7 @@
                         s += "<span class='icon medium " + predicate.Type.toLowerCase() + "'></span>";
                     }
                 });
-                " from delayed resources.";
+                s += " from delayed resources.";
                 break;
             case "Starts":
                 s += " goes first next round.";

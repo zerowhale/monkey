@@ -7,6 +7,7 @@ namespace Monkey.Games.Agricola
 {
     public enum HouseType
     {
+        Any = -1,
         Wood,
         Clay,
         Stone

@@ -6,13 +6,13 @@ using System.Linq;
 using System.Web;
 using System.Xml.Linq;
 
-namespace Monkey.Areas.Agricola.Events.Conditionals
+namespace Monkey.Games.Agricola.Events.Conditionals
 {
-    public class LastPlayerRoomCountConditional : GameEventConditional
+    public class OnlyPlayerRoomCountConditional : GameEventConditional
     {
-        public LastPlayerRoomCountConditional() : base() { }
+        public OnlyPlayerRoomCountConditional() : base() { }
 
-        public LastPlayerRoomCountConditional(XElement definition) : base(definition) {
+        public OnlyPlayerRoomCountConditional(XElement definition) : base(definition) {
             if (definition.Attribute("HouseType") != null)
                 HouseType = (HouseType)Enum.Parse(typeof(HouseType), (string)definition.Attribute("HouseType"));
 
@@ -20,7 +20,28 @@ namespace Monkey.Areas.Agricola.Events.Conditionals
                 RoomCount = (int)definition.Attribute("RoomCount");
         }
 
-        public HouseType HouseType { get; set; } = HouseType.Wood;
+        public override bool IsMet(AgricolaPlayer resolvingPlayer, AgricolaPlayer triggeringPlayer)
+        {
+            var game = (AgricolaGame)triggeringPlayer.Game;
+            var resolvingPlayerMatchesRoomCount = false;
+            foreach (var player in game.AgricolaPlayers )
+            {
+                var houseTypeMatches = HouseType == HouseType.Any 
+                    || player.Farmyard.HouseType == HouseType;
+
+                if (player.Farmyard.RoomCount == RoomCount && houseTypeMatches)
+                {
+                    if(player != resolvingPlayer)
+                        return false;
+                    else 
+                        resolvingPlayerMatchesRoomCount = true;
+                }
+            }
+
+            return resolvingPlayerMatchesRoomCount;
+        }
+
+        public HouseType HouseType { get; set; } = HouseType.Any;
 
         public int RoomCount { get; set; } = 2;
     }

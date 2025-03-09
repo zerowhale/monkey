@@ -47,7 +47,6 @@ namespace Monkey.Games.Agricola.Actions.Services
         {
             foreach (var p in ((AgricolaGame)player.Game).AgricolaPlayers)
             {
-
                 var events = p.GetCardEventData(player, trigger);
                 if(events.Count > 0)
                     ActionService.ExecuteEvents(p, events, resultingNotices);
@@ -255,8 +254,11 @@ namespace Monkey.Games.Agricola.Actions.Services
         /// <param name="player"></param>
         /// <param name="rooms"></param>
         /// <param name="resultingNotices"></param>
-        public static void BuildRooms(AgricolaPlayer player, int actionId, ImmutableArray<int> rooms, List<GameActionNotice> resultingNotices)
+        public static void BuildRooms(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, int actionId, ImmutableArray<int> rooms, List<GameActionNotice> resultingNotices)
         {
+            // TODO: Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
+
+            BuildRoomsTrigger trigger = null;
             var costs = Curator.GetRoomsCosts(player, actionId, rooms.Length);
             player.PayCosts(costs);
 
@@ -264,6 +266,14 @@ namespace Monkey.Games.Agricola.Actions.Services
             {
                 player.AddRoom(room);
             }
+
+            if(rooms.Length > 0)
+                trigger = new BuildRoomsTrigger(rooms.Length);
+
+            if (trigger != null)
+                ProcessEventTrigger(player, trigger, resultingNotices);
+
+            CheckTriggers(player, eventTriggers, resultingNotices);
 
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Build.ToString(), new BuildPredicate(rooms.Length, Buildable.Room)));
         }

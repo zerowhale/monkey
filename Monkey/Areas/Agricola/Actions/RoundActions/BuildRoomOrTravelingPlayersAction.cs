@@ -42,8 +42,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
                 TakeCaches(State, player);
             else
             {
-                // Make sure to omit the traveling players trigger if triggers ever get passed to build rooms
-                ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create(roomData.Value), ResultingNotices);
+                ActionService.BuildRooms(player, eventTriggers, data.ActionId, ImmutableArray.Create(roomData.Value), ResultingNotices);
             }
             return this;
         }

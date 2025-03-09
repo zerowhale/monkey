@@ -914,7 +914,7 @@ namespace Monkey.Games.Agricola
             foreach(var player in players)
             {
 
-                if (true && players.Length == 1)
+                if (true && players.Length <= 2)
                 {
                     // debug
 

@@ -34,7 +34,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             base.OnExecute(player, data);
 
             var room = ((BuildRoomData)data).RoomData;
-            ActionService.BuildRooms(player, data.ActionId, ImmutableArray.Create<int>(room), ResultingNotices);
+            ActionService.BuildRooms(player, eventTriggers, data.ActionId, ImmutableArray.Create<int>(room), ResultingNotices);
 
             return this;
         }

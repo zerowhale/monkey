@@ -1,4 +1,4 @@
-﻿using Monkey.Areas.Agricola.Events.Conditionals;
+﻿using Monkey.Games.Agricola.Events.Conditionals;
 using Monkey.Games.Agricola.Cards;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;

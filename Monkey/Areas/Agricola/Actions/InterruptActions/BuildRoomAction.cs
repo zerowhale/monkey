@@ -33,11 +33,7 @@ namespace Monkey.Games.Agricola.Actions.InterruptActions
 
         public override GameAction OnExecute(AgricolaPlayer player, Data.GameActionData data)
         {
-            ActionService.BuildRooms(
-                player, 
-                data.ActionId,
-                 ImmutableArray.Create(((BuildRoomData)data).RoomData) , 
-                ResultingNotices);
+            ActionService.BuildRooms(player, eventTriggers, data.ActionId, ImmutableArray.Create(((BuildRoomData)data).RoomData), ResultingNotices);
             return this;
         }
 

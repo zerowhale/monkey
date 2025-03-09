@@ -1,10 +1,11 @@
-﻿using Monkey.Areas.Agricola.Events.Conditionals;
+﻿using Monkey.Games.Agricola.Events.Conditionals;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Xml.Linq;
+using WebGrease.Css.Extensions;
 
 namespace Monkey.Games.Agricola.Events.Triggers
 {
@@ -41,10 +42,21 @@ namespace Monkey.Games.Agricola.Events.Triggers
         /// <param name="trigger"></param>
         /// <returns></returns>
         public virtual bool Triggered(AgricolaPlayer resolvingPlayer, AgricolaPlayer triggeringPlayer, GameEventTrigger trigger){
-            return this.GetType().Equals(trigger.GetType())
+            var triggered = this.GetType().Equals(trigger.GetType())
                 && ((this.TriggerType == GameEventTriggerType.Self && resolvingPlayer == triggeringPlayer)
                 || (this.TriggerType == GameEventTriggerType.Other && resolvingPlayer != triggeringPlayer)
                 || (this.TriggerType == GameEventTriggerType.Any));
+
+            if(triggered && Conditionals.Count() > 0)
+            {
+                foreach (var condition in Conditionals)
+                {
+                    if (!condition.IsMet(resolvingPlayer, triggeringPlayer))
+                        return false;
+                }
+            }
+
+            return triggered;
         }
 
         /// <summary>

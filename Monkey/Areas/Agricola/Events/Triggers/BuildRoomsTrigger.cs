@@ -20,6 +20,6 @@ namespace Monkey.Games.Agricola.Events.Triggers
 
         }
 
-        public int RoomsBuilt { get; }
+        public int RoomsBuilt { get; } = 1;
     }
 }

@@ -245,7 +245,7 @@
   </Occupation>
 
 
-  <Occupation Id="193" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
+  <Occupation Id="193" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
     <Name>Pastor</Name>
 
     <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
@@ -253,11 +253,13 @@
       <ResourceData Type="Clay" Count="2"/>
       <ResourceData Type="Reed" Count="1"/>
       <ResourceData Type="Stone" Count="1"/>
-      <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeCachedResourceTrigger" ResourceType="Wood"/>
+      <Trigger Class="Monkey.Games.Agricola.Events.Triggers.BuildRoomsTrigger" TriggerType="Any" >
+        <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.OnlyPlayerRoomCountConditional" RoomCount="2"/>
+      </Trigger>
     </Event>
 
     <Text>
-      <![CDATA[<div>If, when you play this card or later in the game, you are the last player to have only 2 rooms ijn your home, you receive 3 Wood, 2 Clay, 1 Reed and 1 Stone.</div>]]>
+      <![CDATA[<div>If, when you play this card or later in the game, you are the last player to have only 2 rooms in your home, you receive 3 Wood, 2 Clay, 1 Reed and 1 Stone.</div>]]>
     </Text>
   </Occupation>
 

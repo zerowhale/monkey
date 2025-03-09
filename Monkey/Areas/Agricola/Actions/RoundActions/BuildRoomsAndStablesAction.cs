@@ -52,7 +52,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
             var stables = ((BuildRoomsAndStablesActionData)data).StableData.ToImmutableArray();
 
             if (rooms.Length > 0)
-                ActionService.BuildRooms(player, data.ActionId, rooms, ResultingNotices);
+                ActionService.BuildRooms(player, eventTriggers, data.ActionId, rooms, ResultingNotices);
 
             if (stables.Length > 0)
                 ActionService.BuildStables(player, stables, Id, ResultingNotices);

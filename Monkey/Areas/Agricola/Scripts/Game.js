@@ -2043,7 +2043,6 @@
                 });
                 break;
             case "TakeDelayed":
-                console.info("In take delayed");
                 s += " takes ";
                 processPredicates(function (predicate, current, last) {
                     if (predicate.PredicateType == "ResourcePredicate") {
@@ -2054,9 +2053,11 @@
                 });
                 s += " from delayed resources.";
                 break;
+
             case "Starts":
                 s += " goes first next round.";
                 break;
+
             case "Build":
                 s += " builds ";
                 processPredicates(function (predicate) {

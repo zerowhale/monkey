@@ -35,9 +35,13 @@ namespace Monkey.Games.Agricola.Cards
         Mendicant = 153,
         MasterBrewer = 154,
         Thatcher = 157,
+        YeomanFarmer = 165,
         DockWorker = 171,
         Tutor = 174,
         ClayDeliveryman = 187,
+        Maid = 190,
+        Pastor = 193,
+        CattleWhisperer = 201,
 
         // Advanced Occupations
         SchnapsDistiller = 300

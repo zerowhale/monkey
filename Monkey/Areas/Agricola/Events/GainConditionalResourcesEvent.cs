@@ -17,7 +17,7 @@ namespace Monkey.Games.Agricola.Events
         public GainConditionalResourcesEvent(XElement definition)
             :base(definition)
         {
-            var resourceDependantResources = from item in definition.Descendants("ResourceDependantResource")
+            var resourceDependantResources = from item in definition.Elements("ResourceDependantResource")
                                              select new ResourceDependantResource
                                              {
                                                  RequiredType = (Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("RequiredType")),
@@ -29,7 +29,7 @@ namespace Monkey.Games.Agricola.Events
 
             var conditionalResources = (ImmutableList<ConditionalResource>)resourceDependantResources.OrderByDescending(x => x.RequiredCount).Cast<ConditionalResource>().ToImmutableList();
 
-            var roundsRemainingDependantResources = from item in definition.Descendants("RoundsRemainingDependantResource")
+            var roundsRemainingDependantResources = from item in definition.Elements("RoundsRemainingDependantResource")
                                                     select new RoundsRemainingDependantResource
                                              {
                                                  RoundsRemaining = (int)item.Attribute("RoundsRemaining"),

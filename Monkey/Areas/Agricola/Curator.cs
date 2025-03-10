@@ -617,8 +617,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateFieldsScore(AgricolaPlayer player)
         {
             var fields = player.Farmyard.FieldLocations.Count();
-            // 165 - yoeman farmer
-            if (fields < 2) return player.OwnsCard(165) ? 0 : -1;
+
+            if (fields < 2) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (fields < 5) return fields - 1;
             else return 4;
         }
@@ -626,8 +626,8 @@ namespace Monkey.Games.Agricola
         public static int CalculatePasturesScore(AgricolaPlayer player)
         {
             var pastures = player.Farmyard.Pastures.Count();
-            // 165 - yoeman farmer
-            if (pastures == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (pastures == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (pastures > 4) return 4;
             else return pastures;
         }
@@ -635,8 +635,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateGrainScore(AgricolaPlayer player)
         {
             var grain = player.Grain + player.Farmyard.PlantedResourceCount(Resource.Grain);
-            // 165 - yoeman farmer
-            if (grain == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (grain == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (grain < 4) return 1;
             else if (grain < 6) return 2;
             else if (grain < 8) return 3;
@@ -646,8 +646,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateVegetablesScore(AgricolaPlayer player)
         {
             var vegetables = player.Vegetables + player.Farmyard.PlantedResourceCount(Resource.Vegetables);
-            // 165 - yoeman farmer
-            if (vegetables == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (vegetables == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (vegetables > 4) return 4;
             else return vegetables;
         }
@@ -655,8 +655,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateSheepScore(AgricolaPlayer player)
         {
             var sheep = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Sheep);
-            // 165 - yoeman farmer
-            if (sheep == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (sheep == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (sheep < 4) return 1;
             else if (sheep < 6) return 2;
             else if (sheep < 8) return 3;
@@ -666,8 +666,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateBoarScore(AgricolaPlayer player)
         {
             var boar = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Boar);
-            // 165 - yoeman farmer
-            if (boar == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (boar == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (boar < 3) return 1;
             else if (boar < 5) return 2;
             else if (boar < 7) return 3;
@@ -677,8 +677,8 @@ namespace Monkey.Games.Agricola
         public static int CalculateCattleScore(AgricolaPlayer player)
         {
             var cattle = player.Farmyard.AnimalManager.GetAnimalCount(AnimalResource.Cattle);
-            // 165 - yoeman farmer
-            if (cattle == 0) return player.OwnsCard(165) ? 0 : -1;
+
+            if (cattle == 0) return player.OwnsCard(CardId.YeomanFarmer) ? 0 : -1;
             else if (cattle < 2) return 1;
             else if (cattle < 4) return 2;
             else if (cattle < 6) return 3;

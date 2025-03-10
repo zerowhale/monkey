@@ -14,7 +14,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         {
             var points = new List<RequiredImprovementPoints>();
 
-            foreach (var row in definition.Descendants("ImprovementCount"))
+            foreach (var row in definition.Elements("ImprovementCount"))
             {
                 var point = new RequiredImprovementPoints(
                     (int)row.Attribute("Required"), 

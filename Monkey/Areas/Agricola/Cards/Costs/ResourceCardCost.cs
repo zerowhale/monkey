@@ -25,7 +25,7 @@ namespace Monkey.Games.Agricola.Cards.Costs
         }
 
         public ResourceCardCost(XElement definition){
-            var result = from x in definition.Descendants("Cost")
+            var result = from x in definition.Elements("Cost")
                             select new ResourceCache((Resource)Enum.Parse(typeof(Resource), (string)x.Attribute("Resource")), (int)x.Attribute("Amount"));
 
             Resources = result.ToImmutableArray<ResourceCache>();

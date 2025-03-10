@@ -940,8 +940,8 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.AddCardToHand(GetCard(CardId.Tutor));
-                    player.AddCardToHand(GetCard(CardId.SwingPlow));
+                    player.AddCardToHand(GetCard(CardId.Maid));
+                    player.AddCardToHand(GetCard(CardId.Pastor));
                     //player.AddCardToHand(GetCard(CardId.Basket)); 
                     //player.AddCardToHand(GetCard(CardId.CrookedPlow));
                     //player.AddCardToHand(GetCard(160));  // Farmer

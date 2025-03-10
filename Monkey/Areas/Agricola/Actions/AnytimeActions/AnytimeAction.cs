@@ -25,7 +25,7 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
         public AnytimeAction(XElement definition, int actionId, int cardId)
             :base(null, actionId)
         {
-            Prerequisites = definition.Descendants("Prerequisite").Select(Prerequisite.Create).ToArray();
+            Prerequisites = definition.Elements("Prerequisite").Select(Prerequisite.Create).ToArray();
             MaxUses = definition.Attribute("MaxUses") == null ? 0 : (int)definition.Attribute("MaxUses");
             CardId = cardId;
 

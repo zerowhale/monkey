@@ -29,15 +29,15 @@ namespace Monkey.Games.Agricola.Cards
             Name = (string)definition.Element("Name");
             Text = definition.Element("Text").Value;
             Image = (string)definition.Attribute("Image");
-            AnytimeAction = definition.Descendants("AnytimeAction").Select(x => AnytimeAction.Create(x, this.Id)).FirstOrDefault();
+            AnytimeAction = definition.Elements("AnytimeAction").Select(x => AnytimeAction.Create(x, this.Id)).FirstOrDefault();
             GameEndPoints = definition.Elements("VictoryPointCalculator").Select(g => PointCalculator.Create(g, this)).ToArray();
             Events = definition.Elements("Event").Select(TriggeredEvent.Create).ToArray();
-            OnPlayEvents = definition.Descendants("OnPlay").Select(GameEvent.Create).ToArray();
+            OnPlayEvents = definition.Elements("OnPlay").Select(GameEvent.Create).ToArray();
 
             var costs = definition.Grandchildren("Costs", "Option").Select(CardCost.Create).ToArray();
             Costs = (costs.Length == 0 ? new CardCost[] { new FreeCardCost() } : costs).ToImmutableArray<CardCost>();
 
-            BakeProperties = definition.Descendants("Bake").Select(x => ResourceConversion.Create(x, Id)).FirstOrDefault();
+            BakeProperties = definition.Elements("Bake").Select(x => ResourceConversion.Create(x, Id)).FirstOrDefault();
             ResourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(x => ResourceConversion.Create(x, Id)).ToArray();
 
             Prerequisites = definition.Elements("Prerequisite").Select(Prerequisite.Create).ToArray();
@@ -46,6 +46,10 @@ namespace Monkey.Games.Agricola.Cards
                 this.Deck = deck;
 
             CacheExchanges = definition.Grandchildren("TakeCacheExchange", "CacheExchange").Select(x => CacheExchange.Create(x, Id)).ToArray();
+
+            bool firstEffectOnly;
+            if (bool.TryParse((string)definition.Attribute("FirstEffectOnly"), out firstEffectOnly)) 
+                FirstEffectOnly = firstEffectOnly;
         }
 
         public static Card Create(XElement definition)
@@ -147,6 +151,11 @@ namespace Monkey.Games.Agricola.Cards
         /// Cache exchanges that are available
         /// </summary>
         public readonly CacheExchange[] CacheExchanges;
+
+        /// <summary>
+        /// If the card only allows a single effect to occur, even if multiple triggers or effects are on the card.
+        /// </summary>
+        public readonly bool FirstEffectOnly = false;
 
         private readonly XElement definition;
 

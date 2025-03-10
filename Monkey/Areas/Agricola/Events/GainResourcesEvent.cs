@@ -21,7 +21,7 @@ namespace Monkey.Games.Agricola.Events
         public GainResourcesEvent(XElement definition)
             : base(definition)
         {
-            var result = from item in definition.Descendants("ResourceData")
+            var result = from item in definition.Elements("ResourceData")
                          select new ResourceData(
                              new ResourceCache((Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("Type")),
                                                              (int)item.Attribute("Count")),

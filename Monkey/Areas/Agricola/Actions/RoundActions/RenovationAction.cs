@@ -72,7 +72,7 @@ namespace Monkey.Games.Agricola.Actions.RoundActions
         {
             base.OnExecute(player, data);
 
-            ActionService.Renovate(player, ResultingNotices);
+            ActionService.Renovate(player, eventTriggers, ResultingNotices);
 
             switch (mode)
             {

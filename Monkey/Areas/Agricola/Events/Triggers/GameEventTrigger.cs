@@ -21,7 +21,14 @@ namespace Monkey.Games.Agricola.Events.Triggers
             : this()
         {
 
-            Conditionals = definition.Descendants("Conditional").Select(GameEventConditional.Create).ToArray();
+            var orConditionals = definition.Elements("Or").Select(q => GameEventConditional.Create(q, typeof(OrConditional)));
+            var andConditionals = definition.Elements("And").Select(q => GameEventConditional.Create(q, typeof(AndConditional)));
+
+            Conditionals = definition.Elements("Conditional").Select(GameEventConditional.Create)
+                .Concat(orConditionals)
+                .Concat(andConditionals)
+                .ToArray();
+
             if (definition.Attribute("TriggerType") != null)
                 TriggerType = (GameEventTriggerType)Enum.Parse(typeof(GameEventTriggerType), (string)definition.Attribute("TriggerType"));
         }

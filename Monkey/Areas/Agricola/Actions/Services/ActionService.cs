@@ -858,12 +858,17 @@ namespace Monkey.Games.Agricola.Actions.Services
             return Curator.CanAffordRenovation(player, out costs);
         }
 
-        public static void Renovate(AgricolaPlayer player, List<GameActionNotice> resultingNotices)
+        public static void Renovate(AgricolaPlayer player, ImmutableList<GameEventTrigger> eventTriggers, List<GameActionNotice> resultingNotices)
         {
             var costs = Curator.GetRenovationCost(player);
             foreach (var cost in costs)
                 player.RemoveResource(cost);
             player.Renovate();
+
+            var trigger = new RenovationTrigger(player.Farmyard.HouseType);
+            ProcessEventTrigger(player, trigger, resultingNotices);
+
+            CheckTriggers(player, eventTriggers, resultingNotices);
 
             resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Renovate.ToString(), new StringPredicate(player.Farmyard.HouseType.ToString())));
         }

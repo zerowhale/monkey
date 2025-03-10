@@ -1905,6 +1905,7 @@
         return $("<div class='piece " + resource + " " + add + " game-piece'></div>");
     },
 
+
     actionHoverOverHandler: function () {
         $(this).find(".game-piece").stop().animate({
             opacity:.125

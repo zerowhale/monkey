@@ -1,8 +1,11 @@
 ﻿using BoardgamePlatform.Game.Notification;
+using Google.Protobuf.Collections;
 using Monkey.Games.Agricola.Cards;
+using Monkey.Games.Agricola.Cards.Costs;
 using Monkey.Games.Agricola.Events.Conditionals;
 using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
+using Monkey.Games.Agricola.Utils;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -34,8 +37,14 @@ namespace Monkey.Games.Agricola.Events
         /// <param name="definition"></param>
         public GameEvent(XElement definition)
         {
-            Conditionals = definition.Descendants("Conditional").Select(GameEventConditional.Create).ToArray();
 
+            var orConditionals = definition.Elements("Or").Select(q => GameEventConditional.Create(q, typeof(OrConditional))).ToArray<GameEventConditional>();
+            var andConditionals = definition.Elements("And").Select(q => GameEventConditional.Create(q, typeof(AndConditional))).ToArray<GameEventConditional>();
+            Conditionals = definition.Elements("Conditional").Select(GameEventConditional.Create)
+                .Concat(orConditionals)
+                .Concat(andConditionals)
+                .ToArray();
+           
         }
 
         /// <summary>

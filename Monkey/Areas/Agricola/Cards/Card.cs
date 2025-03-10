@@ -29,15 +29,15 @@ namespace Monkey.Games.Agricola.Cards
             Name = (string)definition.Element("Name");
             Text = definition.Element("Text").Value;
             Image = (string)definition.Attribute("Image");
-            AnytimeAction = definition.Descendants("AnytimeAction").Select(x => AnytimeAction.Create(x, this.Id)).FirstOrDefault();
+            AnytimeAction = definition.Elements("AnytimeAction").Select(x => AnytimeAction.Create(x, this.Id)).FirstOrDefault();
             GameEndPoints = definition.Elements("VictoryPointCalculator").Select(g => PointCalculator.Create(g, this)).ToArray();
             Events = definition.Elements("Event").Select(TriggeredEvent.Create).ToArray();
-            OnPlayEvents = definition.Descendants("OnPlay").Select(GameEvent.Create).ToArray();
+            OnPlayEvents = definition.Elements("OnPlay").Select(GameEvent.Create).ToArray();
 
             var costs = definition.Grandchildren("Costs", "Option").Select(CardCost.Create).ToArray();
             Costs = (costs.Length == 0 ? new CardCost[] { new FreeCardCost() } : costs).ToImmutableArray<CardCost>();
 
-            BakeProperties = definition.Descendants("Bake").Select(x => ResourceConversion.Create(x, Id)).FirstOrDefault();
+            BakeProperties = definition.Elements("Bake").Select(x => ResourceConversion.Create(x, Id)).FirstOrDefault();
             ResourceConversions = definition.Grandchildren("ResourceConversions", "ResourceConversion").Select(x => ResourceConversion.Create(x, Id)).ToArray();
 
             Prerequisites = definition.Elements("Prerequisite").Select(Prerequisite.Create).ToArray();

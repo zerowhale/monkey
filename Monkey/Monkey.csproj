@@ -238,8 +238,11 @@
     <Compile Include="App_Start\Startup.SignalR.cs" />
     <Compile Include="Areas\Agricola\AgricolaState.cs" />
     <Compile Include="Areas\Agricola\Cards\CardId.cs" />
+    <Compile Include="Areas\Agricola\Events\Conditionals\AndConditional.cs" />
     <Compile Include="Areas\Agricola\Events\Conditionals\GameEventConditional.cs" />
+    <Compile Include="Areas\Agricola\Events\Conditionals\MyHouseConditional.cs" />
     <Compile Include="Areas\Agricola\Events\Conditionals\OnlyPlayerRoomCountConditional.cs" />
+    <Compile Include="Areas\Agricola\Events\Conditionals\OrConditional.cs" />
     <Compile Include="Areas\Agricola\Events\EventData.cs" />
     <Compile Include="Areas\Agricola\Events\Triggers\BuildRoomsTrigger.cs" />
     <Compile Include="Areas\Agricola\PlatformSetup.cs" />

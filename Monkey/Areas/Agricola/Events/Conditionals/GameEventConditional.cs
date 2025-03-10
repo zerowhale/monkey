@@ -9,21 +9,11 @@ namespace Monkey.Games.Agricola.Events.Conditionals
 {
     public class GameEventConditional
     {
-        public GameEventConditional()
-        {
-            //TriggerType = GameEventTriggerType.Self;
-        }
+        public GameEventConditional() {}
 
         
         public GameEventConditional(XElement definition)
-            : this()
-        {
-
-            /*
-            if (definition.Attribute("TriggerType") != null)
-                TriggerType = (GameEventTriggerType)Enum.Parse(typeof(GameEventTriggerType), (string)definition.Attribute("TriggerType"));
-            */
-        }
+            : this() {}
         
 
         public static GameEventConditional Create(XElement definition)
@@ -31,6 +21,12 @@ namespace Monkey.Games.Agricola.Events.Conditionals
             var cls = (string)definition.Attribute("Class");
             var type = Type.GetType(cls);
 
+            var obj = (GameEventConditional)Activator.CreateInstance(type, definition);
+            return obj;
+        }
+
+        public static GameEventConditional Create(XElement definition, Type type)
+        {
             var obj = (GameEventConditional)Activator.CreateInstance(type, definition);
             return obj;
         }

@@ -15,7 +15,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
         {
             var rrps = new List<RequiredResourcePoints>();
 
-            foreach (var row in definition.Descendants("ResourceCount"))
+            foreach (var row in definition.Elements("ResourceCount"))
             {
                 var resource = (Resource)Enum.Parse(typeof(Resource), (string)row.Attribute("Resource"));
                 var required = (int)row.Attribute("Required");

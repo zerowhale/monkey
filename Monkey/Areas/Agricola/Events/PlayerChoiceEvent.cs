@@ -18,7 +18,7 @@ namespace Monkey.Games.Agricola.Events
             : base(definition)
         {
             var index = 1;
-            var result = from item in definition.Descendants("Option")
+            var result = from item in definition.Elements("Option")
                          select new PlayerChoiceOption(index++, TriggeredEvent.Create(item));
 
             Options = result.ToImmutableArray<PlayerChoiceOption>();

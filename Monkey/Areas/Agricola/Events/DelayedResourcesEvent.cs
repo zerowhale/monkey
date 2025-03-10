@@ -22,7 +22,7 @@ namespace Monkey.Games.Agricola.Events
         public DelayedResourcesEvent(XElement definition)
             : base(definition)
         {
-            var result = from item in definition.Descendants("DelayedResourceCache")
+            var result = from item in definition.Elements("DelayedResourceCache")
                          select new DelayedResourceCache(
                              item.Attribute("OnRound") == null ? (int)item.Attribute("RoundsDelayed") : (int)item.Attribute("OnRound"),
                              (Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("ResourceType")),

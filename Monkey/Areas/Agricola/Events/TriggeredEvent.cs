@@ -18,7 +18,7 @@ namespace Monkey.Games.Agricola.Events
         {
             UntilExecution = Int32.MaxValue;
             
-            Triggers = definition.Descendants("Trigger").Select(GameEventTrigger.Create).ToArray();
+            Triggers = definition.Elements("Trigger").Select(GameEventTrigger.Create).ToArray();
 
             if (definition.Attribute("UntilExecution") != null)
                 UntilExecution = (int)definition.Attribute("UntilExecution");

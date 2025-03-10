@@ -16,7 +16,7 @@ namespace Monkey.Games.Agricola.Events
         public PerGrainBakedEvent(XElement definition)
             :base(definition)
         {
-            var result = from item in definition.Descendants("ResourceCache")
+            var result = from item in definition.Elements("ResourceCache")
                          select new ResourceCache(
                              (Resource)Enum.Parse(typeof(Resource), (string)item.Attribute("Type")),
                              (int)item.Attribute("Count"));

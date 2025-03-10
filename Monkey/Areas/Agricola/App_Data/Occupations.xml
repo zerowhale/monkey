@@ -282,6 +282,37 @@
   </Occupation>
 
 
+  <Occupation Id="190" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/maid.jpg" >
+    <Name>Maid</Name>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache OnRound="2" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="3" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="4" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="5" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="6" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="7" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="8" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="9" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="10" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="11" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="12" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="13" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="14" ResourceType="Food" ResourceCount="1"/>
+
+      <Or>
+        <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.MyHouseConditional" HouseType="Clay" />
+        <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.MyHouseConditional" HouseType="Stone" />
+      </Or>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[<div>Once you have built a Clay hut, place 1 Food on each remaining Round space. At the start of these rounds, you receive the Food.  (If you already have a Clay hut or a Stone house when you play this card, place the Food immediately.)</div>]]>
+    </Text>
+  </Occupation>
+
+  
+
   <Occupation Id="193" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
     <Name>Pastor</Name>
 
@@ -325,8 +356,22 @@
       <![CDATA[<div>At the end of the game, you receive 1/3/5/7/9 Bonus points for having 5/6/7/8/9+ Improvements in front of you.</div>]]>
     </Text>
   </Occupation>
-  
 
+
+  <Occupation Id="201" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/cattle-whisperer.jpg" >
+    <Name>Cattle Whisperer</Name>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache RoundsDelayed="5" ResourceType="Cattle" ResourceCount="1"/>
+      <DelayedResourceCache RoundsDelayed="9" ResourceType="Cattle" ResourceCount="1"/>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[<div>Add 5 and 9 to the current round. Place 1 Cattle on the corresponding Round spaces. At the start of these rounds, you receive the Cattle.</div>]]>
+    </Text>
+  </Occupation>  
+  
+  
   <Occupation Id="205" Deck="Basic" MinPlayers="3" Image="/Areas/Agricola/Content/img/cards/occs/reed-collector.jpg" >
     <Name>Reed Collector</Name>
 
@@ -540,6 +585,7 @@
 
     <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
       <DelayedResourceCache RoundsDelayed="1" ResourceType="Sheep" ResourceCount="1"/>
+      <DelayedResourceCache RoundsDelayed="1" ResourceType="Sheep" ResourceCount="1"/>
       <DelayedResourceCache RoundsDelayed="2" ResourceType="Sheep" ResourceCount="1"/>
       <DelayedResourceCache RoundsDelayed="3" ResourceType="Sheep" ResourceCount="1"/>
     </OnPlay>
@@ -553,21 +599,6 @@
 
 
 
-  <Occupation Id="201" Deck="Basic" MinPlayers="4"
-          Image="/Areas/Agricola/Content/img/cards/occs/cattle-whisperer.jpg" >
-    <Name>Cattle Whisperer</Name>
-
-    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
-      <DelayedResourceCache RoundsDelayed="5" ResourceType="Cattle" ResourceCount="1"/>
-      <DelayedResourceCache RoundsDelayed="9" ResourceType="Cattle" ResourceCount="1"/>
-    </OnPlay>
-
-    <Text>
-      <![CDATA[
-            <div>Add 5 and 9 to the current round. Place 1 Cattle on the corresponding Round spaces. At the start of these rounds, you receive the Cattle.</div>
-        ]]>
-    </Text>
-  </Occupation>
 
 
 
@@ -597,9 +628,7 @@
       -->
 
     <Text>
-      <![CDATA[
-            <div>At the end of the game, you only lose points for Unused spaces and Begging cards.</div>
-        ]]>
+      <![CDATA[<div>At the end of the game, you only lose points for Unused spaces and Begging cards.</div>]]>
     </Text>
   </Occupation>
 

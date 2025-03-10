@@ -400,6 +400,7 @@
         if (actionId == 505 || actionId == 601)
             return costs;
 
+        if (player.Farmyard.HouseType == Resource.Wood && player.OwnedCardIds.includes(CardId.Axe))
         if (player.OwnedCardIds.includes(CardId.Carpenter))
             roomCost = 3;
 
@@ -737,6 +738,7 @@ const CardId = {
     Fireplace: 1,
 
     // Basic Improvements
+    Axe: 13,
     HalfTimberedHouse: 21,
     Basket: 34,
     Spindle: 51,

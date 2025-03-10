@@ -84,10 +84,14 @@ namespace BoardgamePlatform.Game
         /// <returns></returns>
         public Boolean IsPlayerInGame(String id, out Player player)
         {
-            if (playersInGames.ContainsKey(id))
+            if (id != null)
             {
-                player = playersInGames[id];
-                return true;
+
+                if (playersInGames.ContainsKey(id))
+                {
+                    player = playersInGames[id];
+                    return true;
+                }
             }
             player = null;
             return false;

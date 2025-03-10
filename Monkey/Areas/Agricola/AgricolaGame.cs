@@ -941,7 +941,7 @@ namespace Monkey.Games.Agricola
                     }
 
                     player.AddCardToHand(GetCard(CardId.Carpenter));
-                    player.AddCardToHand(GetCard(CardId.Renovator));
+                    player.AddCardToHand(GetCard(CardId.Axe));
                     //player.AddCardToHand(GetCard(CardId.Basket)); 
                     //player.AddCardToHand(GetCard(CardId.CrookedPlow));
                     //player.AddCardToHand(GetCard(160));  // Farmer

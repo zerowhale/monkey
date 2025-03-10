@@ -502,7 +502,9 @@ namespace Monkey.Games.Agricola
             var reedCost = 2;
             var roomCost = 5;
 
-            if (player.OwnsCard(CardId.Carpenter))
+            if (player.Farmyard.HouseType == HouseType.Wood && player.OwnsCard(CardId.Axe))
+                roomCost = 2;
+            else if (player.OwnsCard(CardId.Carpenter))
                 roomCost = 3;
 
             if (actionId == (int)AnytimeActionId.BuildRoom 

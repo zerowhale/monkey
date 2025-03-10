@@ -12,6 +12,7 @@ namespace Monkey.Games.Agricola.Cards
         //Fireplace2 = 2,
 
         // Basic Improvements
+        Axe = 13,
         HalfTimberedHouse = 21,
         Basket = 34,
         Spindle = 51,

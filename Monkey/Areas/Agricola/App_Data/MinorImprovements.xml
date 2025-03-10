@@ -1,7 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <MinorImprovements>
-  <MinorImprovement Id="30" Deck="Basic" Points="1"
-              Image="/Areas/Agricola/Content/img/cards/minors/canoe.jpg" >
+
+  <MinorImprovement Id="13" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/axe.jpg" >
+    <Name>Axe</Name>
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Wood" Amount="1" />
+        <Cost Resource="Stone" Amount="1" />
+      </Option>
+    </Costs>
+
+    <Text>
+      <![CDATA[<div>Whenever you add a room to your Wooden hut, you only pay 2 Wood and 2 Reed.</div>]]>
+    </Text>
+  </MinorImprovement>
+  
+  
+  <MinorImprovement Id="30" Deck="Basic" Points="1" Image="/Areas/Agricola/Content/img/cards/minors/canoe.jpg" >
       <Name>Canoe</Name>
       <Costs>
           <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
@@ -9,9 +24,8 @@
           </Option>
       </Costs>
 
-      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
-                    Count="2"/>
-
+      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite" Count="2"/>
+    
       <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
           <ResourceData Type="Food" Count="1"/>
           <ResourceData Type="Reed" Count="1"/>
@@ -19,9 +33,7 @@
       </Event>
 
       <Text>
-          <![CDATA[
-      <div>Whenever you use the "Fishing" Action space, you receive an additional 1 Food and 1 Reed.</div>
-  ]]>
+          <![CDATA[<div>Whenever you use the "Fishing" Action space, you receive an additional 1 Food and 1 Reed.</div>]]>
       </Text>
   </MinorImprovement>
 
@@ -570,34 +582,7 @@
       </Text>
   </MinorImprovement>
 
-  <MinorImprovement Id="45" Deck="Basic"
-      Image="/Areas/Agricola/Content/img/cards/minors/private-forest.jpg">
 
-      <Name>Private Forest</Name>
-
-      <Costs>
-          <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
-              <Cost Resource="Food" Amount="2" />
-          </Option>
-      </Costs>
-        
-      <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
-          <DelayedResourceCache OnRound="2" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="4" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="6" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="8" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="10" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="12" ResourceType="Wood" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="14" ResourceType="Wood" ResourceCount="1"/>
-      </OnPlay>
-
-
-      <Text>
-          <![CDATA[
-              <div>Place 1 Wood on each remaining even-numbered Round space. At the start of these rounds, you receive the Wood.</div>
-          ]]>
-      </Text>
-  </MinorImprovement>
 
   <MinorImprovement Id="27" Deck="Basic" Points="2"
       Image="/Areas/Agricola/Content/img/cards/minors/wood-fired-oven.jpg">
@@ -625,6 +610,32 @@
       </Text>
   </MinorImprovement>
 
+
+  <MinorImprovement Id="45" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/private-forest.jpg">
+    <Name>Private Forest</Name>
+
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Food" Amount="2" />
+      </Option>
+    </Costs>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache OnRound="2" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="4" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="6" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="8" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="10" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="12" ResourceType="Wood" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="14" ResourceType="Wood" ResourceCount="1"/>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[<div>Place 1 Wood on each remaining even-numbered Round space. At the start of these rounds, you receive the Wood.</div>]]>
+    </Text>
+  </MinorImprovement>  
+  
+  
   <MinorImprovement Id="55" Deck="Basic" Passes="true"
       Image="/Areas/Agricola/Content/img/cards/minors/stone-house-extension.jpg">
 

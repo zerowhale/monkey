@@ -748,6 +748,7 @@ const CardId = {
 
     // Basic Improvements
     Axe: 13,
+    BuildingMaterial: 16,
     HalfTimberedHouse: 21,
     AnimalPen: 24,
     Basket: 34,

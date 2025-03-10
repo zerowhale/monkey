@@ -1365,6 +1365,7 @@
                         modules: [new SelectResourcesPopupModule()],
                         moduleParams: [{
                             resources: resources,
+                            hideCancel: true,
                             numRequired: this.interrupt.NumRequired
                         }],
                         submit: function () {
@@ -1945,9 +1946,14 @@
     createResourcePiece: function (resource) {
         resource = resource.toLowerCase();
         var add = "";
-        if (resource == "sheep" || resource == "boar" || resource == "cattle")
-            add += "animal";
-        return $("<div class='piece " + resource + " " + add + " game-piece'></div>");
+        if (resource == "sheep" || resource == "boar" || resource == "cattle") {
+            add += " animal ";
+            console.info(Math.random() * 2);
+            if (Math.random() * 2 > 1) {
+                add += " girl ";
+            }
+        }
+        return $("<div class='piece " + resource + add + " game-piece'></div>");
     },
 
 
@@ -2146,7 +2152,7 @@
                 s += " sows ";
                 processPredicates(function (predicate, current, last) {
                     if (current > 0) s += " and ";
-                    s += predicate.Count + " <span class='icon medium " + predicate.Type.toLowerCase() + "'></span> field";
+                    s += predicate.Count + getIcon(predicate.Type) + " field";
                     if (predicate.Count > 1) s += "s";
                     if (current == last) s += ".";
                 });
@@ -2207,9 +2213,9 @@
                     s += delimit(currentIndex, lastIndex);
 
                     s += predicate.Input.Count + " "
-                        + "<span class='icon medium " + predicate.Input.Type.toLowerCase() + "'></span> into "
-                        + predicate.Output.Count + " "
-                        + "<span class='icon medium " + predicate.Output.Type.toLowerCase() + "'></span>";
+                        + getIcon(predicate.Input.Type.toLowerCase())
+                        + " into predicate.Output.Count + "
+                        + getIcon(predicate.Output.Type.toLowerCase());
                 });
 
                 s += ".";
@@ -2221,7 +2227,7 @@
                     s += delimit(currentIndex, lastIndex);
 
                     s += predicate.Count + " ";
-                    s += "<span class='icon medium " + predicate.Type.toLowerCase() + "'></span>";
+                    s += getIcon(predicate.Type.toLowerCase());
 
                 });
                 s += ".";
@@ -2233,7 +2239,7 @@
                     s += delimit(currentIndex, lastIndex);
 
                     s += predicate.Count + " ";
-                    s += "<span class='icon medium " + predicate.Type.toLowerCase() + "'></span>";
+                    s += getIcon(predicate.Type.toLowerCase());
 
                 });
                 s += ".";
@@ -2244,7 +2250,7 @@
     },
 
     formatResourceAsIcon: function( name){
-        return "<span class='icon medium " + name.toLowerCase() + "'></span>";
+        return getIcon(name);
     },
 
     formatNameForSystemMessage: function (name) {
@@ -2272,6 +2278,11 @@
         this.screen.show();
         console.info(error);
     }
+}
+
+function getIcon(type, size) {
+    if(!size) size = "medium"
+    return `<span class="icon ${size} ${type.toLowerCase()}"></span>`;
 }
 
 function BuildingResourcesActionData() {

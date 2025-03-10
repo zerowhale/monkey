@@ -14,8 +14,25 @@
       <![CDATA[<div>Whenever you add a room to your Wooden hut, you only pay 2 Wood and 2 Reed.</div>]]>
     </Text>
   </MinorImprovement>
+
+
+  <MinorImprovement Id="16" Deck="Basic" Passes="true"  Image="/Areas/Agricola/Content/img/cards/minors/building-material.jpg" >
+    <Name><![CDATA[Building<br/>Material]]></Name>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.SelectResourcesEvent">
+      <ResourceCache Type="Wood" Count="1"/>
+      <ResourceCache Type="Clay" Count="1"/>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[
+          <div>You receive either 1 Wood or 1 Clay when you play this card.</div>
+          <div class="center-note">After you play this card, pass it to the player on your left, who adds it to his/her hand.</div>
+      ]]>
+    </Text>
+  </MinorImprovement>
   
-  
+
   <MinorImprovement Id="30" Deck="Basic" Points="1" Image="/Areas/Agricola/Content/img/cards/minors/canoe.jpg" >
       <Name>Canoe</Name>
       <Costs>
@@ -97,24 +114,7 @@
       </Text>
   </MinorImprovement>
 
-  <MinorImprovement Id="16" Deck="Basic" Passes="true"
-          Image="/Areas/Agricola/Content/img/cards/minors/building-material.jpg" >
-      <Name><![CDATA[Building<br/>Material]]></Name>
 
-
-        
-      <OnPlay Class="Monkey.Games.Agricola.Events.SelectResourcesEvent">
-          <ResourceCache Type="Wood" Count="1"/>
-          <ResourceCache Type="Clay" Count="1"/>
-      </OnPlay>
-
-      <Text>
-          <![CDATA[
-          <div>You receive either 1 Wood or 1 Clay when you play this card.</div>
-          <div class="center-note">After you play this card, pass it to the player on your left, who adds it to his/her hand.</div>
-      ]]>
-      </Text>
-  </MinorImprovement>
 
   <MinorImprovement Id="42" Deck="Basic" Passes="true"
       Image="/Areas/Agricola/Content/img/cards/minors/helpful-neighbors.jpg" >

@@ -55,9 +55,12 @@
 #game .food { background-image:url(./img/icons/food.png); }
 #game .grain { background-image:url(./img/icons/grain.png); }
 #game .vegetables { background-image:url(./img/icons/vegetable.png); }
-#game .sheep { background-image:url(./img/pieces/sheep.png); }
+#game .sheep { background-image: url(./img/pieces/sheep.png); }
+#game .sheep.girl { background-image: url(./img/pieces/sheep-girl.png); }
 #game .cattle { background-image: url(./img/pieces/cattle.png); }
+#game .cattle.girl { background-image: url(./img/pieces/cattle-girl.png); }
 #game .boar { background-image: url(./img/pieces/boar.png); }
+#game .boar.girl { background-image: url(./img/pieces/boar-girl.png); }
 #game .building { background-image: url(./img/icons/building.png); }
 
 #game .piece { width: 4vh; height:3vh; background-size:100%; display:inline-block; position:absolute; background-repeat:no-repeat;  pointer-events:none;}
@@ -68,9 +71,9 @@
 #game .piece.vegetables { background-image: url(./img/pieces/vegetables.png)}
 #game .piece.stone { background-image: url(./img/pieces/stone.png)}
 #game .piece.food { background-image: url(./img/pieces/food.png)}
-#game .piece.sheep { background-image: url(./img/pieces/sheep.png); height:3.62vh;}
-#game .piece.cattle { background-image: url(./img/pieces/cattle.png); height:3.62vh;}
-#game .piece.boar { background-image: url(./img/pieces/boar.png); height:3.62vh;}
+#game .piece.sheep { height:3.62vh;}
+#game .piece.cattle { height:3.62vh;}
+#game .piece.boar { height:3.62vh;}
 
 
 

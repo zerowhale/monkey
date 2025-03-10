@@ -280,7 +280,7 @@ PlowPopupModule.prototype = {
 
     onLoad: function (params) {
         var obj = this;
-        if (params){
+        if (params) {
             if(params.optional)
                 this.optional = params.optional;
 
@@ -343,8 +343,6 @@ PlowPopupModule.prototype = {
         this.usingPlow = plow;
         var numFields = (plow == null ? 1 : plow.Fields);
         this.farmyard.enablePlotsForPlowing(numFields, this.popup);
-
-
     },
 
     onActivate: function (popup) {

@@ -940,7 +940,7 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.AddCardToHand(GetCard(CardId.BuildersTrowel));
+                    player.AddCardToHand(GetCard(CardId.BuildingMaterial));
                     //player.AddCardToHand(GetCard(CardId.Axe));
                     //player.AddCardToHand(GetCard(CardId.ClayPlasterer));
                     //player.AddCardToHand(GetCard(CardId.Basket)); 

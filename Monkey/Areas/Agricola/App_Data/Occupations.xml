@@ -788,7 +788,18 @@
 
 
 
+  <Occupation Id="241" Deck="Intermediate" MinPlayers="1"
+            Image="/Areas/Agricola/Content/img/cards/occs/clay-plasterer.jpg" >
+    <Name>Clay Plasterer</Name>
 
+    <!-- implemented in Curator -->
+    
+    <Text>
+      <![CDATA[
+              <div>Whenever you use a person to take Wood that is on an Action space, you can leave 2 of the Wood on the space and take a Wild boar intead.</div>
+          ]]>
+    </Text>
+  </Occupation>
 
 
   <Occupation Id="2037" Deck="Intermediate" MinPlayers="4"

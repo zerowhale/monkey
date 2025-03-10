@@ -11,7 +11,7 @@ namespace Monkey.Games.Agricola.Cards
     /// <summary>
     /// Representation of cards in the Minor Improvement decks
     /// </summary>
-    public class MinorImprovement : Card
+    public class MinorImprovement : Improvement
     {
 
         public MinorImprovement(XElement definition)

@@ -141,7 +141,7 @@
     },
 
     canAffordRoom: function (player) {
-        let costs = this.getRoomCost(player);
+        let costs = this.getRoomCosts(player);
         for (let c in costs) {
             let cost = costs[c];
             if (player[cost.type] < parseInt(cost.amount))
@@ -370,8 +370,14 @@
             reedCost = 1,
             costs = [];
 
+        if (player.Farmyard.HouseType == Resource.Wood && player.OwnedCardIds.includes(CardId.ClayPlasterer))
+            roomCost = 1;
+
         if (player.OwnedCardIds.includes(CardId.Renovator))
             roomCost -= 2;
+
+        if (roomCost < 0)
+            roomCost = 0;
 
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
@@ -392,7 +398,7 @@
 
     },
 
-    getRoomCost: function (player, actionId) {
+    getRoomCosts: function (player, actionId) {
         let costs = [],
             roomCost = 5,
             reedCost = 2;
@@ -401,7 +407,9 @@
             return costs;
 
         if (player.Farmyard.HouseType == Resource.Wood && player.OwnedCardIds.includes(CardId.Axe))
-        if (player.OwnedCardIds.includes(CardId.Carpenter))
+            roomCost = 2;
+        if (player.OwnedCardIds.includes(CardId.Carpenter)
+            || player.Farmyard.HouseType == Resource.Clay && player.OwnedCardIds.includes(CardId.ClayPlasterer))
             roomCost = 3;
 
         switch (player.Farmyard.HouseType) {
@@ -771,6 +779,9 @@ const CardId = {
     Renovator: 199,
     CattleWhisperer: 201,
     Carpenter: 218,
+
+    // Intermediate Occupations
+    ClayPlasterer: 241, 
 
     // Advanced Occupations
     SchnapsDistiller: 300

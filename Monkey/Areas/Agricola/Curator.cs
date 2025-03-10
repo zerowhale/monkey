@@ -398,11 +398,17 @@ namespace Monkey.Games.Agricola
             var roomCost = player.Farmyard.RoomLocations.Count;
             var reedCost = 1;
 
+            if (player.Farmyard.HouseType == HouseType.Wood && player.OwnsCard(CardId.ClayPlasterer))
+                roomCost = 1;
+
             if (player.OwnsCard(CardId.Thatcher))
                 reedCost--;
 
             if (player.OwnsCard(CardId.Renovator))
                 roomCost -= 2;
+
+            if (roomCost < 0)
+                roomCost = 0;
 
             switch (player.Farmyard.HouseType)
             {
@@ -502,9 +508,11 @@ namespace Monkey.Games.Agricola
             var reedCost = 2;
             var roomCost = 5;
 
+            // Carpenter, Axe, and Clay Plasterer do not stack, apply the best of them as the base cost 
             if (player.Farmyard.HouseType == HouseType.Wood && player.OwnsCard(CardId.Axe))
                 roomCost = 2;
-            else if (player.OwnsCard(CardId.Carpenter))
+            else if (player.OwnsCard(CardId.Carpenter) 
+                || (player.Farmyard.HouseType == HouseType.Clay && player.OwnsCard(CardId.ClayPlasterer)))
                 roomCost = 3;
 
             if (actionId == (int)AnytimeActionId.BuildRoom 

@@ -645,12 +645,14 @@
                 card.click(wireQuickCardClick(cardData.Id, cardData.AnytimeAction.Id));
             }
 
+            var points = card.find(".points");
             if (cardData.Points > 0) {
-                var points = card.find(".points");
+                console.info(cardData.Points);
                 points.find("div").text(cardData.Points);
                 points.show();
-
             }
+            else
+                points.hide();
         }
 
         function wireQuickCardClick(cardId) {
@@ -1771,7 +1773,7 @@
         var cardCosts = card.Costs;
         for (var i = 0; i < cardCosts.length; i++) {
             var cost = cardCosts[i];
-            
+
             if (i != 0)
                 costs.append("<div class='divider'></div>")
 
@@ -1794,10 +1796,15 @@
         }
 
         var pointsDisplay = display.find(".points");
-        if (card.Points == 0)
-            pointsDisplay.hide();
+        if (card.Points) { 
+            console.info(card.Name + " Points:", card.Points);
+            console.info(pointsDisplay, pointsDisplay.find("div"));
+            pointsDisplay.find("div").text(card.Points)
+            pointsDisplay.show();
+        }
         else
-            pointsDisplay.find("div").text(card.Points);
+            pointsDisplay.hide();
+
         display.find(".name").html(card.Name["#cdata-section"] ? card.Name["#cdata-section"] : card.Name);
         display.find(".text-bubble").html(card.Text["#cdata-section"] ? card.Text["#cdata-section"] : card.Text);
         display.attr("data-id", card.Id);

@@ -48,6 +48,9 @@ namespace Monkey.Games.Agricola.Cards
         CattleWhisperer = 201,
         Carpenter = 218,
 
+        // Intermediate Occupations
+        ClayPlasterer = 241, 
+
         // Advanced Occupations
         SchnapsDistiller = 300
     }

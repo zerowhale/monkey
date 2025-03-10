@@ -1362,8 +1362,7 @@
         </Text>
     </MinorImprovement>
 
-    <MinorImprovement Id="119" Deck="Expert"
-            Image="/Areas/Agricola/Content/img/cards/minors/Crooked-plow.jpg" >
+    <MinorImprovement Id="119" Deck="Expert" Points="2" Image="/Areas/Agricola/Content/img/cards/minors/Crooked-plow.jpg" >
         <Name><![CDATA[Crooked<br/>Plow]]></Name>
         <Costs>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">

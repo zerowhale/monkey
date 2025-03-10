@@ -343,7 +343,7 @@ PlayerBoard.prototype = {
         if (actionId == 21 || actionId == 505 || actionId == 601)
             maxRooms = 1;
 
-        var roomCost = Curator.getRoomCost(this.player, actionId);
+        var roomCost = Curator.getRoomCosts(this.player, actionId);
 
         this._enablePlotsForRooms(popup, maxRooms, roomCost);
     },

@@ -12,5 +12,6 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
     {
         Cook = 600,
         BuildRoom = 601,
+        Renovation = 602,
     }
 }

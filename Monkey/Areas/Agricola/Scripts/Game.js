@@ -1510,7 +1510,7 @@
         var actionId = card.AnytimeAction.Id;
 
         // Cook action
-        if (actionId == 600) {
+        if (actionId == AnytimeActions.Cook) {
 
             popup = this.showPopup({
                 title: "Anytime resource conversions",
@@ -1518,7 +1518,7 @@
                 submit: function () {
                     var data = popup.getSubmitData();
                     var fc = popup.farmyard;
-          
+
                     var cookValues = data.conversionData;
 
                     for (var i in cookValues) {
@@ -1543,18 +1543,47 @@
                 }
             }, actionId);
         }
-        else if (actionId == 601) {
+
+        else if (actionId == AnytimeActions.BuildRoom) {
             popup = this.showPopup({
                 title: "Build 1 room for free",
                 modules: [new BuildRoomsPopupModule()],
                 submit: function () {
                     var data = popup.getSubmitData();
                     var actionData = new BuildRoomData(data.roomsData[0]);
-           
+
                     gameConn.server.takeBuildRoomAnytimeAction(actionId, cardId, actionData);
                     obj.hidePopup();
                 }
             }, actionId);
+        }
+
+        // renovation
+        else if (actionId == AnytimeActions.Renovation) {
+            let fc = farmyard.clone(),
+                renoCost = Curator.getRenovationCost(player),
+                modules = [],
+                moduleParams = [],
+                moduleButtonText = ["Renovate"];
+
+            fc.payCosts(renoCost);
+
+            //modules.push(new CardPopupModule());
+
+            popup = this.showPopup({
+                title: "Renovation",
+                modules: modules,
+                farmyard: fc,
+                moduleParams: moduleParams,
+                submitActiveOnly: true,
+                submit: function () {
+                    //var data = popup.getSubmitData();
+                    let submitData = new RenovationActionData();
+                    console.info(actionId, submitData);
+                    gameConn.server.takeRenovationAnytimeAction(actionId, cardId, submitData);
+                    obj.hidePopup();
+                }
+            });
         }
 
     },
@@ -2347,4 +2376,11 @@ function PlayerChoiceData(choice) {
 
 function CacheExchangeData(exchanges){
     this.exchanges = exchanges;
+}
+
+
+const AnytimeActions = {
+    Cook: 600,
+    BuildRooms: 601,
+    Renovation: 602
 }

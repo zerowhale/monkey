@@ -14,7 +14,9 @@ namespace Monkey.Games.Agricola.Cards
         // Basic Improvements
         Axe = 13,
         HalfTimberedHouse = 21,
+        AnimalPen = 24,
         Basket = 34,
+        BuildersTrowel = 50,
         Spindle = 51,
 
         // Intermediate Improvements

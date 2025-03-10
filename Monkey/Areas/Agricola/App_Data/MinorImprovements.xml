@@ -382,8 +382,7 @@
               Image="/Areas/Agricola/Content/img/cards/minors/animal-pen.jpg" >
       <Name>Animal Pen</Name>
 
-      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
-              Count="4"/>
+      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite" Count="4"/>
 
       <Costs>
           <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
@@ -458,103 +457,11 @@
 
 
 
-  <MinorImprovement Id="43" Deck="Basic" Points="1"
-      Image="/Areas/Agricola/Content/img/cards/minors/fruit-tree.jpg">
-
-      <Name>Fruit Tree</Name>
-        
-      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
-              Count="3"/>
-        
-      <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
-          <DelayedResourceCache OnRound="8" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="9" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="10" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="11" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="12" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="13" ResourceType="Food" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="14" ResourceType="Food" ResourceCount="1"/>
-      </OnPlay>
-        
-      <Text>
-          <![CDATA[
-              <div>Place 1 Food on each remaining Round space for rounds 8 to 14. At the start of these rounds, you receive the Food.</div>
-          ]]>
-      </Text>
-  </MinorImprovement>
-
-  <MinorImprovement Id="35" Deck="Basic"
-      Image="/Areas/Agricola/Content/img/cards/minors/corn-scoop.jpg">
-      <Name>Corn Scoop</Name>
-
-      <Costs>
-          <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
-              <Cost Resource="Wood" Amount="1" />
-          </Option>
-      </Costs>
-
-      <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
-          <ResourceData Type="Grain" Count="1"/>
-          <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeGrainActionTrigger"/>
-      </Event>
-
-      <Text>
-          <![CDATA[
-                <div>Whenever you use the "Take 1 Grain" Action space, you receive 1 additional Grain.</div>
-            ]]>
-      </Text>
-  </MinorImprovement>
-
-  <MinorImprovement Id="46" Deck="Basic"
-      Image="/Areas/Agricola/Content/img/cards/minors/sack-cart.jpg">
-
-      <Name>Sack Cart</Name>
-
-      <Costs>
-          <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
-              <Cost Resource="Wood" Amount="2" />
-          </Option>
-      </Costs>
-
-      <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
-              Count="2"/>
-
-      <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
-          <DelayedResourceCache OnRound="5" ResourceType="Grain" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="8" ResourceType="Grain" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="11" ResourceType="Grain" ResourceCount="1"/>
-          <DelayedResourceCache OnRound="14" ResourceType="Grain" ResourceCount="1"/>
-      </OnPlay>
-
-      <Text>
-          <![CDATA[
-              <div>Place 1 Grain each on the spaces for rounds 5, 8, 11, and 14. At the start of these rounds, you receive the Grain.</div>
-          ]]>
-      </Text>
-  </MinorImprovement>
 
 
-  <MinorImprovement Id="28" Deck="Basic"
-      Image="/Areas/Agricola/Content/img/cards/minors/clogs.jpg">
-
-      <Name>Clogs</Name>
-
-      <Costs>
-          <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
-              <Cost Resource="Wood" Amount="1" />
-          </Option>
-      </Costs>
-
-      <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.HouseTypeVictoryPoints" HouseType="Clay" Points = "1"/>
-      <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.HouseTypeVictoryPoints" HouseType="Stone" Points = "2"/>
 
 
-      <Text>
-          <![CDATA[
-              <div>At the end of the game, you receive 1 Bonus point for a Clay hut or 2 Bonus points for a Stone house.</div>
-          ]]>
-      </Text>
-  </MinorImprovement>
+
 
   <MinorImprovement Id="23" Deck="Basic"
       Image="/Areas/Agricola/Content/img/cards/minors/Manger.jpg">
@@ -583,10 +490,30 @@
   </MinorImprovement>
 
 
+  <MinorImprovement Id="28" Deck="Basic"
+      Image="/Areas/Agricola/Content/img/cards/minors/clogs.jpg">
 
-  <MinorImprovement Id="27" Deck="Basic" Points="2"
-      Image="/Areas/Agricola/Content/img/cards/minors/wood-fired-oven.jpg">
+    <Name>Clogs</Name>
 
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Wood" Amount="1" />
+      </Option>
+    </Costs>
+
+    <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.HouseTypeVictoryPoints" HouseType="Clay" Points = "1"/>
+    <VictoryPointCalculator Class="Monkey.Games.Agricola.Cards.GameEndPoints.HouseTypeVictoryPoints" HouseType="Stone" Points = "2"/>
+
+
+    <Text>
+      <![CDATA[
+              <div>At the end of the game, you receive 1 Bonus point for a Clay hut or 2 Bonus points for a Stone house.</div>
+          ]]>
+    </Text>
+  </MinorImprovement>
+  
+
+  <MinorImprovement Id="27" Deck="Basic" Points="2" Image="/Areas/Agricola/Content/img/cards/minors/wood-fired-oven.jpg">
       <Name><![CDATA[Wood-fired<br/>Oven]]></Name>
 
       <Costs>
@@ -611,6 +538,48 @@
   </MinorImprovement>
 
 
+  <MinorImprovement Id="35" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/corn-scoop.jpg">
+    <Name>Corn Scoop</Name>
+
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Wood" Amount="1" />
+      </Option>
+    </Costs>
+
+    <Event Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
+      <ResourceData Type="Grain" Count="1"/>
+      <Trigger Class="Monkey.Games.Agricola.Events.Triggers.TakeGrainActionTrigger"/>
+    </Event>
+
+    <Text>
+      <![CDATA[<div>Whenever you use the "Take 1 Grain" Action space, you receive 1 additional Grain.</div>]]>
+    </Text>
+  </MinorImprovement>
+
+
+  <MinorImprovement Id="43" Deck="Basic" Points="1" Image="/Areas/Agricola/Content/img/cards/minors/fruit-tree.jpg">
+    <Name>Fruit Tree</Name>
+
+    <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite"
+            Count="3"/>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache OnRound="8" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="9" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="10" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="11" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="12" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="13" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="14" ResourceType="Food" ResourceCount="1"/>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[<div>Place 1 Food on each remaining Round space for rounds 8 to 14. At the start of these rounds, you receive the Food.</div>]]>
+    </Text>
+  </MinorImprovement>
+  
+  
   <MinorImprovement Id="45" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/private-forest.jpg">
     <Name>Private Forest</Name>
 
@@ -632,6 +601,48 @@
 
     <Text>
       <![CDATA[<div>Place 1 Wood on each remaining even-numbered Round space. At the start of these rounds, you receive the Wood.</div>]]>
+    </Text>
+  </MinorImprovement>
+
+
+  <MinorImprovement Id="46" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/sack-cart.jpg">
+    <Name>Sack Cart</Name>
+
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Wood" Amount="2" />
+      </Option>
+    </Costs>
+
+    <Prerequisite Class="Monkey.Games.Agricola.Cards.Prerequisites.OccupationPrerequisite" Count="2"/>
+
+    <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache OnRound="5" ResourceType="Grain" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="8" ResourceType="Grain" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="11" ResourceType="Grain" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="14" ResourceType="Grain" ResourceCount="1"/>
+    </OnPlay>
+
+    <Text>
+      <![CDATA[<div>Place 1 Grain each on the spaces for rounds 5, 8, 11, and 14. At the start of these rounds, you receive the Grain.</div>]]>
+    </Text>
+  </MinorImprovement>
+
+
+
+  <MinorImprovement Id="50" Deck="Basic" Image="/Areas/Agricola/Content/img/cards/minors/builders-trowel.jpg">
+    <Name>Builder's Trowel</Name>
+
+    <Costs>
+      <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">
+        <Cost Resource="Wood" Amount="1" />
+      </Option>
+    </Costs>
+
+    <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.AnytimeRenovationAction" />
+
+    <Text>
+      <![CDATA[<div>You can Renovate your Wooden hut to a Clay hut at any time without using the "Renovate" action. <em>(You must still pay for the Renovation)</em>.</div>]]>
     </Text>
   </MinorImprovement>  
   
@@ -1362,7 +1373,7 @@
         </Text>
     </MinorImprovement>
 
-    <MinorImprovement Id="119" Deck="Expert" Points="2" Image="/Areas/Agricola/Content/img/cards/minors/Crooked-plow.jpg" >
+    <MinorImprovement Id="119" Deck="Expert" Image="/Areas/Agricola/Content/img/cards/minors/Crooked-plow.jpg" >
         <Name><![CDATA[Crooked<br/>Plow]]></Name>
         <Costs>
             <Option Class="Monkey.Games.Agricola.Cards.Costs.ResourceCardCost">

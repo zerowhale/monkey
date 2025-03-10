@@ -388,6 +388,17 @@ namespace Monkey.Games.Agricola
         }
 
         /// <summary>
+        /// Checks if a player can afford to renovate their house
+        /// </summary>
+        /// <param name="player"></param>
+        /// <returns></returns>
+        public static bool CanAffordRenovation(AgricolaPlayer player)
+        {
+            ResourceCache[] costs;
+            return CanAffordRenovation(player, out costs);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="player"></param>

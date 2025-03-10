@@ -1,4 +1,5 @@
 ﻿using BoardgamePlatform.Game.Notification;
+using Google.Protobuf.Collections;
 using Monkey.Games.Agricola.Actions.Data;
 using Monkey.Games.Agricola.Actions.InterruptActions;
 using Monkey.Games.Agricola.Cards;
@@ -851,6 +852,11 @@ namespace Monkey.Games.Agricola.Actions.Services
 
                 resultingNotices.Add(new GameActionNotice(player.Name, NoticeVerb.Sow.ToString(), sowPredicates));
             }
+        }
+
+        public static bool CanRenovate(AgricolaPlayer player)
+        {
+            return Curator.CanAffordRenovation(player);
         }
 
         public static bool CanRenovate(AgricolaPlayer player, out ResourceCache[] costs)

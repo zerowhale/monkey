@@ -940,11 +940,11 @@ namespace Monkey.Games.Agricola
                             occupations.Remove(occ);
                     }
 
-                    player.AddCardToHand(GetCard(CardId.Carpenter));
-                    player.AddCardToHand(GetCard(CardId.Axe));
-                    player.AddCardToHand(GetCard(CardId.ClayPlasterer));
+                    player.AddCardToHand(GetCard(CardId.BuildersTrowel));
+                    //player.AddCardToHand(GetCard(CardId.Axe));
+                    //player.AddCardToHand(GetCard(CardId.ClayPlasterer));
                     //player.AddCardToHand(GetCard(CardId.Basket)); 
-                    player.AddCardToHand(GetCard(CardId.CrookedPlow));
+                    //player.AddCardToHand(GetCard(CardId.CrookedPlow));
                     //player.AddCardToHand(GetCard(160));  // Farmer
                     //player.AddCardToHand(GetCard(2038));  // Field Watchman
                     //player.AddCardToHand(GetCard(62)); // Turnwrest Plow

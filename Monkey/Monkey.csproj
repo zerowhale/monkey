@@ -236,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Startup.SignalR.cs" />
+    <Compile Include="Areas\Agricola\Actions\AnytimeActions\AnytimeRenovationAction.cs" />
     <Compile Include="Areas\Agricola\AgricolaState.cs" />
     <Compile Include="Areas\Agricola\Cards\CardId.cs" />
     <Compile Include="Areas\Agricola\Events\Conditionals\AndConditional.cs" />

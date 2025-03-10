@@ -229,6 +229,10 @@ namespace Monkey.Games.Agricola
         {
             TakeAction(actionId, data, cardId);
         }
+        public void TakeRenovationAnytimeAction(int actionId, int cardId, RenovationActionData data = null)
+        {
+            TakeAction(actionId, data, cardId);
+        }
 
 
         private void UpdateGameState(AgricolaGame game, IClientGameUpdate update)

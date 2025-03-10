@@ -46,6 +46,10 @@ namespace Monkey.Games.Agricola.Cards
                 this.Deck = deck;
 
             CacheExchanges = definition.Grandchildren("TakeCacheExchange", "CacheExchange").Select(x => CacheExchange.Create(x, Id)).ToArray();
+
+            bool firstEffectOnly;
+            if (bool.TryParse((string)definition.Attribute("FirstEffectOnly"), out firstEffectOnly)) 
+                FirstEffectOnly = firstEffectOnly;
         }
 
         public static Card Create(XElement definition)
@@ -147,6 +151,11 @@ namespace Monkey.Games.Agricola.Cards
         /// Cache exchanges that are available
         /// </summary>
         public readonly CacheExchange[] CacheExchanges;
+
+        /// <summary>
+        /// If the card only allows a single effect to occur, even if multiple triggers or effects are on the card.
+        /// </summary>
+        public readonly bool FirstEffectOnly = false;
 
         private readonly XElement definition;
 

@@ -245,6 +245,7 @@
     <Compile Include="Areas\Agricola\Events\Conditionals\OrConditional.cs" />
     <Compile Include="Areas\Agricola\Events\EventData.cs" />
     <Compile Include="Areas\Agricola\Events\Triggers\BuildRoomsTrigger.cs" />
+    <Compile Include="Areas\Agricola\Events\Triggers\RenovationTrigger.cs" />
     <Compile Include="Areas\Agricola\PlatformSetup.cs" />
     <Compile Include="Areas\Agricola\AgricolaAreaRegistration.cs" />
     <Compile Include="Areas\Catan\Board\Board.cs" />

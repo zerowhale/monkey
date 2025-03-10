@@ -7,6 +7,7 @@ using Monkey.Games.Agricola.Events.Triggers;
 using Monkey.Games.Agricola.Notification;
 using Monkey.Games.Agricola.Utils;
 using Newtonsoft.Json;
+using Org.BouncyCastle.Asn1.Cms;
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
@@ -26,7 +27,7 @@ namespace Monkey.Games.Agricola.Events
         /// </summary>
         public GameEvent()
         {
-
+            UntilExecution = Int32.MaxValue;
         }
 
         /// <summary>
@@ -37,6 +38,12 @@ namespace Monkey.Games.Agricola.Events
         /// <param name="definition"></param>
         public GameEvent(XElement definition)
         {
+            UntilExecution = Int32.MaxValue;
+
+            if (definition.Attribute("UntilExecution") != null)
+                UntilExecution = (int)definition.Attribute("UntilExecution");
+            if (definition.Attribute("FromExecution") != null)
+                FromExecution = (int)definition.Attribute("FromExecution");
 
             var orConditionals = definition.Elements("Or").Select(q => GameEventConditional.Create(q, typeof(OrConditional))).ToArray<GameEventConditional>();
             var andConditionals = definition.Elements("And").Select(q => GameEventConditional.Create(q, typeof(AndConditional))).ToArray<GameEventConditional>();
@@ -68,7 +75,29 @@ namespace Monkey.Games.Agricola.Events
         public void Execute(AgricolaPlayer player, GameEventTrigger trigger, Card card, List<GameActionNotice> resultingNotices)
         {
             var shouldExecute = true;
-            if(Conditionals.Count() > 0)
+            ImmutableDictionary<string, Object> metadata = null;
+            int executionCount = 0;
+            player.TryGetCardMetadata(card, out metadata);
+
+            if (card.FirstEffectOnly && metadata != null && metadata.ContainsKey(MetadataKeyExecutionCount))
+            {
+                executionCount = (int)metadata[MetadataKeyExecutionCount];
+                if(executionCount > 0)
+                {
+                    shouldExecute = false;
+                }
+            }
+
+
+            /*
+            if (executionCount < FromExecution
+                && executionCount >= UntilExecution)
+            {
+                shouldExecute = false;
+            }*/
+
+
+            if (Conditionals.Count() > 0)
             {
                 foreach (var condition in Conditionals)
                 {
@@ -83,17 +112,9 @@ namespace Monkey.Games.Agricola.Events
             {
                 if (card != null)
                 {
-                    int executionCount = 0;
-                    ImmutableDictionary<string, Object> metadata;
-                    if (player.TryGetCardMetadata(card, out metadata))
-                    {
-                        if (metadata.ContainsKey(MetadataKeyExecutionCount))
-                            executionCount = (int)metadata[MetadataKeyExecutionCount];
-                    }
-                    else
-                    {
+                    if(metadata == null)
                         metadata = ImmutableDictionary<string, Object>.Empty;
-                    }
+                    
                     executionCount++;
                     player.SetCardMetadata(card, metadata.SetItem(MetadataKeyExecutionCount, executionCount));
                 }
@@ -115,6 +136,18 @@ namespace Monkey.Games.Agricola.Events
 
         [JsonIgnore]
         public readonly GameEventConditional[] Conditionals;
+
+        /// <summary>
+        /// Starting after execution # (inclusive)
+        /// </summary>
+        [JsonIgnore]
+        public readonly int FromExecution;
+
+        /// <summary>
+        /// Until execution # (non inclusive)
+        /// </summary>
+        [JsonIgnore]
+        public readonly int UntilExecution;
 
         /// <summary>
         /// Event execution code goes here.

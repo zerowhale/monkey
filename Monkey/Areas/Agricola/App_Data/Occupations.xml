@@ -281,8 +281,8 @@
     </Text>
   </Occupation>
 
-
-  <Occupation Id="190" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/maid.jpg" >
+ 
+  <Occupation Id="190" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/maid.jpg" FirstEffectOnly="true">
     <Name>Maid</Name>
 
     <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
@@ -305,6 +305,29 @@
         <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.MyHouseConditional" HouseType="Stone" />
       </Or>
     </OnPlay>
+
+    <Event Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
+      <DelayedResourceCache OnRound="2" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="3" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="4" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="5" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="6" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="7" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="8" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="9" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="10" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="11" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="12" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="13" ResourceType="Food" ResourceCount="1"/>
+      <DelayedResourceCache OnRound="14" ResourceType="Food" ResourceCount="1"/>
+
+      <Trigger Class="Monkey.Games.Agricola.Events.Triggers.RenovationTrigger" TriggerType="Any" >
+        <Or>
+          <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.MyHouseConditional" HouseType="Clay" />
+          <Conditional Class="Monkey.Games.Agricola.Events.Conditionals.MyHouseConditional" HouseType="Stone" />
+        </Or>
+      </Trigger>
+    </Event>
 
     <Text>
       <![CDATA[<div>Once you have built a Clay hut, place 1 Food on each remaining Round space. At the start of these rounds, you receive the Food.  (If you already have a Clay hut or a Stone house when you play this card, place the Food immediately.)</div>]]>

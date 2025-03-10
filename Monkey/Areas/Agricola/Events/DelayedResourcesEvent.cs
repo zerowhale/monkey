@@ -11,10 +11,10 @@ using System.Xml.Linq;
 
 namespace Monkey.Games.Agricola.Events
 {
-    public class DelayedResourcesEvent : GameEvent
+    public class DelayedResourcesEvent : TriggeredEvent
     {
-        public DelayedResourcesEvent()
-            :base()
+        public DelayedResourcesEvent(GameEventTrigger[] triggers)
+            :base(triggers)
         {
 
         }

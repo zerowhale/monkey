@@ -40,6 +40,7 @@ namespace Monkey.Games.Agricola.Cards
         Tutor = 174,
         ClayDeliveryman = 187,
         Maid = 190,
+        Pastor = 193,
         CattleWhisperer = 201,
 
         // Advanced Occupations

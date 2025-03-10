@@ -148,10 +148,14 @@
 #game .rounds-board > div > div .text-bubble { margin:auto; background-color:#efefa3; width:15vh; border-radius:1vh; border:.2vh solid #b94a48; font-size:1.6vh; line-height:1.8vh;
 											   box-shadow: 0 0 1vh .1vh rgba(0,0,0,0.85), inset 0 0 .3vh .1vh rgba(0,0,0,0.95); padding:.4vh;}
 
-#game .rounds-board .stage > div.empty .game-piece {width:3vh; height: 2.3vh; }
+#game .rounds-board .stage > div.empty .game-piece { width:3vh; height: 2.3vh; }
 #game .rounds-board .stage > div.empty .game-piece.stack-base { border-bottom-width:1vh; border-bottom-style:solid; box-sizing:content-box; border-radius:1.4vh; }
 
-#game .player-board .personal-supply {  height:8vh; }
+#game .markable { position:relative; }
+#game .marker { display: none; position: absolute; right: -10px; top: -10px; color: #cb0000; background-color: rgba(255,255,255,.5); border-radius: 4px; padding: 3px; transform: rotateZ(-25deg); border: 1px solid black; }
+#game[data-card-199] .marker { display:block; }
+
+#game .player-board .personal-supply { height: 8vh; }
 #game .player-board .personal-supply .resource { float:left; width:10%; height:100%; padding-top:.4vh; background-image:none; 
 												  text-shadow: none; }
 #game .player-board .personal-supply .resource:last-child { border-right:none; }

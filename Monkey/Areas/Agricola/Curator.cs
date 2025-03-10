@@ -395,22 +395,25 @@ namespace Monkey.Games.Agricola
         public static ResourceCache[] GetRenovationCost(AgricolaPlayer player)
         {
             var costs = new List<ResourceCache>();
-            var numRooms = player.Farmyard.RoomLocations.Count;
+            var roomCost = player.Farmyard.RoomLocations.Count;
             var reedCost = 1;
 
             if (player.OwnsCard(CardId.Thatcher))
                 reedCost--;
 
+            if (player.OwnsCard(CardId.Renovator))
+                roomCost -= 2;
+
             switch (player.Farmyard.HouseType)
             {
                 case HouseType.Wood:
-                    costs.Add(new ResourceCache(Resource.Clay, numRooms));
+                    costs.Add(new ResourceCache(Resource.Clay, roomCost));
                     if(reedCost > 0)
                         costs.Add(new ResourceCache(Resource.Reed, reedCost));
                     break;
 
                 case HouseType.Clay:
-                    costs.Add(new ResourceCache(Resource.Stone, numRooms));
+                    costs.Add(new ResourceCache(Resource.Stone, roomCost));
                     if (reedCost > 0)
                         costs.Add(new ResourceCache(Resource.Reed, reedCost));
                     break;

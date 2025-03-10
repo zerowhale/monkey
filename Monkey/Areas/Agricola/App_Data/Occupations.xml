@@ -282,7 +282,7 @@
   </Occupation>
 
  
-  <Occupation Id="190" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/maid.jpg" FirstEffectOnly="true">
+  <Occupation Id="190" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/maid.jpg" FirstEffectOnly="true">
     <Name>Maid</Name>
 
     <OnPlay Class="Monkey.Games.Agricola.Events.DelayedResourcesEvent">
@@ -336,7 +336,7 @@
 
   
 
-  <Occupation Id="193" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
+  <Occupation Id="193" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/pastor.jpg" >
     <Name>Pastor</Name>
 
     <OnPlay Class="Monkey.Games.Agricola.Events.GainResourcesEvent">
@@ -381,6 +381,16 @@
   </Occupation>
 
 
+  <Occupation Id="199" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/renovator.jpg" >
+    <Name>Renovator</Name>
+
+
+    <Text>
+      <![CDATA[<div>Pay 2 less Clay to renovate to a Clay hut, and pay 2 less Stone to renovate to a Stone House.</div>]]>
+    </Text>
+  </Occupation>  
+  
+  
   <Occupation Id="201" Deck="Basic" MinPlayers="4" Image="/Areas/Agricola/Content/img/cards/occs/cattle-whisperer.jpg" >
     <Name>Cattle Whisperer</Name>
 

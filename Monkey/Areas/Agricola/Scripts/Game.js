@@ -632,8 +632,9 @@
         for (var id in ids) {
             var card = this.templates.quickCard.clone();
             var cardData = Curator.getCard(ids[id]);
-
-            card.find(".name").html(cardData.Name)
+            
+            card.find(".name").html(cardData.Name);
+            $("#game").attr("data-card-" + cardData.Id, "");
             card.addClass(cardData.Type.toLowerCase());
             if (cardData.Image)
                 card.attr("data-image", cardData.Image);

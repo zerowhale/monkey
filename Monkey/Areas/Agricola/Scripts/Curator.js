@@ -52,23 +52,15 @@
     },
 
     canRenovate: function (player) {
-        let board = this.game.playerBoards[player.Name],
-            roomCount = board.rooms.length,
-            reedCost = 1;
+        let costs = this.getRenovationCost(player);
+        if (player.Farmyard.HouseType == "Stone")
+            return false;
 
-        if (player.OwnedCardIds.includes(CardId.Thatcher))
-            reedCost--;
-
-        switch (player.Farmyard.HouseType) {
-            case HouseType.Wood:
-                return player.Clay >= roomCount && player.Reed >= reedCost;
-                break;
-            case HouseType.Clay:
-                return player.Stone >= roomCount && player.Reed >= reedCost;
-                break;
-        }
-        return false;
-
+        for (let cost in costs) {
+            if (player[cost.type] < cost.amount)
+                return false;
+        };
+        return true;
     },
 
     canBuildFences: function(player){
@@ -374,16 +366,19 @@
 
     getRenovationCost: function (player) {
         let board = this.game.playerBoards[player.Name],
-            roomCount = board.rooms.length,
+            roomCost = board.rooms.length,
             reedCost = 1,
             costs = [];
 
+        if (player.OwnedCardIds.includes(CardId.Renovator))
+            roomCost -= 2;
+
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
-                costs.push(this._buildCost(Resource.Clay, roomCount));
+                costs.push(this._buildCost(Resource.Clay, roomCost));
                 break;
             case HouseType.Clay:
-                costs.push(this._buildCost(Resource.Stone, roomCount));
+                costs.push(this._buildCost(Resource.Stone, roomCost));
                 break;
         }
 
@@ -765,6 +760,7 @@ const CardId = {
     ClayDeliveryman: 187,
     Maid: 190,
     Pastor: 193,
+    Renovator: 199,
     CattleWhisperer: 201,
 
     // Advanced Occupations

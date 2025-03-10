@@ -447,6 +447,15 @@
   </Occupation>
 
 
+  <Occupation Id="218" Deck="Basic" MinPlayers="1" Image="/Areas/Agricola/Content/img/cards/occs/carpenter.jpg" >
+    <Name>Carpenter</Name>
+
+    <!-- implemented in curator -->
+    
+    <Text>
+      <![CDATA[<div>To extend your home, you need only 3 of the appropriate building resource and 2 Reed for each new room. <em>(For example, if you live in a Wooden hut, you need 3 Wood and 2 Reed.)</em></div>]]>
+    </Text>
+  </Occupation>
 
 
 

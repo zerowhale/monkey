@@ -47,7 +47,7 @@ namespace Monkey.Games.Agricola.Cards.GameEndPoints
             if (pastures.Intersect(stables).Count() >= 4)
                 points++;
 
-            title = points + " maxed scores";
+            title = "Lord of the Manor <span>(" + points + " maxed scores)</span>";
             return points;
         }
     }

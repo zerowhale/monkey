@@ -38,11 +38,14 @@ namespace Monkey.Games.Agricola.Cards
         YeomanFarmer = 165,
         DockWorker = 171,
         Tutor = 174,
+        Woodcutter = 176,
         ClayDeliveryman = 187,
+        LordOfTheManor = 189,
         Maid = 190,
         Pastor = 193,
         Renovator = 199,
         CattleWhisperer = 201,
+        Carpenter = 218,
 
         // Advanced Occupations
         SchnapsDistiller = 300

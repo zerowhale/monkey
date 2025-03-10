@@ -394,20 +394,24 @@
 
     getRoomCost: function (player, actionId) {
         let costs = [],
+            roomCost = 5,
             reedCost = 2;
 
         if (actionId == 505 || actionId == 601)
             return costs;
 
+        if (player.OwnedCardIds.includes(CardId.Carpenter))
+            roomCost = 3;
+
         switch (player.Farmyard.HouseType) {
             case HouseType.Wood:
-                costs.push(this._buildCost(Resource.Wood, 5))
+                costs.push(this._buildCost(Resource.Wood, roomCost))
                 break;
             case HouseType.Clay:
-                costs.push(this._buildCost(Resource.Clay, 5))
+                costs.push(this._buildCost(Resource.Clay, roomCost))
                 break;
             case HouseType.Stone:
-                costs.push(this._buildCost(Resource.Stone, 5))
+                costs.push(this._buildCost(Resource.Stone, roomCost))
                 break;
         }
 
@@ -757,11 +761,14 @@ const CardId = {
     YeomanFarmer: 165,
     DockWorker: 171,
     Tutor: 174,
+    Woodcutter: 176,
     ClayDeliveryman: 187,
+    LordOfTheManor: 189,
     Maid: 190,
     Pastor: 193,
     Renovator: 199,
     CattleWhisperer: 201,
+    Carpenter: 218,
 
     // Advanced Occupations
     SchnapsDistiller: 300

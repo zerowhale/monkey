@@ -499,6 +499,11 @@ namespace Monkey.Games.Agricola
         public static ResourceCache[] GetRoomsCosts(AgricolaPlayer player, int actionId, int numRooms)
         {
             var costs = new List<ResourceCache>();
+            var reedCost = 2;
+            var roomCost = 5;
+
+            if (player.OwnsCard(CardId.Carpenter))
+                roomCost = 3;
 
             if (actionId == (int)AnytimeActionId.BuildRoom 
                 || actionId == (int)InterruptActionId.BuildRoom)
@@ -507,22 +512,21 @@ namespace Monkey.Games.Agricola
             switch (player.Farmyard.HouseType)
             {
                 case HouseType.Wood:
-                    costs.Add(new ResourceCache(Resource.Wood, 5 * numRooms));
+                    costs.Add(new ResourceCache(Resource.Wood, roomCost * numRooms));
                     break;
                 case HouseType.Clay:
-                    costs.Add(new ResourceCache(Resource.Clay, 5 * numRooms));
+                    costs.Add(new ResourceCache(Resource.Clay, roomCost * numRooms));
                     break;
                 case HouseType.Stone:
-                    costs.Add(new ResourceCache(Resource.Stone, 5 * numRooms));
+                    costs.Add(new ResourceCache(Resource.Stone, roomCost * numRooms));
                     break;
             }
 
             var reedReduction = 0;
             if (player.OwnsCard(CardId.Thatcher))
-            {
-                reedReduction++;
-            }
-            costs.Add(new ResourceCache(Resource.Reed, (2 - reedReduction) * numRooms));
+                reedCost--;
+
+            costs.Add(new ResourceCache(Resource.Reed, reedCost * numRooms));
 
 
             return costs.ToArray();

@@ -22,6 +22,9 @@ namespace Monkey.Games.Agricola.Actions.AnytimeActions
             if (!base.CanExecute(player, data))
                 return false;
 
+            if (player.Farmyard.HouseType != HouseType.Wood && this.CardId == (int)Monkey.Games.Agricola.Cards.CardId.BuildersTrowel)
+                return false;
+
             if (!ActionService.CanRenovate(player))
                 return false;
 

@@ -53,10 +53,11 @@
 
     canRenovate: function (player) {
         let costs = this.getRenovationCost(player);
+
         if (player.Farmyard.HouseType == "Stone")
             return false;
 
-        for (let cost in costs) {
+        for (let cost of costs) {
             if (player[cost.type] < cost.amount)
                 return false;
         };

@@ -639,6 +639,7 @@
       </Option>
     </Costs>
 
+    <!-- Additional restriction rules in AnytimeRenovationAction.cs -->
     <AnytimeAction Class="Monkey.Games.Agricola.Actions.AnytimeActions.AnytimeRenovationAction" />
 
     <Text>

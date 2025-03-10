@@ -597,7 +597,7 @@
                 if (player.Name == profile.name) {
                     this.updateScoreCard(player);
                 }
-                this.updateQuickCards(player.Name, player.OwnedCardIds, player.BeggingCards);
+                this.updateQuickCards(player);
 
                 player["farmyard"] = this.playerBoards[player.Name];
             }
@@ -612,11 +612,15 @@
 
     },
 
-    updateQuickCards: function (player, ids, begCount) {
+    updateQuickCards: function (player) {
+        let begCount = player.BeggingCards,
+            ids = player.OwnedCardIds;
+
+        console.info("update quick cards");
         var obj = this;
-        var cards = player == profile.name 
+        var cards = player.Name == profile.name 
             ? this.myControls.find(".quick-cards")
-            : this.display.find(".player-info [data-player=\"" + player + "\"] #cards .quick-cards");
+            : this.display.find(".player-info [data-player=\"" + player.Name + "\"] #cards .quick-cards");
         cards.empty();
 
         if (begCount > 0) {
@@ -641,8 +645,15 @@
             cards.append(card);
 
             if (cardData.AnytimeAction) {
-                card.addClass("active");
-                card.click(wireQuickCardClick(cardData.Id, cardData.AnytimeAction.Id));
+                let shouldActivate = true
+                console.info(Curator.canRenovate(player));
+                if (cardData.Id == CardId.BuildersTrowel && (player.Farmyard.HouseType != Resource.Wood || !Curator.canRenovate(player)))
+                    shouldActivate = false;
+
+                if (shouldActivate) {
+                    card.addClass("active");
+                    card.click(wireQuickCardClick(cardData.Id, cardData.AnytimeAction.Id));
+                }
             }
 
             var points = card.find(".points");
@@ -1826,8 +1837,6 @@
 
         var pointsDisplay = display.find(".points");
         if (card.Points) { 
-            console.info(card.Name + " Points:", card.Points);
-            console.info(pointsDisplay, pointsDisplay.find("div"));
             pointsDisplay.find("div").text(card.Points)
             pointsDisplay.show();
         }

@@ -152,8 +152,9 @@
 #game .rounds-board .stage > div.empty .game-piece.stack-base { border-bottom-width:1vh; border-bottom-style:solid; box-sizing:content-box; border-radius:1.4vh; }
 
 #game .markable { position:relative; }
-#game .marker { display: none; position: absolute; right: -10px; top: -10px; color: #cb0000; background-color: rgba(255,255,255,.5); border-radius: 4px; padding: 3px; transform: rotateZ(-25deg); border: 1px solid black; }
+#game .marker { display: none; font-family: Permanent Marker !important; position: absolute; right: -10px; top: -10px; color: #cb0000; background-color: rgba(255,255,255,.5); border-radius: 4px; padding: 3px; transform: rotateZ(-25deg); border: 1px solid black; transition: opacity .2s linear; }
 #game[data-card-199] .marker { display:block; }
+#game .round.action:hover .marker { opacity: .1; }
 
 #game .player-board .personal-supply { height: 8vh; }
 #game .player-board .personal-supply .resource { float:left; width:10%; height:100%; padding-top:.4vh; background-image:none; 
